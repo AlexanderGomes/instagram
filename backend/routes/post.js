@@ -3,14 +3,14 @@ const router = express.Router();
 const {createPost, updatePost, deletePost, likePost, deslikePost, getPostByUsername, getPostById, getTimelinePost } = require('../controllers/post')
 
 
-router.post('/',createPost)
-router.put('/:id', updatePost)
-router.get('/:id', getPostById)
-router.get('/profile/:username',  getPostByUsername)
-router.get('/timeline/:user',   getTimelinePost)
-router.delete('/:id',   deletePost)
-router.put('/like/:id',  likePost)
-router.put('/deslike/:id',  deslikePost)
+router.post('/',createPost)//check
+router.put('/:id', updatePost)//check
+router.get('/:id', getPostById)//check
+router.get('/profile/:username',  getPostByUsername)//check
+router.get('/timeline/:userId',   getTimelinePost)//check
+router.delete('/:id', deletePost) //check
+router.put('/:id/like', likePost)//check
+router.put('/:id/dislike',  deslikePost)//check
 
 
 

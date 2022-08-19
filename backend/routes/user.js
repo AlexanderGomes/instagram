@@ -11,19 +11,20 @@ const {
   getUsersFollowers,
   getUsersFollowings,
   getUserSavedPosts,
-getUserByUsername
+getUserByUsername,
+saveFavoritePost
 } = require("../controllers/user");
 
 
-router.post("/", registerUser);
-router.post("/login", loginUser);
-router.get("/all", getAllUsers);
-router.get("/followers/:id", getUsersFollowings);
-router.get("/followings/:id", getUsersFollowers);
-router.get("/savedPosts/:id", getUserSavedPosts);
-router.get("/:id", getSingleUser);
-router.get("/username/:username", getUserByUsername);
-router.put("/:id/follow", followUser);
-router.put("/:id/unfollow", unfollowUser);
-
+router.post("/", registerUser); //check
+router.post("/login", loginUser);//check
+router.get("/all", getAllUsers);//check
+router.put("/:id/follow", followUser);//check
+router.put("/:id/unfollow", unfollowUser);//check
+router.get("/followers/:id", getUsersFollowings);//check
+router.get("/followings/:id", getUsersFollowers);//check
+router.get("/:id", getSingleUser);//check
+router.get("/username/:username", getUserByUsername);//check
+router.put("/savedPosts/:id", saveFavoritePost);//check
+router.get("/favorite/:id", getUserSavedPosts);//check
 module.exports = router;

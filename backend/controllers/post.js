@@ -15,7 +15,7 @@ const createPost = asyncHandler(async (req, res) => {
 const updatePost = asyncHandler(async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    if (post.user.toString() === req.body.user) {
+    if (post.userId.toString() === req.body.userId) {
       await post.updateOne({ $set: req.body }, { new: true });
       res.status(200).json({ post, message: "post has been updated" });
     }
@@ -27,7 +27,7 @@ const updatePost = asyncHandler(async (req, res) => {
 const deletePost = asyncHandler(async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    if (post.user.toString() === req.body.user) {
+    if (post.userId.toString() === req.body.userId) {
       await post.deleteOne(post);
       res.status(200).json({ message: "post deleted" });
     } else {
@@ -41,7 +41,6 @@ const deletePost = asyncHandler(async (req, res) => {
 const likePost = asyncHandler(async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-
     if (!post.likes.includes(req.body.userId)) {
       await post.updateOne({ $push: { likes: req.body.userId } });
       res.status(200).json("The post has been liked");
@@ -50,7 +49,7 @@ const likePost = asyncHandler(async (req, res) => {
       res.status(200).json("The post has been disliked");
     }
   } catch (err) {
-    res.status(500).json({ message: "error" });
+    res.status(500).json(err);
   }
 });
 
@@ -82,11 +81,11 @@ const getPostByUsername = asyncHandler(async (req, res) => {
 
 const getTimelinePost = asyncHandler(async (req, res) => {
   try {
-    const currentUser = await User.findById(req.params.user);
-    const userPosts = await Post.find({ user: currentUser._id });
+    const currentUser = await User.findById(req.params.userId);
+    const userPosts = await Post.find({ userId: currentUser._id });
     const friendPosts = await Promise.all(
       currentUser.followings.map((friendId) => {
-        return Post.find({ user: friendId });
+        return Post.find({ userId: friendId });
       })
     );
     res.status(200).json(userPosts.concat(...friendPosts));

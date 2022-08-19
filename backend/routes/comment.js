@@ -10,10 +10,10 @@ const {
   updateComment
 } = require("../controllers/comment");
 
-router.post("/", addComment);
-router.delete("/:id",deleteComment);
-router.get("/:postId",getComment);
-router.put("/:id",updateComment);
+router.post("/", addComment);//check
+router.delete("/:id",deleteComment);//check
+router.get("/:postId",getComment);//check
+router.put("/:id",updateComment);//check
 
 
 

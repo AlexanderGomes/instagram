@@ -11,10 +11,10 @@ const {
 } = require("../controllers/reply");
 
 
-router.post("/", addReply);
-router.delete("/:id",deleteReply);
-router.get("/:postId",getreply);
-router.put("/:id",updatereply);
+router.post("/", addReply);//check
+router.delete("/:id",deleteReply);//check
+router.get("/:commentId", getreply);//check
+router.put("/:id", updatereply);//check
 
 
 
