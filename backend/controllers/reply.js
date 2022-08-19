@@ -44,9 +44,42 @@ const getreply = asyncHandler(async (req, res) => {
   }
 });
 
+const likeReply = asyncHandler(async (req, res) => {
+  try {
+    const reply = await Reply.findById(req.params.id);
+    if (!reply.likes.includes(req.body.userId)) {
+      await reply.updateOne({ $push: { likes: req.body.userId } });
+      res.status(200).json("The reply has been liked");
+    } else {
+      await reply.updateOne({ $pull: { likes: req.body.userId } });
+      res.status(200).json("The reply has been disliked");
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+const deslikeReply = asyncHandler(async (req, res) => {
+  try {
+      const reply = await Reply.findById(req.params.id);
+      if (!reply.deslikes.includes(req.body.userId)) {
+        await reply.updateOne({ $push: { deslikes: req.body.userId } });
+        res.status(200).json("deslike has been added");
+      } else {
+        await reply.updateOne({ $pull: { deslikes: req.body.userId } });
+        res.status(200).json("deslike has been removed");
+      }
+    } catch (err) {
+      res.status(500).json(err);
+    }
+});
+
+
 module.exports = {
   addReply,
   getreply,
   updatereply,
   deleteReply,
+  likeReply,
+  deslikeReply
 };

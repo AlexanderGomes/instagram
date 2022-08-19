@@ -13,7 +13,6 @@ const asyncHandler = require("express-async-handler");
     });
     
     const deleteComment =asyncHandler(async(req, res) => {
-
         try {
             const comment = await Comment.findById(req.params.id)
             if(comment.userId.toString() === req.body.userId) {
@@ -23,7 +22,6 @@ const asyncHandler = require("express-async-handler");
         } catch (error) {
             res.status(400).json(error.message)
         }
-
     });
     
 
@@ -49,10 +47,41 @@ const asyncHandler = require("express-async-handler");
           }
     });
   
+    const likeComment = asyncHandler(async (req, res) => {
+        try {
+          const comment = await Comment.findById(req.params.id);
+          if (!comment.likes.includes(req.body.userId)) {
+            await comment.updateOne({ $push: { likes: req.body.userId } });
+            res.status(200).json("The comment has been liked");
+          } else {
+            await comment.updateOne({ $pull: { likes: req.body.userId } });
+            res.status(200).json("The comment has been disliked");
+          }
+        } catch (err) {
+          res.status(500).json(err);
+        }
+      });
+
+      const deslikeComment = asyncHandler(async (req, res) => {
+        try {
+            const comment = await Comment.findById(req.params.id);
+            if (!comment.deslikes.includes(req.body.userId)) {
+              await comment.updateOne({ $push: { deslikes: req.body.userId } });
+              res.status(200).json("deslike has been added");
+            } else {
+              await comment.updateOne({ $pull: { deslikes: req.body.userId } });
+              res.status(200).json("deslike has been removed");
+            }
+          } catch (err) {
+            res.status(500).json(err);
+          }
+      });
     
    module.exports = {
   addComment,
   deleteComment,
   updateComment,
   getComment,
+  likeComment,
+  deslikeComment
     }
