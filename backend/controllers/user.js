@@ -3,6 +3,10 @@ const Post = require("../models/post");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
+const { createClient } = require("redis");
+
+const client = createClient();
+client.connect()
 
 const registerUser = asyncHandler(async (req, res) => {
   const { name, username, email, password } = req.body;
@@ -91,15 +95,6 @@ const getUserByUsername = asyncHandler(async (req, res) => {
     } else {
       res.status(400).json("invalid user data");
     }
-  } catch (error) {
-    res.status(400).json(error.message);
-  }
-});
-
-const getAllUsers = asyncHandler(async (req, res) => {
-  try {
-    const user = await User.find({});
-    res.status(200).json(user);
   } catch (error) {
     res.status(400).json(error.message);
   }
@@ -218,9 +213,9 @@ const getUserSavedPosts = asyncHandler(async (req, res) => {
 
     savedPosts.map((post) => {
       const { _id, text, img, userId, likes, deslikes } = post;
-      savedPostList.push({ _id, text, img, userId, likes, deslikes});
+      savedPostList.push({ _id, text, img, userId, likes, deslikes });
     });
-    
+
     res.status(200).json(savedPostList);
   } catch (error) {
     res.status(500).json(error.message);
@@ -232,6 +227,50 @@ const generateToken = (id) => {
     expiresIn: "30d",
   });
 };
+
+const redis_user = (req, res, next) => {
+  client.get("users", (err, redis_data) => {
+    if (err) {
+      throw err;
+    } else if (redis_data) {
+      res.send(JSON.parse(redis_data));
+    } else {
+      next();
+    }
+  });
+};
+
+const getAllUserss = asyncHandler(async (req, res) => {
+  try {
+    const user = await User.find({});
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+});
+
+const getAllUsers = async (req, res) => {
+  try {
+    const user = await User.find({});
+    await client.set("user", 60, JSON.stringify(user));
+    res.send(user)
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+};
+
+const redisUser = async (req, res, next) => {
+ await client.get('user',(err, redis_data) => {
+  if(err) {
+    throw err
+  } else if (redis_data) {
+    res.send(JSON.parse(redis_data))
+  } else {
+    next()
+  }
+ })
+}
 
 module.exports = {
   registerUser,
@@ -245,4 +284,5 @@ module.exports = {
   followUser,
   unfollowUser,
   saveFavoritePost,
+  redisUser
 };

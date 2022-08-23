@@ -62,7 +62,7 @@ const deslikePost = asyncHandler(async (req, res) => {
       res.status(200).json("The post has been desliked");
     } else {
       await post.updateOne({ $pull: { dislikes: req.body.userId } });
-      res.status(200).json("The post has been disliked");
+      res.status(200).json("The  disliked has been removed");
     }
   } catch (err) {
     res.status(500).json({ message: "error" });
