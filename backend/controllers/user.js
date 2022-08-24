@@ -3,10 +3,13 @@ const Post = require("../models/post");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
-const { createClient } = require("redis");
-
-const client = createClient();
-client.connect()
+const redis = require("redis");
+const REDIS_PORT = process.env.PORT || 6379;
+const client = redis.createClient(REDIS_PORT);
+const dbConnect = require('../utils/dbConnect');
+const e = require("express");
+client.connect();
+dbConnect()
 
 const registerUser = asyncHandler(async (req, res) => {
   const { name, username, email, password } = req.body;
@@ -228,49 +231,24 @@ const generateToken = (id) => {
   });
 };
 
-const redis_user = (req, res, next) => {
-  client.get("users", (err, redis_data) => {
-    if (err) {
-      throw err;
-    } else if (redis_data) {
-      res.send(JSON.parse(redis_data));
+const getAllUsers = asyncHandler(async (req, res) => {
+  try {
+    const cached = await client.get('user');
+    
+    if(cached) {
+      return res.json(JSON.parse(cached))
     } else {
-      next();
+      const user = await User.find();
+      const setting = client.set("user", JSON.stringify(user));
+      res.send(user)
     }
-  });
-};
+    
 
-const getAllUserss = asyncHandler(async (req, res) => {
-  try {
-    const user = await User.find({});
-
-    res.status(200).json(user);
   } catch (error) {
     res.status(400).json(error.message);
   }
+
 });
-
-const getAllUsers = async (req, res) => {
-  try {
-    const user = await User.find({});
-    await client.set("user", 60, JSON.stringify(user));
-    res.send(user)
-  } catch (error) {
-    res.status(400).json(error.message);
-  }
-};
-
-const redisUser = async (req, res, next) => {
- await client.get('user',(err, redis_data) => {
-  if(err) {
-    throw err
-  } else if (redis_data) {
-    res.send(JSON.parse(redis_data))
-  } else {
-    next()
-  }
- })
-}
 
 module.exports = {
   registerUser,
@@ -284,5 +262,4 @@ module.exports = {
   followUser,
   unfollowUser,
   saveFavoritePost,
-  redisUser
 };

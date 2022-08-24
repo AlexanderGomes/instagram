@@ -13,12 +13,12 @@ const {
   getUserSavedPosts,
 getUserByUsername,
 saveFavoritePost,
-redisUser
+cached
 } = require("../controllers/user");
 
 router.post("/", registerUser); //check
 router.post("/login", loginUser);//check
-router.get("/all",redisUser,getAllUsers);//check
+router.get("/all", getAllUsers);//check
 router.put("/:id/follow", followUser);//check
 router.put("/:id/unfollow", unfollowUser);//check
 router.get("/followers/:id", getUsersFollowings);//check
