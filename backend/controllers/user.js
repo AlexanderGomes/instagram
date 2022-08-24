@@ -6,10 +6,9 @@ const asyncHandler = require("express-async-handler");
 const redis = require("redis");
 const REDIS_PORT = process.env.PORT || 6379;
 const client = redis.createClient(REDIS_PORT);
-const dbConnect = require('../utils/dbConnect');
-const e = require("express");
+const dbConnect = require("../utils/dbConnect");
 client.connect();
-dbConnect()
+dbConnect();
 
 const registerUser = asyncHandler(async (req, res) => {
   const { name, username, email, password } = req.body;
@@ -72,31 +71,44 @@ const loginUser = asyncHandler(async (req, res) => {
 
 const getSingleUser = asyncHandler(async (req, res) => {
   try {
-    //finding user by id and sending it back
-    const user = await User.findById(req.params.id);
-    if (user) {
-      res.status(201).json({ token: generateToken(user._id), user });
+    const cached = await client.get('userById')
+    if(cached) {
+      return res.json(JSON.parse(cached))
     } else {
-      res.status(400).json("invalid user data");
+      //finding user by id and sending it back
+      const user = await User.findById(req.params.id);
+      const getSingleUser = await client.set('userById', JSON.stringify(user))
+      if (user) {
+        res.status(201).json({ token: generateToken(user._id), user });
+      } else {
+        res.status(400).json("invalid user data");
+      }
     }
   } catch (error) {
     res.status(400).json(error.message);
   }
 });
+
 const getUserByUsername = asyncHandler(async (req, res) => {
   try {
-    //finding user by id and sending it back
-    const user = await User.findOne({ username: req.params.username });
-    if (user) {
-      res.status(201).json({
-        _id: user.id,
-        name: user.name,
-        username: user.username,
-        email: user.email,
-        token: generateToken(user._id),
-      });
+    const cached = await client.get('userByUsername')
+    if(cached) {
+      return res.json(JSON.parse(cached))
     } else {
-      res.status(400).json("invalid user data");
+      //finding user by id and sending it back
+      const user = await User.findOne({ username: req.params.username });
+      const userByUsername = await client.set('userByUsername', JSON.stringify(user))
+      if (user) {
+        res.status(201).json({
+          _id: user.id,
+          name: user.name,
+          username: user.username,
+          email: user.email,
+          token: generateToken(user._id),
+        });
+      } else {
+        res.status(400).json("invalid user data");
+      }
     }
   } catch (error) {
     res.status(400).json(error.message);
@@ -146,21 +158,26 @@ const unfollowUser = asyncHandler(async (req, res) => {
 
 const getUsersFollowers = asyncHandler(async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const cached = await client.get("userFollowers");
+    if (cached) {
+      return res.json(JSON.parse(cached));
+    } else {
+      const user = await User.findById(req.params.id);
+      const friends = await Promise.all(
+        user.followers.map((friendId) => {
+          return User.findById(friendId);
+        })
+      );
 
-    const friends = await Promise.all(
-      user.followers.map((friendId) => {
-        return User.findById(friendId);
-      })
-    );
+      let friendList = [];
 
-    let friendList = [];
-
-    friends.map((friend) => {
-      const { _id, username, name } = friend;
-      friendList.push({ _id, username, name });
-    });
-    res.status(200).json(friendList);
+      friends.map((friend) => {
+        const { _id, username, name } = friend;
+        friendList.push({ follower: friend });
+      });
+      const userFollowers = await client.set('userFollowers', JSON.stringify(friends))
+      res.status(200).json(friendList);
+    }
   } catch (error) {
     res.status(500).json(error.message);
   }
@@ -168,21 +185,31 @@ const getUsersFollowers = asyncHandler(async (req, res) => {
 
 const getUsersFollowings = asyncHandler(async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const cached = await client.get("userFollowings");
 
-    const friends = await Promise.all(
-      user.followers.map((friendId) => {
-        return User.findById(friendId);
-      })
-    );
+    if (cached) {
+      return res.json(JSON.parse(cached));
+    } else {
+      const user = await User.findById(req.params.id);
+      const friends = await Promise.all(
+        user.followers.map((friendId) => {
+          return User.findById(friendId);
+        })
+      );
 
-    let friendList = [];
+      let friendList = [];
 
-    friends.map((friend) => {
-      const { _id, username, name } = friend;
-      friendList.push({ _id, username, name });
-    });
-    res.status(200).json(friendList);
+      friends.map((friend) => {
+        const { _id, username, name } = friend;
+        friendList.push({ following: friend });
+      });
+
+      const userFollowings = client.set(
+        "userFollowings",
+        JSON.stringify(friends)
+      );
+      res.status(200).json(friendList);
+    }
   } catch (error) {
     res.status(500).json(error.message);
   }
@@ -204,22 +231,28 @@ const saveFavoritePost = asyncHandler(async (req, res) => {
 
 const getUserSavedPosts = asyncHandler(async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const cached = await client.get("savedPost");
 
-    const savedPosts = await Promise.all(
-      user.savedPost.map((postId) => {
-        return Post.findById(postId);
-      })
-    );
+    if (cached) {
+      return res.json(JSON.parse(cached));
+    } else {
+      const user = await User.findById(req.params.id);
+      const savedPosts = await Promise.all(
+        user.savedPost.map((postId) => {
+          return Post.findById(postId);
+        })
+      );
 
-    let savedPostList = [];
+      let savedPostList = [];
 
-    savedPosts.map((post) => {
-      const { _id, text, img, userId, likes, deslikes } = post;
-      savedPostList.push({ _id, text, img, userId, likes, deslikes });
-    });
+      savedPosts.map((post) => {
+        const { _id, text, img, userId, likes, deslikes } = post;
+        savedPostList.push({ post: post });
+      });
 
-    res.status(200).json(savedPostList);
+      const savedPost = client.set("savedPost", JSON.stringify(savedPosts));
+      res.status(200).json(savedPostList);
+    }
   } catch (error) {
     res.status(500).json(error.message);
   }
@@ -233,21 +266,18 @@ const generateToken = (id) => {
 
 const getAllUsers = asyncHandler(async (req, res) => {
   try {
-    const cached = await client.get('user');
-    
-    if(cached) {
-      return res.json(JSON.parse(cached))
+    const cached = await client.get("user");
+
+    if (cached) {
+      return res.json(JSON.parse(cached));
     } else {
       const user = await User.find();
       const setting = client.set("user", JSON.stringify(user));
-      res.send(user)
+      res.send(user);
     }
-    
-
   } catch (error) {
     res.status(400).json(error.message);
   }
-
 });
 
 module.exports = {

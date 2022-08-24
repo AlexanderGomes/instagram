@@ -2,6 +2,14 @@ const asyncHandler = require("express-async-handler");
 const Post = require("../models/post");
 const User = require("../models/user");
 
+const redis = require('redis');
+const REDIS_PORT = process.env.PORT || 6379;
+const client = redis.createClient(REDIS_PORT);
+client.connect();
+
+
+
+
 const createPost = asyncHandler(async (req, res) => {
   const newPost = new Post(req.body);
   try {
@@ -71,9 +79,15 @@ const deslikePost = asyncHandler(async (req, res) => {
 
 const getPostByUsername = asyncHandler(async (req, res) => {
   try {
-    const user = await User.findOne({ username: req.params.username });
-    const posts = await Post.find({ userId: user._id });
-    res.status(200).json(posts);
+    const cached = await client.get('postByUsername')
+    if(cached) {
+      return res.json(JSON.parse(cached))
+    } else {
+      const user = await User.findOne({ username: req.params.username });
+      const posts = await Post.find({ userId: user._id });
+      const savedPost = await client.set('postByUsername', JSON.stringify(posts))
+      res.status(200).json(posts);
+    }
   } catch (err) {
     res.status(500).json(err.message);
   }
@@ -81,14 +95,23 @@ const getPostByUsername = asyncHandler(async (req, res) => {
 
 const getTimelinePost = asyncHandler(async (req, res) => {
   try {
-    const currentUser = await User.findById(req.params.userId);
-    const userPosts = await Post.find({ userId: currentUser._id });
-    const friendPosts = await Promise.all(
-      currentUser.followings.map((friendId) => {
-        return Post.find({ userId: friendId });
-      })
-    );
-    res.status(200).json(userPosts.concat(...friendPosts));
+
+    const cached = await client.get('timelinePost')
+    if(cached) {
+      return res.json(JSON.parse(cached))
+    } else {
+      const currentUser = await User.findById(req.params.userId);
+      const userPosts = await Post.find({ userId: currentUser._id });
+      const friendPosts = await Promise.all(
+        currentUser.followings.map((friendId) => {
+          return Post.find({ userId: friendId });
+        })
+      );
+     
+      const timeline = userPosts.concat(...friendPosts)
+      const savedPost = await client.set('timelinePost', JSON.stringify(timeline))
+      res.status(200).json({timeline: timeline});
+    }
   } catch (err) {
     res.status(500).json(err);
   }
@@ -96,8 +119,14 @@ const getTimelinePost = asyncHandler(async (req, res) => {
 
 const getPostById = asyncHandler(async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id);
-    res.status(200).json(post);
+    const cached = await client.get('postById')
+    if(cached) {
+      return res.json(JSON.parse(cached))
+    } else {
+      const post = await Post.findById(req.params.id);
+      const saved = await client.set('postById', JSON.stringify(post))
+      res.status(200).json(post);
+    }
   } catch (err) {
     res.status(500).json(err);
   }

@@ -12,19 +12,18 @@ const {
   getUsersFollowings,
   getUserSavedPosts,
 getUserByUsername,
-saveFavoritePost,
-cached
+saveFavoritePost
 } = require("../controllers/user");
 
 router.post("/", registerUser); //check
 router.post("/login", loginUser);//check
-router.get("/all", getAllUsers);//check
+router.get("/all", getAllUsers);//check //redis
 router.put("/:id/follow", followUser);//check
 router.put("/:id/unfollow", unfollowUser);//check
-router.get("/followers/:id", getUsersFollowings);//check
-router.get("/followings/:id", getUsersFollowers);//check
-router.get("/:id", getSingleUser);//check
-router.get("/username/:username", getUserByUsername);//check
+router.get("/followers/:id", getUsersFollowings);//check //redis
+router.get("/followings/:id", getUsersFollowers);//check //redis
+router.get("/:id", getSingleUser);//check //redis
+router.get("/username/:username", getUserByUsername);//check //redis
 router.put("/savedPosts/:id", saveFavoritePost);//check
-router.get("/favorite/:id", getUserSavedPosts);//check
+router.get("/favorite/:id", getUserSavedPosts);//check //redis
 module.exports = router;

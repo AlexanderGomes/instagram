@@ -1,5 +1,9 @@
 const Reply = require("../models/reply");
 const asyncHandler = require("express-async-handler");
+const redis = require('redis')
+const REDIS_PORT = process.env.PORT || 6379;
+const client = redis.createClient(REDIS_PORT);
+client.connect();
 
 const addReply = asyncHandler(async (req, res) => {
   const newReply = new Reply(req.body);
@@ -37,8 +41,14 @@ const updatereply = asyncHandler(async (req, res) => {
 
 const getreply = asyncHandler(async (req, res) => {
   try {
-    const reply = await Reply.find({ commentId: req.params.commentId });
-    res.status(200).json(reply);
+    const cached = await client.get('reply')
+    if(cached) {
+      return res.json(JSON.parse(cached))
+    } else {
+      const reply = await Reply.find({ commentId: req.params.commentId });
+      const savingReply = await client.set('reply', JSON.stringify(reply))
+      res.status(200).json(reply);
+    }
   } catch (err) {
     next(err);
   }
