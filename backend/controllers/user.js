@@ -71,13 +71,13 @@ const loginUser = asyncHandler(async (req, res) => {
 
 const getSingleUser = asyncHandler(async (req, res) => {
   try {
-    const cached = await client.get('userById')
-    if(cached) {
-      return res.json(JSON.parse(cached))
+    const cached = await client.get("userById");
+    if (cached) {
+      return res.json(JSON.parse(cached));
     } else {
       //finding user by id and sending it back
       const user = await User.findById(req.params.id);
-      const getSingleUser = await client.set('userById', JSON.stringify(user))
+      const getSingleUser = await client.set("userById", JSON.stringify(user));
       if (user) {
         res.status(201).json({ token: generateToken(user._id), user });
       } else {
@@ -91,13 +91,16 @@ const getSingleUser = asyncHandler(async (req, res) => {
 
 const getUserByUsername = asyncHandler(async (req, res) => {
   try {
-    const cached = await client.get('userByUsername')
-    if(cached) {
-      return res.json(JSON.parse(cached))
+    const cached = await client.get("userByUsername");
+    if (cached) {
+      return res.json(JSON.parse(cached));
     } else {
       //finding user by id and sending it back
       const user = await User.findOne({ username: req.params.username });
-      const userByUsername = await client.set('userByUsername', JSON.stringify(user))
+      const userByUsername = await client.set(
+        "userByUsername",
+        JSON.stringify(user)
+      );
       if (user) {
         res.status(201).json({
           _id: user.id,
@@ -175,7 +178,10 @@ const getUsersFollowers = asyncHandler(async (req, res) => {
         const { _id, username, name } = friend;
         friendList.push({ follower: friend });
       });
-      const userFollowers = await client.set('userFollowers', JSON.stringify(friends))
+      const userFollowers = await client.set(
+        "userFollowers",
+        JSON.stringify(friends)
+      );
       res.status(200).json(friendList);
     }
   } catch (error) {
