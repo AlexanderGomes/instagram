@@ -22,6 +22,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^2.2.16",
     "mongoose": "^6.5.2",
+    "react-router-dom": "^6.3.0",
     "redis": "^4.3.0"
   }
 }

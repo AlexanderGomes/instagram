@@ -71,19 +71,10 @@ const loginUser = asyncHandler(async (req, res) => {
 
 const getSingleUser = asyncHandler(async (req, res) => {
   try {
-    const cached = await client.get("userById");
-    if (cached) {
-      return res.json(JSON.parse(cached));
-    } else {
       //finding user by id and sending it back
       const user = await User.findById(req.params.id);
-      const getSingleUser = await client.set("userById", JSON.stringify(user));
-      if (user) {
-        res.status(201).json({ token: generateToken(user._id), user });
-      } else {
+        res.status(201).json(user);
         res.status(400).json("invalid user data");
-      }
-    }
   } catch (error) {
     res.status(400).json(error.message);
   }

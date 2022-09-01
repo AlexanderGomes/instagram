@@ -67,6 +67,11 @@ body {
     border-radius: 4px;
     text-align: center;
     padding: 5px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    transform: scale(1);
 }
 
 .wrapper .header .form .btn a {
@@ -218,3 +223,10 @@ hr {
     left:0;
     width:100%;
 }
+
+.login {
+    background-color: #3897f0;
+    border: none;
+    cursor: pointer;
+}
+

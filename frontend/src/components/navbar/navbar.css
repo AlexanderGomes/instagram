@@ -76,3 +76,13 @@ body{
     border-radius: 50%;
 }
 
+
+
+.toggle {
+display: flex;
+justify-content: center;
+align-items: center;
+margin: 10rem;
+margin-top: 31.80rem;
+margin-left: 50rem;
+}

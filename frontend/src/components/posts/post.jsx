@@ -1,38 +1,47 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import axios from "axios";
 import './post.css'
 
-import user from '../../assets/user2.png'
+import User from '../../assets/user2.png'
 import heart from '../../assets/icon/red-heart.png'
 import post1 from '../../assets/posts/post1.png'
 import icon1 from '../../assets/icon/heart-nofill.png'
 import icon2 from '../../assets/icon/send-nofill.png'
 import icon3 from '../../assets/icon/comment-nofill.png'
+import  Avatar  from '../../assets/noAvatar.png'
 
 
 
 
 
-const Post = () => {
+const Post = ({post}) => {
+    const [users, setUser] = useState([]);
+
+    const { user } = useSelector((state) => state.auth);
+
+    const avatarImage = user.profilePicture ? user.profilePicture : Avatar;
+
+    useEffect(() => {
+        const fetchUser = async () => {
+          const res = await axios.get(`/api/user/${post.userId}`);
+          setUser(res.data);
+        };
+        fetchUser();
+      }, [post.userId]);
+
+
   return (
     <div className="post-container">
+
     <div className="post">
     <div className="post-header">
-        <img src={user}className="user-icon" alt=""/>
-        <p className="username">@modernweb</p>
+        <img src={avatarImage}className="user-icon" alt=""/>
+        <p className="username">{users.name}</p>
     </div>
     <div className="post-feed">
-        <div className="post-overlays">
-            <img src={heart} className="like-icon" alt=""/>
-            <div className="share-window">
-                <h1 className="title">share the post with others</h1>
-                <div className="share-link-container">
-                    <input type="text" id="share-link" value="https://www.socialize.com/post/234234234234" disabled/>
-                    <button className="copy-btn">copy</button>
-                </div>
-            </div>
-        </div>
         <div className="post-img-container">
-            <img src={post1} alt=""/>
+            <img src={post.img} alt=""/>
         </div>
     </div>
     <div className="post-detail">
@@ -42,8 +51,8 @@ const Post = () => {
             <img src={icon3} className="comment-btn" alt=""/>
         </div>
         <span className="likes">2.7k likes</span>
-        <p className="username">@modernweb</p>
-        <p className="post-des">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores ipsa incidunt obcaecati esse illo voluptates libero debitis nisi. Id tempora vel illum vitae temporibus commodi non cupiditate atque voluptas. Ipsam.</p>
+        <p className="username">{users.username}</p>
+        <p className="post-des">{post.text}</p>
 
         <div class="comment-box">
             <input type="text" id="comment-input" placeholder="Add a comment"/>

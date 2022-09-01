@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: false }));
 
 
 //routes
-app.use('/api/user',userRoutes)
+app.use('/api/user', userRoutes)
 app.use('/api/post', postRoutes)
 app.use('/api/comment', commentRoutes)
 app.use('/api/reply', replyRoutes)
