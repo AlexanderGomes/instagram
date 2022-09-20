@@ -28,6 +28,8 @@ app.use('/api/comment', commentRoutes)
 app.use('/api/reply', replyRoutes)
 
 
+
+
 app.listen(port, async () => {
     await dbConnect()
     console.log('mongodb connected')

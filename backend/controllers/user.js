@@ -3,11 +3,7 @@ const Post = require("../models/post");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
-const redis = require("redis");
-const REDIS_PORT = process.env.PORT || 6379;
-const client = redis.createClient(REDIS_PORT);
 const dbConnect = require("../utils/dbConnect");
-client.connect();
 dbConnect();
 
 const registerUser = asyncHandler(async (req, res) => {
@@ -82,16 +78,7 @@ const getSingleUser = asyncHandler(async (req, res) => {
 
 const getUserByUsername = asyncHandler(async (req, res) => {
   try {
-    const cached = await client.get("userByUsername");
-    if (cached) {
-      return res.json(JSON.parse(cached));
-    } else {
-      //finding user by id and sending it back
       const user = await User.findOne({ username: req.params.username });
-      const userByUsername = await client.set(
-        "userByUsername",
-        JSON.stringify(user)
-      );
       if (user) {
         res.status(201).json({
           _id: user.id,
@@ -103,8 +90,7 @@ const getUserByUsername = asyncHandler(async (req, res) => {
       } else {
         res.status(400).json("invalid user data");
       }
-    }
-  } catch (error) {
+    } catch (error) {
     res.status(400).json(error.message);
   }
 });
@@ -119,7 +105,9 @@ const followUser = asyncHandler(async (req, res) => {
         await currentUser.updateOne({ $push: { followings: req.params.id } });
         res.status(200).json("user has been followed");
       } else {
-        res.status(403).json("you allready follow this user");
+        await user.updateOne({ $pull: { followers: req.body.userId } });
+        await currentUser.updateOne({ $pull: { followings: req.params.id } });
+        res.status(403).json("user has been unfollowed");
       }
     } catch (err) {
       res.status(500).json(err);
@@ -129,26 +117,7 @@ const followUser = asyncHandler(async (req, res) => {
   }
 });
 
-const unfollowUser = asyncHandler(async (req, res) => {
-  if (req.body.userId !== req.params.id) {
-    try {
-      const user = await User.findById(req.params.id);
-      const currentUser = await User.findById(req.body.userId);
 
-      if (user.followers.includes(req.body.userId)) {
-        await user.updateOne({ $pull: { followers: req.body.userId } });
-        await currentUser.updateOne({ $pull: { followings: req.params.id } });
-        res.status(200).json("user has been unfollowed");
-      } else {
-        res.status(400).json("you dont follow this user");
-      }
-    } catch (error) {
-      res.status(402).json(error.message);
-    }
-  } else {
-    res.status(403).json("you cant unfollow yourself");
-  }
-});
 
 const getUsersFollowers = asyncHandler(async (req, res) => {
   try {
@@ -287,6 +256,5 @@ module.exports = {
   getUserSavedPosts,
   getUserByUsername,
   followUser,
-  unfollowUser,
   saveFavoritePost,
 };

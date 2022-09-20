@@ -2,13 +2,6 @@ const asyncHandler = require("express-async-handler");
 const Post = require("../models/post");
 const User = require("../models/user");
 
-const redis = require('redis');
-const REDIS_PORT = process.env.PORT || 6379;
-const client = redis.createClient(REDIS_PORT);
-client.connect();
-
-
-
 
 const createPost = asyncHandler(async (req, res) => {
   const newPost = new Post(req.body);

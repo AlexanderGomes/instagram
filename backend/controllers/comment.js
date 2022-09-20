@@ -1,9 +1,6 @@
 const Comment = require("../models/comment");
 const asyncHandler = require("express-async-handler");
-const redis = require("redis");
-const REDIS_PORT = process.env.PORT || 6379;
-const client = redis.createClient(REDIS_PORT);
-client.connect();
+
 
 const addComment = asyncHandler(async (req, res) => {
   const newComment = new Comment(req.body);
@@ -41,17 +38,8 @@ const updateComment = asyncHandler(async (req, res) => {
 
 const getComment = asyncHandler(async (req, res) => {
   try {
-    const cached = await client.get("comments");
-    if (cached) {
-      return res.json(JSON.parse(cached));
-    } else {
       const comments = await Comment.find({ postId: req.params.postId });
-      const savedComment = await client.set(
-        "comments",
-        JSON.stringify(comments)
-      );
       res.status(200).json(comments);
-    }
   } catch (err) {
     res.status(500).json({ message: "error" });
   }

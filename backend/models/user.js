@@ -35,6 +35,14 @@ const userSchema = mongoose.Schema (
             type: Array,
             default: [],
           },
+          love: {
+            type: Array,
+            default: [],
+          },
+          hate: {
+            type: Array,
+            default: [],
+          },
           desc: {
             type: String,
             max: 50,
@@ -42,7 +50,11 @@ const userSchema = mongoose.Schema (
           savedPost: {
             type: Array,
             default: [],
-          }
+          },
+          activity: {
+            type: Array,
+            default: [],
+          },
         },
         {
           timestamps: true,
