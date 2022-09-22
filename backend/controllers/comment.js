@@ -12,6 +12,7 @@ const addComment = asyncHandler(async (req, res) => {
   }
 });
 
+
 const deleteComment = asyncHandler(async (req, res) => {
   try {
     const comment = await Comment.findById(req.params.id);
@@ -23,6 +24,7 @@ const deleteComment = asyncHandler(async (req, res) => {
     res.status(400).json(error.message);
   }
 });
+
 
 const updateComment = asyncHandler(async (req, res) => {
   try {
@@ -36,6 +38,7 @@ const updateComment = asyncHandler(async (req, res) => {
   }
 });
 
+
 const getComment = asyncHandler(async (req, res) => {
   try {
       const comments = await Comment.find({ postId: req.params.postId });
@@ -44,6 +47,7 @@ const getComment = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "error" });
   }
 });
+
 
 const likeComment = asyncHandler(async (req, res) => {
   try {
@@ -60,6 +64,7 @@ const likeComment = asyncHandler(async (req, res) => {
   }
 });
 
+
 const deslikeComment = asyncHandler(async (req, res) => {
   try {
     const comment = await Comment.findById(req.params.id);
@@ -74,6 +79,7 @@ const deslikeComment = asyncHandler(async (req, res) => {
     res.status(500).json(err);
   }
 });
+
 
 module.exports = {
   addComment,

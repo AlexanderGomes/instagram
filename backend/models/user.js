@@ -51,7 +51,7 @@ const userSchema = mongoose.Schema (
             type: Array,
             default: [],
           },
-          activity: {
+          notifications: {
             type: Array,
             default: [],
           },

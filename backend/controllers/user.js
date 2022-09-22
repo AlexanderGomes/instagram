@@ -6,6 +6,7 @@ const asyncHandler = require("express-async-handler");
 const dbConnect = require("../utils/dbConnect");
 dbConnect();
 
+
 const registerUser = asyncHandler(async (req, res) => {
   const { name, username, email, password } = req.body;
 
@@ -41,6 +42,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
+
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
@@ -65,6 +67,7 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
+
 const getSingleUser = asyncHandler(async (req, res) => {
   try {
       //finding user by id and sending it back
@@ -75,6 +78,7 @@ const getSingleUser = asyncHandler(async (req, res) => {
     res.status(400).json(error.message);
   }
 });
+
 
 const getUserByUsername = asyncHandler(async (req, res) => {
   try {
@@ -121,10 +125,6 @@ const followUser = asyncHandler(async (req, res) => {
 
 const getUsersFollowers = asyncHandler(async (req, res) => {
   try {
-    const cached = await client.get("userFollowers");
-    if (cached) {
-      return res.json(JSON.parse(cached));
-    } else {
       const user = await User.findById(req.params.id);
       const friends = await Promise.all(
         user.followers.map((friendId) => {
@@ -138,12 +138,8 @@ const getUsersFollowers = asyncHandler(async (req, res) => {
         const { _id, username, name } = friend;
         friendList.push({ follower: friend });
       });
-      const userFollowers = await client.set(
-        "userFollowers",
-        JSON.stringify(friends)
-      );
       res.status(200).json(friendList);
-    }
+
   } catch (error) {
     res.status(500).json(error.message);
   }
@@ -151,11 +147,6 @@ const getUsersFollowers = asyncHandler(async (req, res) => {
 
 const getUsersFollowings = asyncHandler(async (req, res) => {
   try {
-    const cached = await client.get("userFollowings");
-
-    if (cached) {
-      return res.json(JSON.parse(cached));
-    } else {
       const user = await User.findById(req.params.id);
       const friends = await Promise.all(
         user.followers.map((friendId) => {
@@ -170,12 +161,8 @@ const getUsersFollowings = asyncHandler(async (req, res) => {
         friendList.push({ following: friend });
       });
 
-      const userFollowings = client.set(
-        "userFollowings",
-        JSON.stringify(friends)
-      );
       res.status(200).json(friendList);
-    }
+    
   } catch (error) {
     res.status(500).json(error.message);
   }
@@ -196,12 +183,8 @@ const saveFavoritePost = asyncHandler(async (req, res) => {
 });
 
 const getUserSavedPosts = asyncHandler(async (req, res) => {
-  try {
-    const cached = await client.get("savedPost");
 
-    if (cached) {
-      return res.json(JSON.parse(cached));
-    } else {
+  try {
       const user = await User.findById(req.params.id);
       const savedPosts = await Promise.all(
         user.savedPost.map((postId) => {
@@ -216,12 +199,11 @@ const getUserSavedPosts = asyncHandler(async (req, res) => {
         savedPostList.push({ post: post });
       });
 
-      const savedPost = client.set("savedPost", JSON.stringify(savedPosts));
       res.status(200).json(savedPostList);
-    }
   } catch (error) {
     res.status(500).json(error.message);
   }
+
 });
 
 const generateToken = (id) => {
@@ -232,15 +214,9 @@ const generateToken = (id) => {
 
 const getAllUsers = asyncHandler(async (req, res) => {
   try {
-    const cached = await client.get("user");
-
-    if (cached) {
-      return res.json(JSON.parse(cached));
-    } else {
       const user = await User.find();
-      const setting = client.set("user", JSON.stringify(user));
       res.send(user);
-    }
+    
   } catch (error) {
     res.status(400).json(error.message);
   }
