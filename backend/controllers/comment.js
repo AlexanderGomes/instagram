@@ -79,12 +79,14 @@ const likeComment = asyncHandler(async (req, res) => {
     const body = await User.findById(req.body.userId)//user liking the comment
     const user = await User.findById(comment.userId)//person being notified
 
+
     if (!comment.likes.includes(req.body.userId)) {
       await comment.updateOne({ $push: { likes: req.body.userId } });
 
       //put into a variable so you can pass two obj inside of one
       const likedComment = await user.updateOne({$push: {notifications: {commentLiked: comment, userlikedComment: body}}})
       await user.updateOne({$push: {likedComment: likedComment}})
+      
       
       res.status(200).json("The comment has been liked");
     } else {
