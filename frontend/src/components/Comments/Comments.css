@@ -1,0 +1,39 @@
+.img__comments {
+    width: 30px;
+    border-radius: 12px;
+}
+
+.comments__main {
+    margin-top: 4rem;
+    display: flex;
+}
+.comments__rest {
+    display: block;
+padding: 4px;
+
+}
+
+.comments__desc {
+margin-top: 1rem;
+line-height: 1rem;
+margin-bottom: 1rem;
+}
+
+.comments__color {
+    margin-left: 5px;
+    background-color: rgb(255, 255, 255);
+    width: 80%;
+   border-radius: 12px;
+}
+
+.format {
+    margin-top: 6px;
+}
+
+.likes{
+
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+}
+

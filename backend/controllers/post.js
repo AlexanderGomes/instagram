@@ -64,9 +64,7 @@ const likePost = asyncHandler(async (req, res) => {
       await post.updateOne({ $pull: { likes: req.body.userId } });
       const likedPost = await user.updateOne({$pull: {notifications: {postLiked: post, userlikedPost: body, type: 'postLike'}}})
       await user.updateOne({$pull: {likedPost: likedPost}})
-
-
-      res.status(200).json("The post has been disliked");
+      res.status(200).json('post has been desliked');
     }
   } catch (err) {
     res.status(500).json(err);

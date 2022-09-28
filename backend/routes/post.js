@@ -9,8 +9,8 @@ router.get('/:id', getPostById)//check
 router.get('/profile/:username',  getPostByUsername)//check
 router.get('/timeline/:userId',   getTimelinePost)//check
 router.delete('/:id', deletePost) //check
-router.put('/:id/like', likePost)//check
-router.put('/:id/dislike',  deslikePost)//check
+router.put('/like/:id', likePost)//check
+router.put('/dislike/:id',  deslikePost)//check
 
 
 
