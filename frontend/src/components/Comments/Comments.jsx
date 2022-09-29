@@ -1,25 +1,62 @@
-import React, {useState, useEffect} from 'react'
-import './Comments.css'
-import { useSelector } from 'react-redux'
-import noAvatar from '../../assets/noAvatar.png'
-import axios from 'axios'
+import React, { useState, useEffect } from "react";
+import "./Comments.css";
+import { useSelector } from "react-redux";
+import noAvatar from "../../assets/noAvatar.png";
+import axios from "axios";
 import { format } from "timeago.js";
-import {AiFillLike} from 'react-icons/ai'
-import {AiFillDislike} from 'react-icons/ai'
+import { AiFillLike } from "react-icons/ai";
+import { AiFillDislike } from "react-icons/ai";
+import {Reply, ReplyForm} from '../'
 
-const Comments = ({comment}) => {
-  const [users, setUsers] = useState([])
+const Comments = ({ comment, post }) => {
+  const [users, setUsers] = useState([]);
   const { user } = useSelector((state) => state.auth);
-  const defaultImg = user.profilePicture ? user.profilePicture : noAvatar
-
+  const defaultImg = user.profilePicture ? user.profilePicture : noAvatar;
+  const [desc, setDesc] = useState(null);
+  const [reply, setReply] = useState([]);
   const [like, setLike] = useState(comment.likes.length);
-  const [deslike, setDeslike] = useState(comment.deslikes.length)
+  const [deslike, setDeslike] = useState(comment.deslikes.length);
   const [isLiked, setIsLiked] = useState(false);
-  const [isDeslike, setIsDeslike] = useState(false)
+  const [isDeslike, setIsDeslike] = useState(false);
+  const [toggle, setToggle] = useState(false);
+
+  const handleReply = async () => {
+    const newReply = {
+      userId: user._id,
+      postId: post._id,
+      commentId: comment._id,
+      desc,
+    };
+    try {
+      axios.post("/api/reply", newReply);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const GetReply = async () => {
+    useEffect(() => {
+      axios
+        .get(`/api/reply/${comment._id}`)
+        .then((res) => {
+          setReply(
+            res.data.sort((p1, p2) => {
+              return new Date(p2.createdAt) - new Date(p1.createdAt);
+            })
+          );
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    }, [setReply]);
+  };
+  GetReply();
+  console.log(reply);
+  
 
   const FetchUser = async () => {
-      useEffect(() => {
-        axios
+    useEffect(() => {
+      axios
         .get(`/api/user/` + comment.userId)
         .then((res) => {
           setUsers(res.data);
@@ -27,12 +64,11 @@ const Comments = ({comment}) => {
         .catch((error) => {
           console.log(error.message);
         });
-      }, [])
-    };
-    FetchUser()
-    console.log(users)
+    }, []);
+  };
+  FetchUser();
 
-    useEffect(() => {
+  useEffect(() => {
     setIsLiked(comment.likes.includes(user._id));
   }, [user._id, comment.likes]);
 
@@ -49,7 +85,7 @@ const Comments = ({comment}) => {
     setLike(isLiked ? like - 1 : like + 1);
     setIsLiked(!isLiked);
   };
-  
+
   const deslikeHandler = () => {
     try {
       axios.put("/api/comment/deslike/" + comment._id, { userId: user._id });
@@ -60,30 +96,53 @@ const Comments = ({comment}) => {
     setIsDeslike(!isDeslike);
   };
 
-
-
   return (
-    <div className='comments__main'>
-    <div className='comments__img'>
-      <img className='img__comments' src={defaultImg} alt="" />
+    <div className="comments__main">
+      <div className="comments__img">
+        <img className="img__comments" src={defaultImg} alt="" />
+      </div>
+      <div className="comments__position">
+        <div className="comments__color">
+          <div className="comments__rest">
+            <p>{users.name}</p>
+            <p className="format">{format(comment.createdAt)}</p>
+            <p className="comments__desc">{comment.desc} </p>
+          </div>
+        </div>
+        <div className="likes">
+          <AiFillLike onClick={likeHandler} />
+          <p>{like} love</p>
+          <AiFillDislike onClick={deslikeHandler} />
+          <p>{deslike} hate</p>
+          <div className="post__bottom">
+          <p className="comments" onClick={() => setToggle(true)}>
+            See all the {reply.length} replies
+          </p>
+          <div className="toggle__comments">
+            {toggle && <ReplyForm comment={comment} post={post} />}
+            {toggle &&
+              (reply.length > 0 ? (
+                reply.map((comment) => (
+                  <div>
+                    <Reply
+                      className="main"
+                      key={comment._id}
+                      comment={comment}
+                      post={post}
+                    />
+                  </div>
+                ))
+              ) : (
+                <>
+                  <p>No replies</p>
+                </>
+              ))}
+          </div>
+        </div>
+        </div>
+      </div>
     </div>
-    <div className='comments__position'>
-    <div className='comments__color'>
-    <div className='comments__rest'>
-    <p>{users.name}</p>
-    <p className='format'>{format(comment.createdAt)}</p>
-    <p className='comments__desc'>{comment.desc} Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe numquam illum dicta quibusdam voluptate. Maxime dicta temporibus omnis id. Delectus, non exercitationem accusantium tempore laudantium facere facilis asperiores provident voluptates?</p>
-    </div>
-    </div>
-    <div className='likes'>
-    <AiFillLike onClick={likeHandler}/>
-      <p>{like} love</p>
-      <AiFillDislike onClick={deslikeHandler}/>
-      <p>{deslike} hate</p>
-    </div>
-    </div>
-    </div>
-  )
-}
+  );
+};
 
-export default Comments
+export default Comments;

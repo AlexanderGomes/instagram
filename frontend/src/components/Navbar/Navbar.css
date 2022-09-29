@@ -23,3 +23,12 @@ cursor: pointer;
 .nav__logo__img {
     height: 100px;
 }
+
+.nav__upload {
+    display: flex;
+    position: fixed;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+    z-index: 10;
+}

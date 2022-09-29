@@ -13,6 +13,10 @@ const commentSchema = mongoose.Schema (
             required: true,
             ref: 'Post'
         },
+        parentId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Comment'
+        },
         desc: {
             type: String,
             required: true,

@@ -1,0 +1,37 @@
+.form__post {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(208, 195, 195);
+    height: 400px;
+    width: 300px;
+    border-radius: 12px;
+
+}
+
+.post__form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.file {
+    margin-left: 6.40rem;
+}
+
+.btn__post {
+    margin-right: 4rem;
+}
+
+.icon__position {
+position: fixed;
+z-index: 4;
+display: flex;
+justify-content: flex-start;
+align-items: flex-start;
+margin-bottom: 22rem;
+margin-right: 16rem;
+cursor: pointer;
+}
