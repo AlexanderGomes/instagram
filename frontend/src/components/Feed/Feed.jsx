@@ -33,7 +33,7 @@ const Feed = () => {
   };
   GetPosts();
 
-
+if(!posts) return <p>loading...</p>
 
   return (
     <div className='feed__main'>
