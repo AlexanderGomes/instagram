@@ -5,6 +5,7 @@ import axios from "axios";
 import noAvatar from "../../assets/noAvatar.png";
 import { AiFillLike } from "react-icons/ai";
 import { AiFillDislike } from "react-icons/ai";
+import {TiDelete} from 'react-icons/ti'
 import { format } from "timeago.js";
 import { Comments, CommentsForm } from "../";
 
@@ -20,6 +21,7 @@ const Post = ({ post }) => {
   const [comments, setComments] = useState([]);
 
   const defaultImg = user.profilePicture ? user.profilePicture : noAvatar;
+
 
   const FetchUser = async () => {
     useEffect(() => {
@@ -63,6 +65,7 @@ const Post = ({ post }) => {
     setIsDeslike(!isDeslike);
   };
 
+
   const GetPosts = async () => {
     useEffect(() => {
       axios
@@ -81,6 +84,19 @@ const Post = ({ post }) => {
   };
   GetPosts();
 
+  const deletePost = () => {
+  try {
+    if(window.confirm('Are you sure you wish to delete your post?') == true){
+      axios.delete("/api/post/" + post._id)
+      window.location.reload();
+    }
+  } catch (error) {
+     console.log(error)
+  }
+}
+
+const icon = user._id === post.userId ? <TiDelete size={20} onClick={deletePost} /> : ''
+
 
 
   return (
@@ -92,6 +108,7 @@ const Post = ({ post }) => {
           </div>
           <div className="text__div">
             <p>{users.name}</p>
+            <p className="icon">{icon}</p>
             <p className="user__time">{format(post.createdAt)}</p>
           </div>
         </div>

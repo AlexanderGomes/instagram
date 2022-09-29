@@ -20,21 +20,8 @@ const Comments = ({ comment, post }) => {
   const [isDeslike, setIsDeslike] = useState(false);
   const [toggle, setToggle] = useState(false);
 
-  const handleReply = async () => {
-    const newReply = {
-      userId: user._id,
-      postId: post._id,
-      commentId: comment._id,
-      desc,
-    };
-    try {
-      axios.post("/api/reply", newReply);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  const GetReply = async () => {
+  
+const GetReply = async () => {
     useEffect(() => {
       axios
         .get(`/api/reply/${comment._id}`)
@@ -115,7 +102,7 @@ const Comments = ({ comment, post }) => {
           <AiFillDislike onClick={deslikeHandler} />
           <p>{deslike} hate</p>
           <div className="post__bottom">
-          <p className="comments" onClick={() => setToggle(true)}>
+          <p className="comments__reply" onClick={() => setToggle(true)}>
             See all the {reply.length} replies
           </p>
           <div className="toggle__comments">

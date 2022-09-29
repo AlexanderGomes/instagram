@@ -30,13 +30,8 @@ const updatePost = asyncHandler(async (req, res) => {
 const deletePost = asyncHandler(async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    //coudn't figure out how to implement the removal of notification based on this system you created
-    if (post.userId.toString() === req.body.userId) {
       await post.deleteOne(post);
       res.status(200).json({ message: "post deleted" });
-    } else {
-      res.status(500).json({ message: "not your post" });
-    }
   } catch (error) {
     res.status(400).json(error.message);
   }

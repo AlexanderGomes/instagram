@@ -45,3 +45,8 @@ table {
 .nav__upload {
    z-index: 10;
 }
+
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}

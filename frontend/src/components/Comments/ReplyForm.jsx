@@ -31,7 +31,7 @@ const ReplyForm = ({post, comment}) => {
     value={desc} 
     onChange={(e) => setDesc(e.target.value)}
     />
-    <button>post comment</button>
+    <button>post reply</button>
     </form>
     </div>
   )

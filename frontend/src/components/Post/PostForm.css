@@ -1,12 +1,11 @@
 .form__post {
     display: flex;
+    position: absolute;
     justify-content: center;
-    align-items: center;
     background-color: rgb(208, 195, 195);
     height: 400px;
     width: 300px;
     border-radius: 12px;
-
 }
 
 .post__form {
@@ -26,12 +25,21 @@
 }
 
 .icon__position {
-position: fixed;
+position: absolute;
 z-index: 4;
 display: flex;
-justify-content: flex-start;
-align-items: flex-start;
 margin-bottom: 22rem;
 margin-right: 16rem;
 cursor: pointer;
+}
+
+
+.div__position {
+    display: flex;
+    position: absolute;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+    z-index: 10;
+    min-width: 100vw;
 }

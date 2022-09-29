@@ -16,7 +16,6 @@ const [toggle, setToggle] = useState(false)
   return (
 
 <div>
-
     <div className='nav__main'>
       <div className='nav__logo'>
         <img className='nav__logo__img' src={logo} alt="logo" />

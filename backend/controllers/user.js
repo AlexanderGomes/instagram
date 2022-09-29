@@ -115,7 +115,7 @@ const followUser = asyncHandler(async (req, res) => {
         await user.updateOne({
           $pull: { notifications: { userfollowed: currentUser } },
         });
-        res.status(403).json("user has been unfollowed");
+        res.status(200).json("user has been unfollowed");
       }
     } catch (err) {
       res.status(500).json(err);

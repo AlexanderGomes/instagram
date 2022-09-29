@@ -24,11 +24,3 @@ cursor: pointer;
     height: 100px;
 }
 
-.nav__upload {
-    display: flex;
-    position: fixed;
-    align-items: center;
-    text-align: center;
-    min-height: 100vh;
-    z-index: 10;
-}

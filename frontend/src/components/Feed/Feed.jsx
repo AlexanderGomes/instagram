@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
-import {Post} from '../'
+import {Post, Profile} from '../'
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import './Feed.css'
 
 
 
@@ -13,12 +13,6 @@ const Feed = () => {
   const navigate = useNavigate();
 
 
-  useEffect(() => {
-    if (!user) {
-      navigate("/login");
-    }
-    
-  }, [user])
 
 
   const GetPosts = async () => {
@@ -58,7 +52,7 @@ const Feed = () => {
      </div>
 
      <div className='feed__profile__card'>
-
+     <Profile />
      </div>
     </div>
   )

@@ -6,6 +6,10 @@ export {default as PostForm} from './Post/PostForm'
 export {default as CommentsForm} from './Comments/CommentsForm'
 export {default as Reply} from './Comments/Reply'
 export {default as ReplyForm} from './Comments/ReplyForm'
+export {default as Profile} from './Profile/Profile'
+export {default as Suggestions} from './Suggestions/Suggestions'
+
+
 
 
 

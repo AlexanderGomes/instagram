@@ -9,7 +9,7 @@
 
 .post__main__div {
 background-color: rgb(226, 226, 225);
-margin-top: 2rem;
+margin-top: 3rem;
 outline: black;
 border-radius: 12px;
 width: 400px;
@@ -54,4 +54,12 @@ padding: 10px;
 
 .toggle__comments {
     /* margin-top: 1.50rem; */
+}
+
+.icon {
+position: absolute;
+    z-index: 3;
+    margin-left: 20rem;
+    margin-top: -1rem;
+    cursor: pointer;
 }

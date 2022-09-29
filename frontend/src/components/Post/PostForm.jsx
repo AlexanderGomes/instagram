@@ -56,10 +56,11 @@ const PostForm = ({setClose}) => {
 
 
   return (
+  <div className="div__position">
   <div className="form__post">
       <form onSubmit={HandlePost} className='post__form'>
       <div className="icon__position">
-       <AiFillCloseCircle className="icon" size={20} onClick={() => setClose(false) } />
+       <AiFillCloseCircle className="icon__a" size={20} onClick={() => setClose(false) } />
       </div>
         <label className="file__text">What are you thinking ?</label>
         <input
@@ -79,6 +80,8 @@ const PostForm = ({setClose}) => {
         <button className="btn__post" type="submit">make a post</button>
       </form>
     </div>
+  </div>
+
   )
 }
 

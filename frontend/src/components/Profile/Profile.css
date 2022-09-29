@@ -1,0 +1,16 @@
+.profile__div {
+    margin-top: 2rem;
+    display: flex;
+align-items: center;
+}
+
+
+.profile__img {
+    height: 40px;
+    border-radius: 12px;
+}
+
+.btn__profile {
+    margin-left: 1rem;
+    margin-top: 10px;
+}
