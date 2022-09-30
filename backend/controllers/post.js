@@ -49,7 +49,7 @@ const likePost = asyncHandler(async (req, res) => {
       await post.updateOne({ $push: { likes: req.body.userId } });
 
       //putting 2 objs inside of one, both the post being like and the person who liked it
-      const likedPost = await user.updateOne({$push: {notifications: {postLiked: post, userlikedPost: body, type: 'postLike'}}})
+      const likedPost = await user.updateOne({$push: {notifications: {postLiked: post._id, userlikedPost: body._id, type: 'postLike'}}})
       await user.updateOne({$push: {likedPost: likedPost}})
 
 
@@ -57,7 +57,7 @@ const likePost = asyncHandler(async (req, res) => {
     } else {
 
       await post.updateOne({ $pull: { likes: req.body.userId } });
-      const likedPost = await user.updateOne({$pull: {notifications: {postLiked: post, userlikedPost: body, type: 'postLike'}}})
+      const likedPost = await user.updateOne({$pull: {notifications: {postLiked: post._id, userlikedPost: body._id, type: 'postLike'}}})
       await user.updateOne({$pull: {likedPost: likedPost}})
       res.status(200).json('post has been desliked');
     }
@@ -77,12 +77,12 @@ const deslikePost = asyncHandler(async (req, res) => {
     if (!post.dislikes.includes(req.body.userId)) {
       await post.updateOne({ $push: { dislikes: req.body.userId } });
 
-      const deslikedPost = await user.updateOne({$push: {notifications: {postDesLiked: post, userDeslikedPost: body, type: 'postDesliked'}}})
+      const deslikedPost = await user.updateOne({$push: {notifications: {postDesLiked: post._id, userDeslikedPost: body._id, type: 'postDesliked'}}})
       await user.updateOne({$push: {deslikedPost: deslikedPost}})
 
       res.status(200).json("The post has been desliked");
     } else {
-      const deslikedPost = await user.updateOne({$pull: {notifications: {postDesLiked: post, userDeslikedPost: body, type: 'postDesliked'}}})
+      const deslikedPost = await user.updateOne({$pull: {notifications: {postDesLiked: post._id, userDeslikedPost: body._id, type: 'postDesliked'}}})
       await user.updateOne({$pull: {deslikedPost: deslikedPost}})
 
       await post.updateOne({ $pull: { dislikes: req.body.userId } });

@@ -100,20 +100,22 @@ const getUserByUsername = asyncHandler(async (req, res) => {
 const followUser = asyncHandler(async (req, res) => {
   if (req.params.id !== req.body.userId) {
     try {
+
       const user = await User.findById(req.params.id);
       const currentUser = await User.findById(req.body.userId);
+
       if (!user.followers.includes(req.body.userId)) {
         await user.updateOne({ $push: { followers: req.body.userId } });
         await currentUser.updateOne({ $push: { followings: req.params.id } });
         await user.updateOne({
-          $push: { notifications: { userfollowed: currentUser } },
+          $push: { notifications: { userfollowedYou: currentUser._id, type: 'followed' } },
         });
         res.status(200).json("user has been followed");
       } else {
         await user.updateOne({ $pull: { followers: req.body.userId } });
         await currentUser.updateOne({ $pull: { followings: req.params.id } });
         await user.updateOne({
-          $pull: { notifications: { userfollowed: currentUser } },
+          $pull: { notifications: { userfollowed: currentUser._id, type: 'follower removed' } },
         });
         res.status(200).json("user has been unfollowed");
       }
@@ -150,7 +152,7 @@ const getUsersFollowings = asyncHandler(async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     const friends = await Promise.all(
-      user.followers.map((friendId) => {
+      user.followings.map((friendId) => {
         return User.findById(friendId);
       })
     );
@@ -159,7 +161,7 @@ const getUsersFollowings = asyncHandler(async (req, res) => {
 
     friends.map((friend) => {
       const { _id, username, name } = friend;
-      friendList.push({ following: friend });
+      friendList.push(friend);
     });
 
     res.status(200).json(friendList);
@@ -261,6 +263,30 @@ const deslikeUser = asyncHandler(async (req, res) => {
   }
 });
 
+
+const getUsersNotification = asyncHandler(async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    const a = console.log(user.name)
+    // const friends = await Promise.all(
+    //   user.notifications.map((friendId) => {
+    //     return User.findById(friendId);
+    //   })
+    // );
+
+    // let friendList = [];
+
+    // friends.map((friend) => {
+    //   const { _id, username, name } = friend;
+    //   friendList.push(friend);
+    // });
+
+    res.status(200).json(a);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+});
+
 module.exports = {
   registerUser,
   loginUser,
@@ -274,4 +300,5 @@ module.exports = {
   saveFavoritePost,
   likeUser,
   deslikeUser,
+  getUsersNotification
 };

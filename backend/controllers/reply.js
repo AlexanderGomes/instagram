@@ -15,8 +15,8 @@ const addReply = asyncHandler(async (req, res) => {
     const commentReply = await commentOwner.updateOne({
       $push: {
         notifications: {
-          commentReplyed: commentBeingReplyed,
-          userReplyed: ownerOfReply,
+          commentReplyed: commentBeingReplyed._id,
+          userReplyed: ownerOfReply._id,
           type: 'replyCreated'
         },
       },
@@ -73,7 +73,7 @@ const likeReply = asyncHandler(async (req, res) => {
     if (!reply.likes.includes(req.body.userId)) {
 
       const likedReply = await replyOwner.updateOne({
-        $push: { notifications: { likedReply: reply, userLikedReply: body, type: 'replyLiked' } },
+        $push: { notifications: { likedReply: reply._id, userLikedReply: body._id, type: 'replyLiked' } },
       });
       await replyOwner.updateOne({ $push: { likedReply: likedReply } });
 
@@ -83,7 +83,7 @@ const likeReply = asyncHandler(async (req, res) => {
     } else {
 
       const likedReply = await replyOwner.updateOne({
-        $pull: { notifications: { likedReply: reply, userLikedReply: body } },
+        $pull: { notifications: { likedReply: reply._id, userLikedReply: body._id, type: 'replyLiked' } },
       });
       await replyOwner.updateOne({ $pull: { likedReply: likedReply } });
       await reply.updateOne({ $pull: { likes: req.body.userId } });
@@ -104,7 +104,7 @@ const deslikeReply = asyncHandler(async (req, res) => {
 
     if (!reply.deslikes.includes(req.body.userId)) {
       const deslikeReply = await replyOwner.updateOne({
-        $push: { notifications: { deslikedReply: reply, userDeslikedReply: body, type: 'replyDesliked' } },
+        $push: { notifications: { deslikedReply: reply._id, userDeslikedReply: body._id, type: 'replyDesliked' } },
       });
 
       await replyOwner.updateOne({ $push: { deslikedReply: deslikeReply } });
@@ -112,6 +112,11 @@ const deslikeReply = asyncHandler(async (req, res) => {
       await reply.updateOne({ $push: { deslikes: req.body.userId } });
       res.status(200).json("deslike has been added");
     } else {
+      const deslikeReply = await replyOwner.updateOne({
+        $pull: { notifications: { deslikedReply: reply._id, userDeslikedReply: body._id, type: 'replyDesliked'} },
+      });
+
+      await replyOwner.updateOne({ $pull: { deslikedReply: deslikeReply } });
       await reply.updateOne({ $pull: { deslikes: req.body.userId } });
       res.status(200).json("deslike has been removed");
     }

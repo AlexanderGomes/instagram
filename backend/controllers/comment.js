@@ -16,7 +16,7 @@ const addComment = asyncHandler(async (req, res) => {
     const savedComment = await newComment.save();
 
     //put into a variable so you can pass two obj inside of one
-    const likedComment = await user.updateOne({$push: {notifications: {postCommented: body, userCommented: commenting}}})
+    const likedComment = await user.updateOne({$push: {notifications: {postCommented: body._id, userCommented: commenting._id, type: "comment created"}}})
     await user.updateOne({$push: {likedComment: likedComment}})
     res.status(200).json(savedComment);
   } catch (error) {
@@ -35,7 +35,7 @@ const deleteComment = asyncHandler(async (req, res) => {
 
 
     if (comment.userId.toString() === req.body.userId) {
-      const likedComment = await user.updateOne({$pull: {notifications: {postCommented: post, userCommented: commenting}}})
+      const likedComment = await user.updateOne({$pull: {notifications: {postCommented: post._id, userCommented: commenting._id}}})
 
       await user.updateOne({$pull: {likedComment: likedComment}})
       
@@ -93,7 +93,7 @@ const likeComment = asyncHandler(async (req, res) => {
       await comment.updateOne({ $push: { likes: req.body.userId } });
 
       //put into a variable so you can pass two obj inside of one
-      const likedComment = await user.updateOne({$push: {notifications: {commentLiked: comment, userlikedComment: body}}})
+      const likedComment = await user.updateOne({$push: {notifications: {commentLiked: comment._id, userlikedComment: body._id, type: 'commentLiked'}}})
       await user.updateOne({$push: {likedComment: likedComment}})
       
       
@@ -102,7 +102,7 @@ const likeComment = asyncHandler(async (req, res) => {
       await comment.updateOne({ $pull: { likes: req.body.userId } });
 
       //put into a variable so you can pass two obj inside of one
-      const likedComment = await user.updateOne({$pull: {notifications: {commentLiked: comment, userlikedComment: body}}})
+      const likedComment = await user.updateOne({$pull: {notifications: {commentLiked: comment, userlikedComment: body, type: 'commentLiked'}}})
       await user.updateOne({$pull: {likedComment: likedComment}})
 
       res.status(200).json("The comment has been disliked");
@@ -122,7 +122,7 @@ const deslikeComment = asyncHandler(async (req, res) => {
     if (!comment.deslikes.includes(req.body.userId)) {
 
       //put into a variable so you can pass two objs inside of one
-      const deslikedComment = await user.updateOne({$push: {notifications: {commentDesliked: comment, userDeslikedComment: body}}})
+      const deslikedComment = await user.updateOne({$push: {notifications: {commentDesliked: comment._id, userDeslikedComment: body._id, type: "commentDesliked"}}})
       await user.updateOne({$push: {deslikedComment: deslikedComment}})
 
       await comment.updateOne({ $push: { deslikes: req.body.userId } });
@@ -130,7 +130,7 @@ const deslikeComment = asyncHandler(async (req, res) => {
     } else {
 
       //put into a variable so you can pass two obj inside of one
-      const deslikedComment = await user.updateOne({$pull: {notifications: {commentDesliked: comment, userDeslikedComment: body}}})
+      const deslikedComment = await user.updateOne({$pull: {notifications: {commentDesliked: comment._id, userDeslikedComment: body._id, type: "commentDesliked"}}})
       await user.updateOne({$pull: {deslikedComment: deslikedComment}})
 
       await comment.updateOne({ $pull: { deslikes: req.body.userId } });

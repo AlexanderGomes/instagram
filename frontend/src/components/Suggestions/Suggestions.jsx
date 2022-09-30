@@ -13,7 +13,7 @@ const Suggestions = ({ friend }) => {
       await axios.put(`/api/user/${friend._id}/follow`, { userId: user._id });
       window.location.reload();
     } catch (error) {
-      console.lof(error.message);
+      console.log(error.message);
     }
   };
 
