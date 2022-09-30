@@ -14,7 +14,7 @@ getUserByUsername,
 saveFavoritePost,
 likeUser,
 deslikeUser,
-getUsersNotification
+
 } = require("../controllers/user");
 
 router.post("/", registerUser); //check
@@ -24,7 +24,6 @@ router.put("/:id/follow", followUser);//check
 router.put('/:id/like', likeUser)//check
 router.put('/:id/dislike',  deslikeUser)//check
 router.get("/followers/:id",getUsersFollowers);//check //
-router.get("/notification/:id",getUsersNotification);//check //
 router.get("/followings/:id", getUsersFollowings);//check //
 router.get("/:id", getSingleUser);//check //redis
 router.get("/username/:username", getUserByUsername);//check //

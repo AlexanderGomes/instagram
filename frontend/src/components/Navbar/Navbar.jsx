@@ -6,7 +6,7 @@ import {IoIosNotifications} from 'react-icons/io'
 import {BiAddToQueue} from 'react-icons/bi'
 import {AiFillMessage} from 'react-icons/ai'
 import {AiFillCloseCircle} from 'react-icons/ai'
-import {PostForm} from '../'
+import {PostForm, Notifications} from '../'
 import { useSelector } from "react-redux";
 
 
@@ -33,11 +33,24 @@ const FetchUser = async () => {
   };
   FetchUser();
 
+//getting user followings
 
+// const FetchUserLiked = async () => {
+//     useEffect(() => {
+//       axios.get(`/api/user/followings/` + user._id)
+//         .then((res) => {
+//           setUserLiked(res.data);
+//         })
+//         .catch((error) => {
+//           console.log(error.message);
+//         });
+//     }, [setUserLiked]);
+//   };
+//   FetchUserLiked();
 
-const FetchUserLiked = async () => {
+const Notification = async () => {
     useEffect(() => {
-      axios.get(`/api/user/followings/` + user._id)
+      axios.get(`/api/noti/` + user._id)
         .then((res) => {
           setUserLiked(res.data);
         })
@@ -46,11 +59,9 @@ const FetchUserLiked = async () => {
         });
     }, [setUserLiked]);
   };
-  FetchUserLiked();
+  Notification();
 
 
-  console.log(mainUser)
-// console.log(mainUser.followings)
 
   return (
 
@@ -71,12 +82,19 @@ const FetchUserLiked = async () => {
       <div className='nav__upload'>
         {toggle && <PostForm setClose={setToggle} />}
       </div> 
-      {/* {Object.values(userLiked).map((userlike) => (
+      {userLiked.length > 0 ? (
+        Object.values(userLiked).map((userlike) => (
         <>
-        {console.log(userlike)}
-<p>{userlike.name}</p>
+        <Notifications noti={userlike} key={userlike._id} />
         </>
-      ))} */}
+      ))
+      ) : (
+        <p className="post__feed">
+            there's no notifications, let's make some friends.
+      </p>
+      )
+     
+      }
 </div>
   )
 }

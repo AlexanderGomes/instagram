@@ -107,16 +107,10 @@ const followUser = asyncHandler(async (req, res) => {
       if (!user.followers.includes(req.body.userId)) {
         await user.updateOne({ $push: { followers: req.body.userId } });
         await currentUser.updateOne({ $push: { followings: req.params.id } });
-        await user.updateOne({
-          $push: { notifications: { userfollowedYou: currentUser._id, type: 'followed' } },
-        });
         res.status(200).json("user has been followed");
       } else {
         await user.updateOne({ $pull: { followers: req.body.userId } });
         await currentUser.updateOne({ $pull: { followings: req.params.id } });
-        await user.updateOne({
-          $pull: { notifications: { userfollowed: currentUser._id, type: 'follower removed' } },
-        });
         res.status(200).json("user has been unfollowed");
       }
     } catch (err) {
@@ -226,11 +220,6 @@ const likeUser = asyncHandler(async (req, res) => {
 
   try {
     if (!user.love.includes(req.body.userId)) {
-      await user.updateOne({
-        $push: {
-          notifications: { profileLike: "profile Liked", type: "likedProfile" },
-        },
-      });
       await user.updateOne({ $push: { love: req.body.userId } });
       res.status(200).json("user loved");
     } else {
@@ -247,11 +236,6 @@ const deslikeUser = asyncHandler(async (req, res) => {
 
   try {
     if (!user.hate.includes(req.body.userId)) {
-      await user.updateOne({
-        $push: {
-          notifications: { profileHated: "profile Hated", type: "likedHated" },
-        },
-      });
       await user.updateOne({ $push: { hate: req.body.userId } });
       res.status(200).json("user hated");
     } else {
@@ -263,29 +247,6 @@ const deslikeUser = asyncHandler(async (req, res) => {
   }
 });
 
-
-const getUsersNotification = asyncHandler(async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-    const a = console.log(user.name)
-    // const friends = await Promise.all(
-    //   user.notifications.map((friendId) => {
-    //     return User.findById(friendId);
-    //   })
-    // );
-
-    // let friendList = [];
-
-    // friends.map((friend) => {
-    //   const { _id, username, name } = friend;
-    //   friendList.push(friend);
-    // });
-
-    res.status(200).json(a);
-  } catch (error) {
-    res.status(500).json(error.message);
-  }
-});
 
 module.exports = {
   registerUser,
@@ -300,5 +261,4 @@ module.exports = {
   saveFavoritePost,
   likeUser,
   deslikeUser,
-  getUsersNotification
 };

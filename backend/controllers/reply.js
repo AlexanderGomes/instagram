@@ -5,24 +5,11 @@ const Comment = require("../models/comment");
 const dbConnect = require("../utils/dbConnect");
 dbConnect();
 
+
 const addReply = asyncHandler(async (req, res) => {
   const newReply = new Reply(req.body);
 
   try {
-    const ownerOfReply = await User.findById(req.body.userId);
-    const commentBeingReplyed = await Comment.findById(req.body.commentId);
-    const commentOwner = await User.findById(commentBeingReplyed.userId);
-    const commentReply = await commentOwner.updateOne({
-      $push: {
-        notifications: {
-          commentReplyed: commentBeingReplyed._id,
-          userReplyed: ownerOfReply._id,
-          type: 'replyCreated'
-        },
-      },
-    });
-    await commentOwner.updateOne({ $push: { commentReply: commentReply } });
-
     const savedReply = await newReply.save();
     res.status(200).json(savedReply);
   } catch (error) {
@@ -64,28 +51,13 @@ const getreply = asyncHandler(async (req, res) => {
 });
 
 const likeReply = asyncHandler(async (req, res) => {
-  const reply = await Reply.findById(req.params.id);//reply
-  const replyOwner = await User.findById(reply.userId);//reply owner
-  const body = await User.findById(req.body.userId);//liking reply
+  const reply = await Reply.findById(req.params.id); //reply
 
   try {
-
     if (!reply.likes.includes(req.body.userId)) {
-
-      const likedReply = await replyOwner.updateOne({
-        $push: { notifications: { likedReply: reply._id, userLikedReply: body._id, type: 'replyLiked' } },
-      });
-      await replyOwner.updateOne({ $push: { likedReply: likedReply } });
-
-
       await reply.updateOne({ $push: { likes: req.body.userId } });
       res.status(200).json("The reply has been liked");
     } else {
-
-      const likedReply = await replyOwner.updateOne({
-        $pull: { notifications: { likedReply: reply._id, userLikedReply: body._id, type: 'replyLiked' } },
-      });
-      await replyOwner.updateOne({ $pull: { likedReply: likedReply } });
       await reply.updateOne({ $pull: { likes: req.body.userId } });
       res.status(200).json("The reply has been disliked");
     }
@@ -94,29 +66,14 @@ const likeReply = asyncHandler(async (req, res) => {
   }
 });
 
+
 const deslikeReply = asyncHandler(async (req, res) => {
   const reply = await Reply.findById(req.params.id);
-  const body = await User.findById(req.body.userId);
-  const replyOwner =  await User.findById(reply.userId)
-
-
   try {
-
     if (!reply.deslikes.includes(req.body.userId)) {
-      const deslikeReply = await replyOwner.updateOne({
-        $push: { notifications: { deslikedReply: reply._id, userDeslikedReply: body._id, type: 'replyDesliked' } },
-      });
-
-      await replyOwner.updateOne({ $push: { deslikedReply: deslikeReply } });
-
       await reply.updateOne({ $push: { deslikes: req.body.userId } });
       res.status(200).json("deslike has been added");
     } else {
-      const deslikeReply = await replyOwner.updateOne({
-        $pull: { notifications: { deslikedReply: reply._id, userDeslikedReply: body._id, type: 'replyDesliked'} },
-      });
-
-      await replyOwner.updateOne({ $pull: { deslikedReply: deslikeReply } });
       await reply.updateOne({ $pull: { deslikes: req.body.userId } });
       res.status(200).json("deslike has been removed");
     }

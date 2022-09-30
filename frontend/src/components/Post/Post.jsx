@@ -37,17 +37,10 @@ const Post = ({ post }) => {
   };
   FetchUser();
 
-  useEffect(() => {
-    setIsLiked(post.likes.includes(user._id));
-  }, [user._id, post.likes]);
-
-  useEffect(() => {
-    setIsLiked(post.dislikes.includes(user._id));
-  }, [user._id, post.dislikes]);
-
-  const likeHandler = () => {
+  
+  const likeHandler = async () => {
     try {
-      axios.put("/api/post/like/" + post._id, { userId: user._id });
+     await axios.put("/api/post/like/" + post._id, { userId: user._id });
     } catch (err) {
       console.log(err.message);
     }
@@ -65,6 +58,13 @@ const Post = ({ post }) => {
     setIsDeslike(!isDeslike);
   };
 
+  useEffect(() => {
+    setIsLiked(post.likes.includes(user._id));
+  }, [user._id, post.likes]);
+
+  useEffect(() => {
+    setIsLiked(post.dislikes.includes(user._id));
+  }, [user._id, post.dislikes]);
 
   const GetPosts = async () => {
     useEffect(() => {
@@ -94,6 +94,7 @@ const Post = ({ post }) => {
      console.log(error)
   }
 }
+
 
 const icon = user._id === post.userId ? <TiDelete size={20} onClick={deletePost} /> : ''
 

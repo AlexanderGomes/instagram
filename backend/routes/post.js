@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {createPost, updatePost, deletePost, likePost, deslikePost, getPostByUsername, getPostById, getTimelinePost, getReply } = require('../controllers/post')
+const {createPost, updatePost, deletePost, likePost, deslikePost, getPostByUsername, getPostById, getTimelinePost } = require('../controllers/post')
 
 
 router.post('/',createPost)//check

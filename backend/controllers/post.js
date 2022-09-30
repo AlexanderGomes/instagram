@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Post = require("../models/post");
 const User = require("../models/user");
-
+const Noti = require("../models/notifications");
 
 const createPost = asyncHandler(async (req, res) => {
   const newPost = new Post(req.body);
@@ -12,7 +12,6 @@ const createPost = asyncHandler(async (req, res) => {
     res.status(400).json(error.message);
   }
 });
-
 
 const updatePost = asyncHandler(async (req, res) => {
   try {
@@ -26,40 +25,48 @@ const updatePost = asyncHandler(async (req, res) => {
   }
 });
 
-
 const deletePost = asyncHandler(async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-      await post.deleteOne(post);
-      res.status(200).json({ message: "post deleted" });
+
+    await post.deleteOne(post);
+
+  
+ 
+    res.status(200).json({ message: "post deleted" });
   } catch (error) {
     res.status(400).json(error.message);
   }
 });
 
-
-
 const likePost = asyncHandler(async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id);//post being liked
-    const user = await User.findById(post.userId) // owner of the post
-    const body = await User.findById(req.body.userId) //person liking the post
+    const post = await Post.findById(req.params.id); //post being liked
+    const sender = await User.findById(req.body.userId); // liking post
+    const recipient = await User.findById(post.userId); // post owner
 
     if (!post.likes.includes(req.body.userId)) {
       await post.updateOne({ $push: { likes: req.body.userId } });
 
-      //putting 2 objs inside of one, both the post being like and the person who liked it
-      const likedPost = await user.updateOne({$push: {notifications: {postLiked: post._id, userlikedPost: body._id, type: 'postLike'}}})
-      await user.updateOne({$push: {likedPost: likedPost}})
+      const notification = await Noti.create({
+        recipient: recipient._id,
+        eventId: post._id,
+        sender: sender._id,
+        type: "liked your post",
+      });
 
-
-      res.status(200).json('post has been liked');
+      res.status(200).json("post has been liked");
     } else {
-
       await post.updateOne({ $pull: { likes: req.body.userId } });
-      const likedPost = await user.updateOne({$pull: {notifications: {postLiked: post._id, userlikedPost: body._id, type: 'postLike'}}})
-      await user.updateOne({$pull: {likedPost: likedPost}})
-      res.status(200).json('post has been desliked');
+
+      const notification = await Noti.deleteOne({
+        recipient: recipient._id,
+        eventId: post._id,
+        sender: sender._id,
+        type: "liked your post",
+      });
+
+      res.status(200).json("post has been desliked");
     }
   } catch (err) {
     res.status(500).json(err);
@@ -67,25 +74,32 @@ const likePost = asyncHandler(async (req, res) => {
 });
 
 
-
 const deslikePost = asyncHandler(async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id);//post being liked
-    const user = await User.findById(post.userId) // owner of the post
-    const body = await User.findById(req.body.userId) //person liking the post
+    const post = await Post.findById(req.params.id); //post being liked
+    const sender = await User.findById(req.body.userId); // liking post
+    const recipient = await User.findById(post.userId); // post owner
 
     if (!post.dislikes.includes(req.body.userId)) {
       await post.updateOne({ $push: { dislikes: req.body.userId } });
 
-      const deslikedPost = await user.updateOne({$push: {notifications: {postDesLiked: post._id, userDeslikedPost: body._id, type: 'postDesliked'}}})
-      await user.updateOne({$push: {deslikedPost: deslikedPost}})
-
+      const notification = await Noti.create({
+        recipient: recipient._id,
+        eventId: post._id,
+        sender: sender._id,
+        type: "desliked your post",
+      });
       res.status(200).json("The post has been desliked");
-    } else {
-      const deslikedPost = await user.updateOne({$pull: {notifications: {postDesLiked: post._id, userDeslikedPost: body._id, type: 'postDesliked'}}})
-      await user.updateOne({$pull: {deslikedPost: deslikedPost}})
 
+    } else {
       await post.updateOne({ $pull: { dislikes: req.body.userId } });
+
+      const notification = await Noti.deleteOne({
+        recipient: recipient._id,
+        eventId: post._id,
+        sender: sender._id,
+        type: "desliked your post",
+      });
       res.status(200).json("The  disliked has been removed");
     }
   } catch (err) {
@@ -97,45 +111,38 @@ const deslikePost = asyncHandler(async (req, res) => {
 
 const getPostByUsername = asyncHandler(async (req, res) => {
   try {
-      const user = await User.findOne({ username: req.params.username });
-      const posts = await Post.find({ userId: user._id });
-      res.status(200).json(posts);
-
+    const user = await User.findOne({ username: req.params.username });
+    const posts = await Post.find({ userId: user._id });
+    res.status(200).json(posts);
   } catch (err) {
     res.status(500).json(err.message);
   }
 });
 
-
-
 const getTimelinePost = asyncHandler(async (req, res) => {
   try {
-      const currentUser = await User.findById(req.params.userId);
-      const userPosts = await Post.find({ userId: currentUser._id });
-      const friendPosts = await Promise.all(
-        currentUser.followings.map((friendId) => {
-          return Post.find({ userId: friendId });
-        })
-      );
-      const posts = userPosts.concat(...friendPosts)
-      res.status(200).json(posts);
-
+    const currentUser = await User.findById(req.params.userId);
+    const userPosts = await Post.find({ userId: currentUser._id });
+    const friendPosts = await Promise.all(
+      currentUser.followings.map((friendId) => {
+        return Post.find({ userId: friendId });
+      })
+    );
+    const posts = userPosts.concat(...friendPosts);
+    res.status(200).json(posts);
   } catch (err) {
     res.status(500).json(err);
   }
 });
-
 
 const getPostById = asyncHandler(async (req, res) => {
   try {
-      const post = await Post.findById(req.params.id);
-      res.status(200).json(post);
+    const post = await Post.findById(req.params.id);
+    res.status(200).json(post);
   } catch (err) {
     res.status(500).json(err);
   }
 });
-
-
 
 module.exports = {
   createPost,
