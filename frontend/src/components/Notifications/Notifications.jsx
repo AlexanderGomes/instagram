@@ -43,7 +43,7 @@ const Notifications = ({noti}) => {
 
   return (
     <div>
-        <p>{sender&&sender.name} {noti&&noti.type} {post&&post.text}</p>
+        <p>{sender&&sender.name} {noti&&noti.type} {post ? post.text : ' this post was deleted'}</p>
     </div>
   )
 }
