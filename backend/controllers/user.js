@@ -82,13 +82,7 @@ const getUserByUsername = asyncHandler(async (req, res) => {
   try {
     const user = await User.findOne({ username: req.params.username });
     if (user) {
-      res.status(201).json({
-        _id: user.id,
-        name: user.name,
-        username: user.username,
-        email: user.email,
-        token: generateToken(user._id),
-      });
+      res.status(201).json(user);
     } else {
       res.status(400).json("invalid user data");
     }

@@ -66,6 +66,7 @@ const Post = ({ post }) => {
     setIsLiked(post.dislikes.includes(user._id));
   }, [user._id, post.dislikes]);
 
+  
   const GetPosts = async () => {
     useEffect(() => {
       axios
@@ -80,7 +81,7 @@ const Post = ({ post }) => {
         .catch((error) => {
           console.log(error.message);
         });
-    }, [setComments]);
+    }, []);
   };
   GetPosts();
 
@@ -132,10 +133,9 @@ const icon = user._id === post.userId ? <TiDelete size={20} onClick={deletePost}
             {toggle &&
               (comments.length > 0 ? (
                 comments.map((comment) => (
-                  <div>
+                  <div key={comment._id}>
                     <Comments
                       className="main"
-                      key={comment._id}
                       comment={comment}
                       post={post}
                     />
@@ -145,7 +145,8 @@ const icon = user._id === post.userId ? <TiDelete size={20} onClick={deletePost}
                 <>
                   <p>No comments</p>
                 </>
-              ))}
+              ))
+              }
           </div>
         </div>
       </div>

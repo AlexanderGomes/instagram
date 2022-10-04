@@ -12,6 +12,8 @@ import { useSelector } from "react-redux";
 
 const Navbar = () => {
 const [toggle, setToggle] = useState(false)
+const [open, setOpen] = useState(false)
+
 const [mainUser, setUsers] = useState([])
 const [userLiked, setUserLiked] = useState({})
 
@@ -73,7 +75,7 @@ const Notification = async () => {
       <div className='nav__links'>
        <ul className='nav__links__ul'>
          <li><BiAddToQueue size={30} onClick={() => setToggle(true)} /></li>
-         <li><IoIosNotifications size={30} /></li>
+         <li><IoIosNotifications size={30} onClick={() => setOpen(true)} /><span className='noti'>{userLiked.length}</span></li>
          <li><AiFillMessage size={30}/></li>
        </ul>
       </div>
@@ -81,11 +83,17 @@ const Notification = async () => {
 
       <div className='nav__upload'>
         {toggle && <PostForm setClose={setToggle} />}
+        {open && <Notifications  setOpen={setOpen}/>}
+        
       </div> 
-      {userLiked.length > 0 ? (
+
+      {open && 
+      (userLiked.length > 0 ? (
         Object.values(userLiked).map((userlike) => (
         <>
-        <Notifications noti={userlike} key={userlike._id} />
+        <div key={userlike._id}>
+        <Notifications noti={userlike} />
+        </div>
         </>
       ))
       ) : (
@@ -94,7 +102,7 @@ const Notification = async () => {
       </p>
       )
      
-      }
+      )}
 </div>
   )
 }
