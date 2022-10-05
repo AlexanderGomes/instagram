@@ -6,6 +6,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout, reset } from "../../features/auth/authSlice";
 import noAvatar from "../../assets/noAvatar.png";
 import { Suggestions } from "../";
+import {Link} from 'react-router-dom'
+
 
 const Profile = () => {
   const [friends, setFriends] = useState([]);
@@ -51,9 +53,11 @@ const Profile = () => {
   return (
     <div className="profile__main">
       <div className="profile__div">
+      <Link to={'/profile/' + user.username}>
         <div className="profile__img__div">
           <img src={defaultImg} alt="" className="profile__img" />
         </div>
+      </Link>
         <div className="profile__info">
           <p>{user.name}</p>
           <p>{user.username}</p>

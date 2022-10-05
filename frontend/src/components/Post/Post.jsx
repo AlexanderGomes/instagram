@@ -8,6 +8,7 @@ import { AiFillDislike } from "react-icons/ai";
 import {TiDelete} from 'react-icons/ti'
 import { format } from "timeago.js";
 import { Comments, CommentsForm } from "../";
+import { Link } from "react-router-dom";
 
 const Post = ({ post }) => {
   const [users, setUser] = useState([]);
@@ -106,7 +107,9 @@ const icon = user._id === post.userId ? <TiDelete size={20} onClick={deletePost}
       <div className="post__main">
         <div className="user__information">
           <div className="img__div">
+          <Link to={'/profile/' + users.username}>
             <img className="post__img" src={defaultImg} alt="profileImg" />
+          </Link>
           </div>
           <div className="text__div">
             <p>{users.name}</p>
