@@ -17,7 +17,7 @@ const registerUser = asyncHandler(async (req, res) => {
   if (findUser) {
     return res.status(400).json({ msg: "User already exists" });
   }
-
+ 
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
 
@@ -242,6 +242,30 @@ const deslikeUser = asyncHandler(async (req, res) => {
 });
 
 
+//update user
+const updateUser = asyncHandler( async (req, res) => {
+  if (req.body.userId === req.params.id) {
+    if (req.body.password) {
+      try {
+        const salt = await bcrypt.genSalt(10);
+        req.body.password = await bcrypt.hash(req.body.password, salt);
+      } catch (err) {
+        return res.status(500).json(err);
+      }
+    }
+    try {
+      const user = await User.findByIdAndUpdate(req.params.id, {
+        $set: req.body,
+      });
+      res.status(200).json("Account has been updated");
+    } catch (err) {
+      return res.status(500).json(err);
+    }
+  } else {
+    return res.status(403).json("You can update only your account!");
+  }
+});
+
 module.exports = {
   registerUser,
   loginUser,
@@ -255,4 +279,5 @@ module.exports = {
   saveFavoritePost,
   likeUser,
   deslikeUser,
+  updateUser
 };

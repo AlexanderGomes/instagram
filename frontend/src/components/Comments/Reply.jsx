@@ -10,7 +10,7 @@ import { AiFillDislike } from "react-icons/ai";
 const Reply = ({comment}) => {
     const [users, setUsers] = useState([]);
     const { user } = useSelector((state) => state.auth);
-    const defaultImg = user.profilePicture ? user.profilePicture : noAvatar;
+    const defaultImg = users.profilePicture ? users.profilePicture : noAvatar;
     const [desc, setDesc] = useState(null);
     const [reply, setReply] = useState([]);
     const [like, setLike] = useState(comment.likes.length);

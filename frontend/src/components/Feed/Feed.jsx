@@ -129,7 +129,7 @@ if(!posts) return <p>loading...</p>
      </div>
 
      <div className='feed__profile__card'>
-     {/* <Profile /> */}
+     <Profile />
      </div>
     </div>
   )

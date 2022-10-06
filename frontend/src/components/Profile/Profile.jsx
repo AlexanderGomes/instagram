@@ -12,12 +12,21 @@ import {Link} from 'react-router-dom'
 const Profile = () => {
   const [friends, setFriends] = useState([]);
   const [visible, setVisible] = useState(5)
+  const [users, setUsers] = useState([])
 
   const { user } = useSelector((state) => state.auth);
-  const defaultImg = user.profilePicture ? user.profilePicture : noAvatar;
+  const defaultImg = users.profilePicture ? users.profilePicture : noAvatar;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const res = await axios.get(`/api/user/${user._id}`);
+      setUsers(res.data);
+    };
+    fetchUser();
+  }, [user._id]);
 
   const onLogout = () => {
     dispatch(logout());

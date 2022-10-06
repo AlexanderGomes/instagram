@@ -46,6 +46,10 @@ const Register = () => {
 
     if (password !== password2) {
       toast("Passwords do not match");
+      if(username.isError) {
+        toast("Passwords do not match");
+
+      }
     } else {
       const userData = {
         name,

@@ -14,7 +14,7 @@ getUserByUsername,
 saveFavoritePost,
 likeUser,
 deslikeUser,
-
+updateUser
 } = require("../controllers/user");
 
 router.post("/", registerUser); //check
@@ -22,6 +22,7 @@ router.post("/login", loginUser);//check
 router.get("/all", getAllUsers);//check //
 router.put("/:id/follow", followUser);//check
 router.put('/:id/like', likeUser)//check
+router.put('/update/:id', updateUser)//check
 router.put('/:id/dislike',  deslikeUser)//check
 router.get("/followers/:id",getUsersFollowers);//check //
 router.get("/followings/:id", getUsersFollowings);//check //

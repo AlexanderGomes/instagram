@@ -21,7 +21,7 @@ const Post = ({ post }) => {
   const [isDeslike, setIsDeslike] = useState(false);
   const [comments, setComments] = useState([]);
 
-  const defaultImg = user.profilePicture ? user.profilePicture : noAvatar;
+  const defaultImg = users.profilePicture ? users.profilePicture : noAvatar;
 
 
   const FetchUser = async () => {

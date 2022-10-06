@@ -23,17 +23,9 @@ const PostForm = ({setClose}) => {
    
   
        try {
-        if(!file) {
-        const newPost = {
-           userId: user._id,
-           text
-         };
-         await axios.post("/api/post", newPost);
-         setText('')
-         window.location.reload();
-        //  toast('reload the page')
-        } else {
-     const uploadRes = await axios.post(
+        if(file) {
+
+        const uploadRes = await axios.post(
            "https://api.cloudinary.com/v1_1/ddphqky8w/image/upload",
            data
          );
@@ -41,13 +33,21 @@ const PostForm = ({setClose}) => {
    
          const newPost2 = {
            userId: user._id,
-           text,
            img: url,
+           text,
          };
         try {
           await axios.post("/api/post", newPost2);
           window.location.reload();
         } catch (err) {}
+        } else {
+     const newPost = {
+           userId: user._id,
+           text
+         };
+         await axios.post("/api/post", newPost);
+         setText('')
+         window.location.reload();
         }
        } catch (err) {
          console.log(err.message);
