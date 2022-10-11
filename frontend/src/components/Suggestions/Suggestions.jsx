@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom'
 
 const Suggestions = ({ friend }) => {
   const { user } = useSelector((state) => state.auth);
-  const defaultImg = user.profilePicture ? user.profilePicture : noAvatar;
+  const defaultImg = friend.profilePicture ? friend.profilePicture : noAvatar;
 
   const Follow = async () => {
     try {

@@ -88,7 +88,7 @@ const Post = ({ post }) => {
 
   const deletePost = () => {
   try {
-    if(window.confirm('Are you sure you wish to delete your post?') == true){
+    if(window.confirm('Are you sure you wish to delete your post?') === true){
       axios.delete("/api/post/" + post._id)
       window.location.reload();
     }

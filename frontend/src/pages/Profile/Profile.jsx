@@ -24,7 +24,7 @@ const Profile = () => {
   const [toggle3, setToggle3] = useState(false);
 
 
- // docs profile// future features: display saved posts here and take it to whoever profile is it from
+ // docs profile// future features // : display saved posts here and take it to whoever profile is it from
 
 
 
@@ -36,6 +36,7 @@ const Profile = () => {
     };
     fetchUser();
   }, [username]);
+
 
   //docs profile// getting post by username
   const GetPosts = async () => {
@@ -130,14 +131,17 @@ const Profile = () => {
     }
   };
 
-  //docs profile// handling cover picture in case the user don't have one//
+  //docs profile// handling cover picture in case the user doesn't have one//
   const backgroundDefault = users.coverPicture
     ? users.coverPicture
     : background;
 
-  //docs profile// handling profile picture in case the user don't have one//
+
+  //docs profile// handling profile picture in case the user doesn't have one//
   const defaultImg = users.profilePicture ? users.profilePicture : noAvatar;
 
+
+  
   return (
     <div className="profile__main">
       <Navbar />
@@ -151,6 +155,7 @@ const Profile = () => {
           <p>{users.name}</p>
           <p>{users.username && users.username}</p>
           {/* solve bio issue who  you show the sentence to */}
+          
           {/* {user._id === users._id && !user.desc || !users.desc ?  (
           <p>What are you thinking?</p>
           ) : (

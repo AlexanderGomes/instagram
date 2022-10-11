@@ -15,7 +15,6 @@ import { Link } from 'react-router-dom'
 const Navbar = () => {
 const [toggle, setToggle] = useState(false)
 const [open, setOpen] = useState(false)
-
 const [mainUser, setUsers] = useState([])
 const [userLiked, setUserLiked] = useState({})
 
@@ -90,7 +89,6 @@ const Notification = async () => {
       <div className='nav__upload'>
         {toggle && <PostForm setClose={setToggle} />}
         {open && <Notifications  setOpen={setOpen}/>}
-        
       </div> 
 
       {open && 
@@ -109,6 +107,7 @@ const Notification = async () => {
       )
      
       )}
+
 </div>
   )
 }
