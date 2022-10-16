@@ -165,7 +165,8 @@ const saveFavoritePost = asyncHandler(async (req, res) => {
       await user.updateOne({ $push: { savedPost: req.body.postId } });
       res.status(200).json("post has been saved");
     } else {
-      res.status(403).json("post is already saved");
+      await user.updateOne({ $pull: { savedPost: req.body.postId } });
+      res.status(200).json("post removed");
     }
   } catch (error) {
     res.status(500).json(error.message);
@@ -184,8 +185,7 @@ const getUserSavedPosts = asyncHandler(async (req, res) => {
     let savedPostList = [];
 
     savedPosts.map((post) => {
-      const { _id, text, img, userId, likes, deslikes } = post;
-      savedPostList.push({ post: post });
+      savedPostList.push(post);
     });
 
     res.status(200).json(savedPostList);

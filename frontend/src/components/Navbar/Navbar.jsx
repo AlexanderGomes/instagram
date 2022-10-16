@@ -51,6 +51,8 @@ const FetchUser = async () => {
 //   };
 //   FetchUserLiked();
 
+
+
 const Notification = async () => {
     useEffect(() => {
       axios.get(`/api/noti/` + user._id)

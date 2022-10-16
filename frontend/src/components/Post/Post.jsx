@@ -6,6 +6,7 @@ import noAvatar from "../../assets/noAvatar.png";
 import { AiFillLike } from "react-icons/ai";
 import { AiFillDislike } from "react-icons/ai";
 import {TiDelete} from 'react-icons/ti'
+import {MdSaveAlt} from 'react-icons/md'
 import { format } from "timeago.js";
 import { Comments, CommentsForm } from "../";
 import { Link } from "react-router-dom";
@@ -101,6 +102,14 @@ const Post = ({ post }) => {
 const icon = user._id === post.userId ? <TiDelete size={20} onClick={deletePost} /> : ''
 
 
+const savedPost = async () => {
+  try {
+    await axios.put(`/api/user/saved/${user._id}`, { postId: post._id });
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
 
   return (
     <div className="post__main__div">
@@ -126,6 +135,7 @@ const icon = user._id === post.userId ? <TiDelete size={20} onClick={deletePost}
           <p>{like} love</p>
           <AiFillDislike onClick={deslikeHandler} />
           <p>{deslike} hate</p>
+          <MdSaveAlt className="icon__saved" size={30}  onClick={savedPost}/>
         </div>
         <div className="post__bottom">
           <p className="comments" onClick={() => setToggle(true)}>

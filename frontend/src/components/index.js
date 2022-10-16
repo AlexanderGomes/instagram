@@ -9,7 +9,7 @@ export {default as ReplyForm} from './Comments/ReplyForm'
 export {default as Profile} from './Profile/Profile'
 export {default as Suggestions} from './Suggestions/Suggestions'
 export {default as Notifications} from './Notifications/Notifications'
-
+export {default as SavedPost} from './savedPost/savedPost'
 
 
 

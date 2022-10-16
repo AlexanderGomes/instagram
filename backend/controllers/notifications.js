@@ -12,7 +12,6 @@ const getNotification = asyncHandler(async (req, res) => {
     try {
     const user = await User.findById(req.params.id);
     const noti = await Noti.find({recipient: user._id});
-    console.log(noti)
     res.status(200).json(noti);
   } catch (err) {
     res.status(500).json(err);

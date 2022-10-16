@@ -28,7 +28,7 @@ router.get("/followers/:id",getUsersFollowers);//check //
 router.get("/followings/:id", getUsersFollowings);//check //
 router.get("/:id", getSingleUser);//check //redis
 router.get("/username/:username", getUserByUsername);//check //
-router.put("/savedPosts/:id", saveFavoritePost);//check
+router.put("/saved/:id", saveFavoritePost);//check
 router.get("/favorite/:id", getUserSavedPosts);//check //
 
 

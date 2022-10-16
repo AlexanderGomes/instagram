@@ -6,7 +6,7 @@ import noAvatar from "../../assets/noAvatar.png";
 import background from "../../assets/default.png";
 import { Navbar, Feed } from "../../components";
 import { AiFillEdit } from "react-icons/ai";
-import { BiColorFill } from "react-icons/bi";
+import {SavedPost} from '../../components'
 import { useSelector } from "react-redux";
 
 const Profile = () => {
@@ -22,7 +22,7 @@ const Profile = () => {
   const [toggle, setToggle] = useState(false);
   const [toggle2, setToggle2] = useState(false);
   const [toggle3, setToggle3] = useState(false);
-
+  const [savedPostInfo, setSaved] = useState([])
 
  // docs profile// future features // : display saved posts here and take it to whoever profile is it from
 
@@ -139,6 +139,20 @@ const Profile = () => {
 
   //docs profile// handling profile picture in case the user doesn't have one//
   const defaultImg = users.profilePicture ? users.profilePicture : noAvatar;
+
+
+  //fetch saved post ids from user array and then fetch posts with that information
+  //two functions
+  useEffect(() => {
+    const savedPostInfo = async () => {
+      const res = await axios.get(`/api/user/favorite/${user._id}`);
+      setSaved(res.data.sort((p1, p2) => {
+        return new Date(p2.createdAt) - new Date(p1.createdAt);
+      }));
+    };
+    savedPostInfo();
+  }, [setSaved]);
+
 
 
   
@@ -263,6 +277,20 @@ const Profile = () => {
       <div className="prof__post">
         <Feed username={username} />
       </div>
+
+      {savedPostInfo.length > 0 ? (
+        savedPostInfo?.map((sav) => (
+        <div key={sav._id}>
+           <SavedPost saved={sav} />
+        </div>
+      ))
+      ) : (
+        <div>
+          <p>No posts saved</p>
+        </div>
+      )}
+      
+
     </div>
   );
 };
