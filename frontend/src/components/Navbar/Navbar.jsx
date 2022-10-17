@@ -16,7 +16,7 @@ const Navbar = () => {
 const [toggle, setToggle] = useState(false)
 const [open, setOpen] = useState(false)
 const [mainUser, setUsers] = useState([])
-const [userLiked, setUserLiked] = useState({})
+const [userLiked, setUserLiked] = useState([])
 
 
 const { user } = useSelector((state) => state.auth);
@@ -96,11 +96,11 @@ const Notification = async () => {
       {open && 
       (userLiked.length > 0 ? (
         Object.values(userLiked).map((userlike) => (
-        <>
+
         <div key={userlike._id}>
         <Notifications noti={userlike} />
         </div>
-        </>
+
       ))
       ) : (
         <p className="post__feed">

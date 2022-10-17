@@ -27,9 +27,9 @@ const Suggestions = ({ friend }) => {
       {!following ? (
         <div>
           <div>
-          <Link to={'/profile/' + friend.username}>
+          <a href={'/profile/' + friend.username}>
             <img className="suggestion__img" src={defaultImg} alt="" />
-          </Link>
+          </a>
           </div>
           <div className="suggestion__all">
             <div className="suggestion__name">

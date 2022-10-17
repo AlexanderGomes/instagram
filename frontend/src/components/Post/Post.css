@@ -73,3 +73,7 @@ position: absolute;
 margin-top: -1rem;
 cursor: pointer;
 }
+
+.bottom {
+    margin-bottom: 2rem;
+}

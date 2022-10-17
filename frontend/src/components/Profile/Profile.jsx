@@ -62,11 +62,11 @@ const Profile = () => {
   return (
     <div className="profile__main">
       <div className="profile__div">
-      <Link to={'/profile/' + user.username}>
+      <a href={'/profile/' + user.username}>
         <div className="profile__img__div">
           <img src={defaultImg} alt="" className="profile__img" />
         </div>
-      </Link>
+      </a>
         <div className="profile__info">
           <p>{user.name}</p>
           <p>{user.username}</p>

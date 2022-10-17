@@ -38,7 +38,7 @@ const GetReply = async () => {
     }, [setReply]);
   };
   GetReply();
-  console.log(reply);
+
   
 
   const FetchUser = async () => {

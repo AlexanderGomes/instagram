@@ -102,9 +102,11 @@ const Post = ({ post }) => {
 const icon = user._id === post.userId ? <TiDelete size={20} onClick={deletePost} /> : ''
 
 
-const savedPost = async () => {
+const savedPost = async (e) => {
+  e.preventDefault()
   try {
     await axios.put(`/api/user/saved/${user._id}`, { postId: post._id });
+    window.location.reload();
   } catch (error) {
     console.log(error.message);
   }
