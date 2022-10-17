@@ -5,10 +5,15 @@ import noAvatar from "../../assets/noAvatar.png";
 import {AiFillCloseCircle} from 'react-icons/ai'
 
 
+//to-do// fix the bugs with the notification, desplaying an invisible intial 
+//value even when nothing was deleted
 const Notifications = ({ noti, setOpen }) => {
   const [sender, setSender] = useState([null]);
   const [post, setPost] = useState([null]);
 
+
+
+  //to-do// Improve this function, I don't think that's the right way to do it
   const GetSender = async () => {
     useEffect(() => {
       if (noti) {
@@ -28,6 +33,7 @@ const Notifications = ({ noti, setOpen }) => {
   GetSender();
 
 
+  //to-do// Improve this function, I don't think that's the right way to do it
   const GetPost = async () => {
     useEffect(() => {
       if (noti) {
@@ -44,7 +50,9 @@ const Notifications = ({ noti, setOpen }) => {
   };
   GetPost();
 
+
   const defaultImg = sender.profilePicture ? sender.profilePicture : noAvatar;
+
 
   return (
     <div className="noti__main">

@@ -141,8 +141,7 @@ const Profile = () => {
   const defaultImg = users.profilePicture ? users.profilePicture : noAvatar;
 
 
-  //fetch saved post ids from user array and then fetch posts with that information
-  //two functions
+  //fetching the saved posts from the user
   useEffect(() => {
     const savedPostInfo = async () => {
       const res = await axios.get(`/api/user/favorite/${user._id}`);
@@ -168,6 +167,7 @@ const Profile = () => {
         <div className="prof__info">
           <p>{users.name}</p>
           <p>{users.username && users.username}</p>
+          {/* to-do */}
           {/* solve bio issue who  you show the sentence to */}
           
           {/* {user._id === users._id && !user.desc || !users.desc ?  (

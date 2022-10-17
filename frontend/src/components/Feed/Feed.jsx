@@ -6,52 +6,14 @@ import { useNavigate } from "react-router-dom";
 import './Feed.css'
 
 
-
+//to-do// improve how you fetch data for the profile and the timeline, you found a good solution but maybe
+//there's a better one
 const Feed = ({username}) => {
 
   const [posts, setPosts] = useState([]);
   const [second, setSecond] = useState([])
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
-
-
-
-
-//   const GetPosts = async () => {
-//     useEffect(() => {
-//       // const res = username
-//          axios
-//         .get(`/api/post/timeline/${user._id}`)
-//         .then((res) => {
-//           setPosts(
-//             res.data.sort((p1, p2) => {
-//               return new Date(p2.createdAt) - new Date(p1.createdAt);
-//             })
-//           );
-//         })
-//         .catch((error) => {
-//           console.log(error.message);
-//         });
-//     }, [setPosts]);
-//   };
-//   GetPosts();
-
-// console.log(username)
-
-  // useEffect(() => {
-  //   const fetchPosts = async () => {
-  //     const res = username
-  //       ? await axios.get("/api/post/profile/" + username)
-  //       : await axios.get("/api/post/timeline/" + user._id);
-  //     setPosts(
-  //       res.data.sort((p1, p2) => {
-  //         return new Date(p2.createdAt) - new Date(p1.createdAt);
-  //       })
-  //     );
-
-  //   fetchPosts();
-  // }
-  // }, [username, user._id]);
 
 
   useEffect(() => {
