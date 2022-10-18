@@ -24,7 +24,7 @@ const Post = ({ post }) => {
 
   const defaultImg = users.profilePicture ? users.profilePicture : noAvatar;
 
-
+// getting user by post.userId
   const FetchUser = async () => {
     useEffect(() => {
       axios
@@ -39,6 +39,7 @@ const Post = ({ post }) => {
   };
   FetchUser();
 
+  
   
   const likeHandler = async () => {
     try {
@@ -60,6 +61,7 @@ const Post = ({ post }) => {
     setIsDeslike(!isDeslike);
   };
 
+  
   useEffect(() => {
     setIsLiked(post.likes.includes(user._id));
   }, [user._id, post.likes]);
@@ -68,8 +70,9 @@ const Post = ({ post }) => {
     setIsLiked(post.dislikes.includes(user._id));
   }, [user._id, post.dislikes]);
 
+
   
-  const GetPosts = async () => {
+  const GetComments = async () => {
     useEffect(() => {
       axios
         .get(`/api/comment/${post._id}`)
@@ -85,7 +88,7 @@ const Post = ({ post }) => {
         });
     }, []);
   };
-  GetPosts();
+  GetComments();
 
   const deletePost = () => {
   try {
@@ -99,10 +102,10 @@ const Post = ({ post }) => {
 }
 
 
-const icon = user._id === post.userId ? <TiDelete size={20} onClick={deletePost} /> : ''
+const deleteIcon = user._id === post.userId ? <TiDelete size={20} onClick={deletePost} /> : ''
 
 
-const savedPost = async (e) => {
+const savingPost = async (e) => {
   e.preventDefault()
   try {
     await axios.put(`/api/user/saved/${user._id}`, { postId: post._id });
@@ -124,7 +127,7 @@ const savedPost = async (e) => {
           </div>
           <div className="text__div">
             <p>{users.name}</p>
-            <p className="icon">{icon}</p>
+            <p className="icon">{deleteIcon}</p>
             <p className="user__time">{format(post.createdAt)}</p>
           </div>
         </div>
@@ -137,7 +140,7 @@ const savedPost = async (e) => {
           <p>{like} love</p>
           <AiFillDislike onClick={deslikeHandler} />
           <p>{deslike} hate</p>
-          <MdSaveAlt className="icon__saved" size={30}  onClick={savedPost}/>
+          <MdSaveAlt className="icon__saved" size={30}  onClick={savingPost}/>
         </div>
         <div className="post__bottom">
           <p className="comments" onClick={() => setToggle(true)}>

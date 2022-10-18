@@ -11,6 +11,7 @@ const PostForm = ({ setClose }) => {
   const { user } = useSelector((state) => state.auth);
 
 
+  // inside this function you included two possibilities, posting with img/text of just with text
   const HandlePost = async (e) => {
     e.preventDefault();
 

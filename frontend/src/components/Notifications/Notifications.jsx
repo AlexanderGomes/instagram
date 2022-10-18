@@ -3,11 +3,13 @@ import "./Notifications.css";
 import axios from "axios";
 import noAvatar from "../../assets/noAvatar.png";
 import { AiFillCloseCircle } from "react-icons/ai";
+//to-do// click on the notification and go to the post, or to the person that posted the post
 
 //to-do// fix the bugs with the notification, desplaying an invisible intial
-//value even when nothing was deleted
+//value even when nothing was deleted 
 
 //partial-solution// I did't solve it but I found a way to use the space that it was occupying
+
 const Notifications = ({ noti, setOpen }) => {
   const [sender, setSender] = useState([]);
   const [post, setPost] = useState([]);

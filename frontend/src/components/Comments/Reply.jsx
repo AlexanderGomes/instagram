@@ -35,6 +35,7 @@ const Reply = ({comment}) => {
       };
       FetchUser();
 
+
     useEffect(() => {
         setIsLiked(comment.likes.includes(user._id));
       }, [user._id, comment.likes]);
@@ -43,6 +44,7 @@ const Reply = ({comment}) => {
         setIsLiked(comment.deslikes.includes(user._id));
       }, [user._id, comment.deslikes]);
     
+
       const likeHandler = () => {
         try {
           axios.put("/api/reply/like/" + comment._id, { userId: user._id });
@@ -62,7 +64,8 @@ const Reply = ({comment}) => {
         setDeslike(isDeslike ? deslike - 1 : deslike + 1);
         setIsDeslike(!isDeslike);
       };
-console.log(reply.name)
+
+      
   return (
 <div className="comments__main">
       <div className="comments__img">

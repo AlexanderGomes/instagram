@@ -2,20 +2,19 @@ import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 import {Post, Profile} from '../'
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import './Feed.css'
 
 
 //to-do// improve how you fetch data for the profile and the timeline, you found a good solution but maybe
 //there's a better one
 const Feed = ({username}) => {
+  const [profilePost, setPosts] = useState([]);
+  const [timelinePost, setSecond] = useState([])
 
-  const [posts, setPosts] = useState([]);
-  const [second, setSecond] = useState([])
   const { user } = useSelector((state) => state.auth);
-  const navigate = useNavigate();
 
 
+//changing what posts are being desplayed depending on what page you're, two different calls to two different pages
   useEffect(() => {
     const fetchData = async () => {
 
@@ -45,6 +44,7 @@ const Feed = ({username}) => {
         })
         )
 
+
     if(username === user.username) {
        return firstCall
     } else {
@@ -58,14 +58,15 @@ const Feed = ({username}) => {
 
 
 
-if(!posts) return <p>loading...</p>
+if(!profilePost) return <p>loading...</p>
 
   return (
     <div className='feed__main'>
      <div className='feed__post'>
+     {/* if there's no username if means is being fetched by the id so is not the profile page */}
         {!username ? (
-          second.length > 0 ? (
-          second.map((post) => (
+          timelinePost.length > 0 ? (
+          timelinePost.map((post) => (
             <Post className="feed__post__main" key={post._id} post={post} />
           ))
         ) : (
@@ -76,8 +77,8 @@ if(!posts) return <p>loading...</p>
           </>
         )
         ) : (
-          posts.length > 0 ? (
-          posts.map((post) => (
+          profilePost.length > 0 ? (
+          profilePost.map((post) => (
             <Post className="feed__post__main" key={post._id} post={post} />
           ))
         ) : (

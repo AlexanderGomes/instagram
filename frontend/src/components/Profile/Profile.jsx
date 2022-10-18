@@ -28,11 +28,13 @@ const Profile = () => {
     fetchUser();
   }, [user._id]);
 
+  
   const onLogout = () => {
     dispatch(logout());
     dispatch(reset());
     navigate("/login");
   };
+
 
   const GetAllUsers = async () => {
     useEffect(() => {

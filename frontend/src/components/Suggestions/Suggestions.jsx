@@ -3,7 +3,7 @@ import "./Suggestions.css";
 import { useSelector } from "react-redux";
 import noAvatar from "../../assets/noAvatar.png";
 import axios from "axios";
-import {Link} from 'react-router-dom'
+
 
 const Suggestions = ({ friend }) => {
   const { user } = useSelector((state) => state.auth);

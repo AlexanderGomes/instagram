@@ -6,7 +6,7 @@ import noAvatar from "../../assets/noAvatar.png";
 import background from "../../assets/default.png";
 import { Navbar, Feed } from "../../components";
 import { AiFillEdit } from "react-icons/ai";
-import {SavedPost} from '../../components'
+import { SavedPost } from "../../components";
 import { useSelector } from "react-redux";
 
 const Profile = () => {
@@ -22,11 +22,9 @@ const Profile = () => {
   const [toggle, setToggle] = useState(false);
   const [toggle2, setToggle2] = useState(false);
   const [toggle3, setToggle3] = useState(false);
-  const [savedPostInfo, setSaved] = useState([])
+  const [savedPostInfo, setSaved] = useState([]);
 
- // docs profile// future features // : display saved posts here and take it to whoever profile is it from
-
-
+  // docs profile// future features // : display saved posts here and take it to whoever profile is it from
 
   //docs profile// getting user by username
   useEffect(() => {
@@ -36,7 +34,6 @@ const Profile = () => {
     };
     fetchUser();
   }, [username]);
-
 
   //docs profile// getting post by username
   const GetPosts = async () => {
@@ -136,25 +133,22 @@ const Profile = () => {
     ? users.coverPicture
     : background;
 
-
   //docs profile// handling profile picture in case the user doesn't have one//
   const defaultImg = users.profilePicture ? users.profilePicture : noAvatar;
-
 
   //fetching the saved posts from the user
   useEffect(() => {
     const savedPostInfo = async () => {
       const res = await axios.get(`/api/user/favorite/${user._id}`);
-      setSaved(res.data.sort((p1, p2) => {
-        return new Date(p2.createdAt) - new Date(p1.createdAt);
-      }));
+      setSaved(
+        res.data.sort((p1, p2) => {
+          return new Date(p2.createdAt) - new Date(p1.createdAt);
+        })
+      );
     };
     savedPostInfo();
   }, [setSaved]);
 
-
-
-  
   return (
     <div className="profile__main">
       <Navbar />
@@ -167,14 +161,19 @@ const Profile = () => {
         <div className="prof__info">
           <p>{users.name}</p>
           <p>{users.username && users.username}</p>
-          {/* to-do */}
-          {/* solve bio issue who  you show the sentence to */}
-          
-          {/* {user._id === users._id && !user.desc || !users.desc ?  (
-          <p>What are you thinking?</p>
+          {/* showing the description to everybody, but the question only to the current users on his profile */}
+          {users.desc ? (
+            <div>
+              <p>{users.desc}</p>
+            </div>
           ) : (
-          )} */}
-          <p>{users.desc && users.desc}</p>
+            <div>
+              {user._id === users._id && (
+                <p>What do you want to say about you?</p>
+              )}
+            </div>
+          )}
+
           <div className="effect">
             {/* name, desc bio change inputs being hidden by this icon */}
             {user.username === username ? (
@@ -278,20 +277,19 @@ const Profile = () => {
         <Feed username={username} />
       </div>
 
-
-      {savedPostInfo.length > 0 ? (
-        savedPostInfo?.map((sav) => (
-        <div key={sav._id}>
-           <SavedPost saved={sav} />
-        </div>
-      ))
-      ) : (
-        <div>
-          <p>No posts saved</p>
-        </div>
-      )}
-      
-
+      {/* showing your saved posts only on your profule */}
+      {users._id === user._id &&
+        (savedPostInfo.length > 0 ? (
+          savedPostInfo?.map((sav) => (
+            <div key={sav._id}>
+              <SavedPost saved={sav} />
+            </div>
+          ))
+        ) : (
+          <div>
+            <p>No posts saved</p>
+          </div>
+        ))}
     </div>
   );
 };

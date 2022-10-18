@@ -10,16 +10,16 @@ import {Reply, ReplyForm} from '../'
 
 const Comments = ({ comment, post }) => {
   const [users, setUsers] = useState([]);
-  const { user } = useSelector((state) => state.auth);
-  const defaultImg = users.profilePicture ? users.profilePicture : noAvatar;
   const [desc, setDesc] = useState(null);
   const [reply, setReply] = useState([]);
-  const [like, setLike] = useState(comment.likes.length);
-  const [deslike, setDeslike] = useState(comment.deslikes.length);
   const [isLiked, setIsLiked] = useState(false);
   const [isDeslike, setIsDeslike] = useState(false);
   const [toggle, setToggle] = useState(false);
-
+  const [like, setLike] = useState(comment.likes.length);
+  const [deslike, setDeslike] = useState(comment.deslikes.length);
+  
+  const { user } = useSelector((state) => state.auth);
+  const defaultImg = users.profilePicture ? users.profilePicture : noAvatar;
   
 const GetReply = async () => {
     useEffect(() => {
@@ -55,6 +55,7 @@ const GetReply = async () => {
   };
   FetchUser();
 
+  // supposely making it change dynamically
   useEffect(() => {
     setIsLiked(comment.likes.includes(user._id));
   }, [user._id, comment.likes]);
@@ -62,6 +63,8 @@ const GetReply = async () => {
   useEffect(() => {
     setIsLiked(comment.deslikes.includes(user._id));
   }, [user._id, comment.deslikes]);
+
+
 
   const likeHandler = () => {
     try {
@@ -73,6 +76,7 @@ const GetReply = async () => {
     setIsLiked(!isLiked);
   };
 
+
   const deslikeHandler = () => {
     try {
       axios.put("/api/comment/deslike/" + comment._id, { userId: user._id });
@@ -83,6 +87,7 @@ const GetReply = async () => {
     setIsDeslike(!isDeslike);
   };
 
+  
   return (
     <div className="comments__main">
       <div className="comments__img">
