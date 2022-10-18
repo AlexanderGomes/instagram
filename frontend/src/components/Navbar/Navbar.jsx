@@ -79,7 +79,7 @@ const Notification = async () => {
       </div>
       <div className='nav__links'>
        <ul className='nav__links__ul'>
-        <Link to={'/'} style={{color: 'black'}}> <li><AiFillHome size={30}/></li> </Link>
+        <Link to={'/feed'} style={{color: 'black'}}> <li><AiFillHome size={30}/></li> </Link>
          <li><BiAddToQueue size={30} onClick={() => setToggle(true)} /></li>
          <li><AiFillMessage size={30}/></li>
          <li><IoIosNotifications size={30} onClick={() => setOpen(true)} /><span className='noti'>{userLiked.length}</span></li>

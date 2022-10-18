@@ -15,9 +15,14 @@ const registerUser = asyncHandler(async (req, res) => {
 
   const findUser = await User.findOne({ email });
   if (findUser) {
-    return res.status(400).json({ msg: "User already exists" });
+    return res.status(400).json({ msg: "there's an account on this email" });
   }
- 
+
+  const takenUsername = await User.findOne({ username });
+  if (takenUsername) {
+    return res.status(401).json({ msg: "taken username" });
+  }
+
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
 
@@ -40,7 +45,6 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(400).json("invalid user data");
   }
 });
-
 
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -65,7 +69,6 @@ const loginUser = asyncHandler(async (req, res) => {
     });
   }
 });
-
 
 const getSingleUser = asyncHandler(async (req, res) => {
   try {
@@ -94,7 +97,6 @@ const getUserByUsername = asyncHandler(async (req, res) => {
 const followUser = asyncHandler(async (req, res) => {
   if (req.params.id !== req.body.userId) {
     try {
-
       const user = await User.findById(req.params.id);
       const currentUser = await User.findById(req.body.userId);
 
@@ -241,9 +243,8 @@ const deslikeUser = asyncHandler(async (req, res) => {
   }
 });
 
-
 //update user
-const updateUser = asyncHandler( async (req, res) => {
+const updateUser = asyncHandler(async (req, res) => {
   if (req.body.userId === req.params.id) {
     if (req.body.password) {
       try {
@@ -279,5 +280,5 @@ module.exports = {
   saveFavoritePost,
   likeUser,
   deslikeUser,
-  updateUser
+  updateUser,
 };

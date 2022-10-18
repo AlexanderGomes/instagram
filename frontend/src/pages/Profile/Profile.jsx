@@ -276,6 +276,7 @@ const Profile = () => {
       <div className="prof__post">
         <Feed username={username} />
       </div>
+      
 
       {/* showing your saved posts only on your profule */}
       {users._id === user._id &&
