@@ -3,7 +3,6 @@
 .container {
     position: relative;
     width: 350px;
-    /* height: 500px; */
     border-radius: 20px;
     padding: 40px;
     box-sizing: border-box;
@@ -82,14 +81,6 @@
   }
   
 
-  .register__mov {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-   transform: translate(-50%, -50%);
-  }
-
-
   .register__link {
     text-decoration: none;
     display: flex;
@@ -105,4 +96,16 @@
     text-decoration: none;
     color: rgb(240, 91, 91);
     text-decoration: underline;
+  }
+
+  .register__mov {
+    /* height: 110vh; */
+  }
+
+
+  .register__mov {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+   transform: translate(-50%, -50%);
   }

@@ -1,102 +1,138 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { login, reset } from "../../features/auth/authSlice";
-import { Link } from "react-router-dom";
-import './Login.css'
-
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import "./Login.css";
 
 const Login = () => {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  })
+  // showing password and email errors if the information is wrong
+  const [wrongEmail, setWrongEmail] = useState(false);
+  const [wrongPass, setWrongPass] = useState(false);
+
+  // holding the error messages
+  const emailError = "Request failed with status code 400";
+  const passError = "Request failed with status code 402";
 
 
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  
-  const { email, password } = formData
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  //getting state from redux
   const { user, isError, isSuccess, message } = useSelector(
     (state) => state.auth
-  )
+  );
+
   useEffect(() => {
-    if (isError) {
-      toast("wrong credentials")
+    //using the message being recieved from redux and comparing to your variable
+    if (isError && message === emailError) {
+      setWrongEmail(true);
+    }
+
+    if (isError && message === passError) {
+      setWrongPass(true);
     }
 
     if (isSuccess || user) {
-      navigate('/feed')
+      navigate("/feed");
     }
 
-    dispatch(reset())
-  }, [user, isError, isSuccess, message])
+    dispatch(reset());
+  }, [user, isError, isSuccess, message]);
 
-
-  const onChange = (e) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }))
-  }
-
-
-  const onSubmit = (e) => {
-    e.preventDefault()
-
-    const userData = {
-      email,
-      password,
-    }
-
-    dispatch(login(userData))
-  }
+  //using formik to set the state and display errors 
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: Yup.object({
+      email: Yup.string().email("invalid email").required("Email Required"),
+      password: Yup.string()
+        .min(8, "password must be 8 characters or longer")
+        .required("Password Required"),
+    }),
+    onSubmit: (values) => {
+      const userData = {
+        email: values.email,
+        password: values.password,
+      };
+      dispatch(login(userData));
+    },
+  });
 
   return (
-      <section className="main__section">
-<div className="div__color">
-        <div className="main__text">
-          <h2 className="main__h2">Login to your Account</h2>
-          <p className="main__p">Let's see what other people are doing.</p>
+    <div className="register__mov">
+      <div class="container">
+        <div class="brand-logo"></div>
+        <div class="brand-title">
+          A2G <span className="h1__span">Social</span>
         </div>
-        <section className="main__input">
-          <form className="main__form" onSubmit={onSubmit}>
-            <div className="main__form">
-              <input
-                type="email"
-                className="form-control"
-                id="email"
-                name="email"
-                value={email}
-                placeholder="Enter your email"
-                onChange={onChange}
-              />
-            </div>
-            <div className="main__form">
-              <input
-                type="password"
-                className="form-control"
-                id="password"
-                name="password"
-                value={password}
-                placeholder="Enter password"
-                onChange={onChange}
-              />
-            </div>
-            <div className="form-group">
-            <button type='submit' className='btn btn-block'>
-            submit
-            </button>
-          </div>
-          </form>
-          <div className="main__Link">
-          <p>Don't you have an account ? <a className="main__a" href="/register">Register</a></p>
-          </div>
-        </section>
-    </div>
-      </section>
-  )
-}
+        {/* using formik to handle submit */}
+        <form class="inputs" onSubmit={formik.handleSubmit}>
+        {/* displaying formil errors */}
+          {formik.touched.email && formik.errors.email ? (
+            <p className="error h1__span">{formik.errors.email}</p>
+          ) : (
+            ""
+          )}
 
-export default Login
+          {/* wrong email error */}
+          {wrongEmail === true ? (
+            <p className="error font h1__span">Wrong email</p>
+          ) : (
+            ""
+          )}
+          <input
+            className="input"
+            type="email"
+            id="email"
+            name="email"
+            placeholder="example@test.com"
+            //only showing errors when touched and left to touch another input
+            onBlur={formik.handleBlur}
+            value={formik.values.email}
+            onChange={formik.handleChange}
+          />
+
+          {formik.touched.password && formik.errors.password ? (
+            <p className="error h1__span">{formik.errors.password}</p>
+          ) : (
+            ""
+          )}
+
+          {wrongPass === true ? (
+            <p className="error font h1__span">Wrong Password</p>
+          ) : (
+            ""
+          )}
+          <input
+            className="input"
+            id="password"
+            name="password"
+            type="password"
+            placeholder="password min 8 charaters long"
+            onBlur={formik.handleBlur}
+            value={formik.values.password}
+            onChange={formik.handleChange}
+          />
+
+          <button className="register__btn" type="submit">
+            Login
+          </button>
+        </form>
+        <div className="register__link">
+          <p>
+            Don't have an account?{" "}
+            <a className="register__a" href="/register">
+              Register
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Login;

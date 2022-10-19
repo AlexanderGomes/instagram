@@ -54,11 +54,17 @@ const loginUser = asyncHandler(async (req, res) => {
 
   //validation
   if (!user) {
-    res.status(400).json("user do not exist");
+    res.status(400).json("Wrong email");
   }
+ 
+  const passwordMatch = await bcrypt.compare(password, user.password);
+
+if (!passwordMatch) {
+  res.status(402).json({msg: "passwords don't match"});
+}
 
   //comparing hashed password and sending back information
-  if (user && (await bcrypt.compare(password, user.password))) {
+  if (user) {
     res.json({
       _id: user.id,
       name: user.name,

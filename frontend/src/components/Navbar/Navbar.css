@@ -9,14 +9,17 @@
 
 
 .noti {
+    display: flex;
     position: absolute;
     background-color: rgb(247, 151, 151);
-    height: 20px;
-    width: 10px;
-
+    height: 24px;
+    width: 20px;
     align-items: center;
     justify-content: center;
+    text-align: center;
     border-radius: 12px;
+    margin-left: 1.40rem;
+    margin-top: -2.50rem;
 }
 
 
@@ -33,3 +36,26 @@ cursor: pointer;
     height: 100px;
 }
 
+
+
+.nav__h1 {
+    font-size: 25px;
+    font-family: Arial, Helvetica, sans-serif;
+    gap: 1rem;
+    margin-left: 1rem;
+}
+
+.nav__span {
+    color: rgb(240, 91, 91);
+}
+
+.nav__upload {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    }
+
+
+
+   
