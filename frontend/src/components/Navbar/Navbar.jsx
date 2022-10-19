@@ -8,6 +8,7 @@ import { AiFillHome } from "react-icons/ai";
 import { PostForm, Notifications } from "../";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
@@ -65,7 +66,7 @@ const Navbar = () => {
   Notification();
 
   return (
-    <di className="nav__size">
+    <div className="nav__size">
       <div className="nav__main">
         <div className="nav__logo">
           <h1 className="nav__h1">
@@ -110,15 +111,16 @@ const Navbar = () => {
           </p>
         ))}
 
-{/* to-do: find a way to blur the background when this pops up */}
-{/* to-do: ref the image input to something else of your choice
+      {/* to-do: find a way to blur the background when this pops up */}
+      {/* to-do: ref the image input to something else of your choice
 just don't keep the default input */}
-      <div className="blur" >
+
+      <div className="container__nav">
         <div className="nav__upload">
-          {toggle && <PostForm setClose={setToggle} />}
+          {toggle &&  <PostForm setClose={setToggle} />}
         </div>
       </div>
-    </di>
+    </div>
   );
 };
 

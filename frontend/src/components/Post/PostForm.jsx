@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import "./PostForm.css";
-import { AiFillCloseCircle } from "react-icons/ai";
+import { AiFillCloseCircle, AiFillCheckCircle } from "react-icons/ai";
 
 const PostForm = ({ setClose }) => {
-  const [file, setFile] = useState();
-  const [text, setText] = useState('');
-  
-  const { user } = useSelector((state) => state.auth);
+  const [isLoading, setIsLoading] = useState(false)
 
+  const [file, setFile] = useState();
+  const [text, setText] = useState("");
+  const { user } = useSelector((state) => state.auth);
 
   // inside this function you included two possibilities, posting with img/text of just with text
   const HandlePost = async (e) => {
@@ -33,6 +33,7 @@ const PostForm = ({ setClose }) => {
           text,
         };
         try {
+          setIsLoading(true)
           await axios.post("/api/post", newPost2);
           window.location.reload();
         } catch (err) {}
@@ -41,6 +42,7 @@ const PostForm = ({ setClose }) => {
           userId: user._id,
           text,
         };
+        setIsLoading(true)
         await axios.post("/api/post", newPost);
         setText("");
         window.location.reload();
@@ -50,36 +52,56 @@ const PostForm = ({ setClose }) => {
     }
   };
 
-
-  
   return (
-    <div className="div__position">
-      <div className="form__post">
+    <div
+      className="blur__form" /* the background color and positioning goes here */
+    >
+      <div className="form__post" /* the positioning of the form goes here */>
         <form onSubmit={HandlePost} className="post__form">
           <div className="icon__position">
             <AiFillCloseCircle
+              color="red"
               className="icon__a"
               size={20}
               onClick={() => setClose(false)}
             />
           </div>
-          <label className="file__text">What are you thinking ?</label>
+
+          <label for="text" className="ipt__text">
+            What are you thinking ?
+          </label>
           <input
             type="text"
             name="text"
             id="text"
+            className="input__text"
             onChange={(e) => setText(e.target.value)}
           />
-            <input
-           className="file"
-          type="file"
-          id="file"
-          accept=".png,.jpeg,.jpg,Screenshot"
-          onChange={(e) => setFile(e.target.files[0])}
+          <div>
+            <label className="label" for="file">Choose Picture</label>
+          </div>
+          <div className="check__btn">
+            {file ? (
+              <div className="picture__form">
+                <p>Picture Selected</p>
+                <AiFillCheckCircle color="green" size={20} />
+              </div>
+            ) : (
+              <p>No Picture Selected</p>
+            )}
+          </div>
+          <input
+            className="file"
+            type="file"
+            id="file"
+            accept=".png,.jpeg,.jpg,Screenshot"
+            onChange={(e) => setFile(e.target.files[0])}
           />
-          <button className="btn__post" type="submit">
-            make a post
-          </button>
+          <div className="sub__btn">
+            <button type="submit" className="btn__form">
+            {isLoading ? <div>Loading...</div> : 'Make a post'}
+            </button>
+          </div>
         </form>
       </div>
     </div>
