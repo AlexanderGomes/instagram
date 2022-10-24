@@ -23,9 +23,9 @@ const Home = () => {
     <div className='home__navbar'>
       <Navbar />
     </div>
-     {/* <div className='home__feed'>
+     <div className='home__feed'>
       <Feed/>
-     </div> */}
+     </div>
     </div>
   )
 }

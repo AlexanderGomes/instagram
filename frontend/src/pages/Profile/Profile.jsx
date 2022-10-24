@@ -24,9 +24,9 @@ const Profile = () => {
   const [toggle3, setToggle3] = useState(false);
   const [savedPostInfo, setSaved] = useState([]);
 
-  // docs profile// future features // : display saved posts here and take it to whoever profile is it from
 
-  //docs profile// getting user by username
+
+  //doing//getting user by username
   useEffect(() => {
     const fetchUser = async () => {
       const res = await axios.get(`/api/user/username/${username}`);
@@ -35,7 +35,7 @@ const Profile = () => {
     fetchUser();
   }, [username]);
 
-  //docs profile// getting post by username
+  //doing//getting post by username
   const GetPosts = async () => {
     useEffect(() => {
       if (users.username) {
@@ -56,7 +56,7 @@ const Profile = () => {
   };
   GetPosts();
 
-  //docs profile// updating name, username, and desc//
+  ////doing// updating name, username, and desc//
   const updateUserText = async (e) => {
     e.preventDefault();
     try {
@@ -72,7 +72,7 @@ const Profile = () => {
     }
   };
 
-  //docs profile// updating profile picture //
+///doing// updating profile picture //
   const HandleProfilePicture = async (e) => {
     e.preventDefault();
 
@@ -100,7 +100,7 @@ const Profile = () => {
     }
   };
 
-  //docs profile// updating cover picture//
+  //doing//updating cover picture//
   const HandleCover = async (e) => {
     e.preventDefault();
 
@@ -128,15 +128,15 @@ const Profile = () => {
     }
   };
 
-  //docs profile// handling cover picture in case the user doesn't have one//
+  //doing//  handling cover picture in case the user doesn't have one//
   const backgroundDefault = users.coverPicture
     ? users.coverPicture
     : background;
 
-  //docs profile// handling profile picture in case the user doesn't have one//
+  //doing// handling profile picture in case the user doesn't have one//
   const defaultImg = users.profilePicture ? users.profilePicture : noAvatar;
 
-  //fetching the saved posts from the user
+  // doing // fetching the saved posts from the user
   useEffect(() => {
     const savedPostInfo = async () => {
       const res = await axios.get(`/api/user/favorite/${user._id}`);
@@ -148,6 +148,7 @@ const Profile = () => {
     };
     savedPostInfo();
   }, [setSaved]);
+
 
   return (
     <div className="profile__main">
@@ -161,7 +162,7 @@ const Profile = () => {
         <div className="prof__info">
           <p>{users.name}</p>
           <p>{users.username && users.username}</p>
-          {/* showing the description to everybody, but the question only to the current users on his profile */}
+          {/* //doing// showing the description to everybody, but the question only to the current user on his profile */}
           {users.desc ? (
             <div>
               <p>{users.desc}</p>
@@ -175,7 +176,7 @@ const Profile = () => {
           )}
 
           <div className="effect">
-            {/* name, desc bio change inputs being hidden by this icon */}
+            {/* //doing// name, desc bio change inputs being hidden by this icon */}
             {user.username === username ? (
               <div className="icons">
                 <AiFillEdit size={30} onClick={() => setToggle(true)} />{" "}
@@ -184,7 +185,7 @@ const Profile = () => {
               ""
             )}
           </div>
-          {/* name, desc bio change inputs */}
+          {/* //doing// name, desc bio change inputs */}
           {toggle && (
             <form className="post__form">
               <label className="file__text">Change Information</label>
@@ -224,7 +225,7 @@ const Profile = () => {
             </form>
           )}
 
-          {/* profile picture change input being hidden by this icon */}
+          {/*//doing// profile picture change input being hidden by this icon */}
           {user.username === username ? (
             <div className="move__icon">
               <div className="icon__profile">
@@ -235,7 +236,7 @@ const Profile = () => {
             ""
           )}
 
-          {/* profile picture change input */}
+          {/*//doing// profile picture change input */}
           {toggle2 && (
             <form>
               <input
@@ -249,7 +250,7 @@ const Profile = () => {
             </form>
           )}
 
-          {/* cover picture change input being hidden by this icon */}
+          {/*//doing// cover picture change input being hidden by this icon */}
           {user.username === username ? (
             <div className="icon__cover">
               <AiFillEdit size={30} onClick={() => setToggle3(true)} />{" "}
@@ -258,9 +259,9 @@ const Profile = () => {
             ""
           )}
 
-          {/* cover picture change input */}
+          {/* //doing// cover picture change input */}
           {toggle3 && (
-            <form>
+            <form onSubmit={HandleCover}>
               <input
                 className="file"
                 type="file"
@@ -268,17 +269,18 @@ const Profile = () => {
                 accept=".png,.jpeg,.jpg,Screenshot"
                 onChange={(e) => setFile2(e.target.files[0])}
               />
-              <button onClick={HandleCover}>Cover</button>
+              <button>Cover</button>
             </form>
           )}
         </div>
       </div>
+      {/* //doing// feed is receiving the username of the current user */}
       <div className="prof__post">
         <Feed username={username} />
       </div>
       
 
-      {/* showing your saved posts only on your profule */}
+      {/* //doing// showing your saved posts only on your profile */}
       {users._id === user._id &&
         (savedPostInfo.length > 0 ? (
           savedPostInfo?.map((sav) => (

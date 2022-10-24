@@ -1,3 +1,5 @@
+//docs
+
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -5,13 +7,15 @@ import "./PostForm.css";
 import { AiFillCloseCircle, AiFillCheckCircle } from "react-icons/ai";
 
 const PostForm = ({ setClose }) => {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  const [empty, setEmpty] = useState(false);
 
   const [file, setFile] = useState();
   const [text, setText] = useState("");
   const { user } = useSelector((state) => state.auth);
 
   // inside this function you included two possibilities, posting with img/text of just with text
+  //to-do// include third possibility, post only a picture without text
   const HandlePost = async (e) => {
     e.preventDefault();
 
@@ -32,9 +36,11 @@ const PostForm = ({ setClose }) => {
           img: url,
           text,
         };
+
         try {
-          setIsLoading(true)
           await axios.post("/api/post", newPost2);
+          setIsLoading(true);
+          setEmpty(false);
           window.location.reload();
         } catch (err) {}
       } else {
@@ -42,12 +48,16 @@ const PostForm = ({ setClose }) => {
           userId: user._id,
           text,
         };
-        setIsLoading(true)
+
         await axios.post("/api/post", newPost);
+        setIsLoading(true);
+        setEmpty(false);
         setText("");
         window.location.reload();
       }
     } catch (err) {
+      setIsLoading(false);
+      setEmpty(true);
       console.log(err.message);
     }
   };
@@ -70,6 +80,8 @@ const PostForm = ({ setClose }) => {
           <label for="text" className="ipt__text">
             What are you thinking ?
           </label>
+          {empty ? <p className="invalid">Empty Values</p> : ""}
+
           <input
             type="text"
             name="text"
@@ -78,7 +90,9 @@ const PostForm = ({ setClose }) => {
             onChange={(e) => setText(e.target.value)}
           />
           <div>
-            <label className="label" for="file">Choose Picture</label>
+            <label className="label" for="file">
+              Choose Picture
+            </label>
           </div>
           <div className="check__btn">
             {file ? (
@@ -97,9 +111,14 @@ const PostForm = ({ setClose }) => {
             accept=".png,.jpeg,.jpg,Screenshot"
             onChange={(e) => setFile(e.target.files[0])}
           />
+
           <div className="sub__btn">
-            <button type="submit" className="btn__form">
-            {isLoading ? <div>Loading...</div> : 'Make a post'}
+            <button
+              type="submit"
+              className="btn__form"
+              onClick={() => setIsLoading(true)}
+            >
+              {isLoading ? <div>Loading...</div> : "Make a post"}
             </button>
           </div>
         </form>
