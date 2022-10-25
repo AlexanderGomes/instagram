@@ -31,8 +31,9 @@ const CommentsForm = ({ post }) => {
           id="text"
           value={desc}
           onChange={(e) => setDesc(e.target.value)}
+          className='comment__input'
         />
-        <button>post comment</button>
+        <button>Post Comment</button>
       </form>
     </div>
   );

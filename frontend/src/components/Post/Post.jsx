@@ -1,21 +1,30 @@
+//docs
 import React, { useEffect, useState } from "react";
 import "./Post.css";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import noAvatar from "../../assets/noAvatar.png";
-import { AiFillLike } from "react-icons/ai";
-import { AiFillDislike } from "react-icons/ai";
-import {TiDelete} from 'react-icons/ti'
-import {MdSaveAlt} from 'react-icons/md'
+import { AiOutlineLike } from "react-icons/ai";
+import { AiOutlineDislike } from "react-icons/ai";
+import { TiDelete } from "react-icons/ti";
+import { MdSaveAlt } from "react-icons/md";
 import { format } from "timeago.js";
 import { Comments, CommentsForm } from "../";
 import { Link } from "react-router-dom";
 
+//to-do// Implement button color changes when clicked, to increase the user's experience, so they are 100% that the post was liked for example, instead of just increasing the number
+
+//to-do// improve the comment section from just comments and replies to being able to mention anyone and reply to that comment
+//explanation// right now you have two schemas, comments and replies, you want to maybe have just one, but to have nested comments which are called replies
+//issue with the current method// you can only reply to a comment but never to the reply of that comment, you want to mention and user and be able to notify the user you're replying to
+
+//to-do// make it responsive when possible
+
 const Post = ({ post }) => {
   const [users, setUser] = useState([]);
-  const [toggle, setToggle] = useState(false);
   const { user } = useSelector((state) => state.auth);
 
+  const [toggle, setToggle] = useState(false);
   const [like, setLike] = useState(post.likes.length);
   const [deslike, setDeslike] = useState(post.dislikes.length);
   const [isLiked, setIsLiked] = useState(false);
@@ -24,7 +33,7 @@ const Post = ({ post }) => {
 
   const defaultImg = users.profilePicture ? users.profilePicture : noAvatar;
 
-// getting user by post.userId
+  // doing // getting user by post.userId
   const FetchUser = async () => {
     useEffect(() => {
       axios
@@ -39,17 +48,17 @@ const Post = ({ post }) => {
   };
   FetchUser();
 
-  
-  
+
   const likeHandler = async () => {
     try {
-     await axios.put("/api/post/like/" + post._id, { userId: user._id });
+      await axios.put("/api/post/like/" + post._id, { userId: user._id });
     } catch (err) {
       console.log(err.message);
     }
     setLike(isLiked ? like - 1 : like + 1);
     setIsLiked(!isLiked);
   };
+
 
   const deslikeHandler = () => {
     try {
@@ -61,17 +70,8 @@ const Post = ({ post }) => {
     setIsDeslike(!isDeslike);
   };
 
-  
-  useEffect(() => {
-    setIsLiked(post.likes.includes(user._id));
-  }, [user._id, post.likes]);
+ 
 
-  useEffect(() => {
-    setIsLiked(post.dislikes.includes(user._id));
-  }, [user._id, post.dislikes]);
-
-
-  
   const GetComments = async () => {
     useEffect(() => {
       axios
@@ -90,81 +90,95 @@ const Post = ({ post }) => {
   };
   GetComments();
 
+
   const deletePost = () => {
-  try {
-    if(window.confirm('Are you sure you wish to delete your post?') === true){
-      axios.delete("/api/post/" + post._id)
-      window.location.reload();
+    try {
+      if (
+        window.confirm("Are you sure you wish to delete your post?") === true
+      ) {
+        axios.delete("/api/post/" + post._id);
+        window.location.reload();
+      }
+    } catch (error) {
+      console.log(error);
     }
-  } catch (error) {
-     console.log(error)
-  }
-}
+  };
+
+  const deleteIcon =
+    user._id === post.userId ? <TiDelete size={20} onClick={deletePost} /> : "";
 
 
-const deleteIcon = user._id === post.userId ? <TiDelete size={20} onClick={deletePost} /> : ''
-
-
-const savingPost = async (e) => {
-  e.preventDefault()
-  try {
-    await axios.put(`/api/user/saved/${user._id}`, { postId: post._id });
-    window.location.reload();
-  } catch (error) {
-    console.log(error.message);
-  }
-}
+  const savingPost = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.put(`/api/user/saved/${user._id}`, { postId: post._id });
+      window.location.reload();
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
 
   return (
     <div className="post__main__div">
       <div className="post__main">
-        <div className="user__information">
+        <div className="top__part">
           <div className="img__div">
-          <Link to={'/profile/' + users.username}>
-            <img className="post__img" src={defaultImg} alt="profileImg" />
-          </Link>
+            <Link to={"/profile/" + users.username}>
+              <img
+                className="post__user__img"
+                src={defaultImg}
+                alt="profileImg"
+              />
+            </Link>
           </div>
           <div className="text__div">
-            <p>{users.name}</p>
+            <p className="user__name">{users.name}</p>
             <p className="icon">{deleteIcon}</p>
             <p className="user__time">{format(post.createdAt)}</p>
           </div>
         </div>
         <div className="post__information">
-          <p className="post__text">{post.text}</p>
-          <img className="post__img__div" src={post.img} alt="" />
+          <p className="post__text">{post.text} </p>
+          <img className="post__img" src={post.img} alt="" />
         </div>
-        <div className="post__likes">
-          <AiFillLike onClick={likeHandler} />
-          <p>{like} love</p>
-          <AiFillDislike onClick={deslikeHandler} />
-          <p>{deslike} hate</p>
-          <MdSaveAlt className="icon__saved" size={30}  onClick={savingPost}/>
+        <div className="post__icons">
+          <AiOutlineLike
+            size={25}
+            onClick={likeHandler}
+            className="like__icon"
+          />
+          <p className="like__num">{like}</p>{" "}
+          <p className="like__text">Likes</p>
+          <AiOutlineDislike
+            className="deslike__icon"
+            size={25}
+            onClick={deslikeHandler}
+          />
+          <p className="deslike__num">{deslike}</p>{" "}
+          <p className="deslike__text">Dislikes</p>
+          <MdSaveAlt className="icon__saved" size={30} onClick={savingPost} />
         </div>
         <div className="post__bottom">
+
           <p className="comments" onClick={() => setToggle(true)}>
             See all the {comments.length} comments
           </p>
+          
           <div className="toggle__comments">
             {toggle && <CommentsForm post={post} />}
             {toggle &&
               (comments.length > 0 ? (
                 comments.map((comment) => (
                   <div key={comment._id}>
-                    <Comments
-                      className="main"
-                      comment={comment}
-                      post={post}
-                    />
+                    <Comments className="main" comment={comment} post={post} />
                   </div>
                 ))
               ) : (
                 <>
-                  <p>No comments</p>
+                  <p className="no__com">No comments</p>
                 </>
-              ))
-              }
+              ))}
           </div>
         </div>
       </div>

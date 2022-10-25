@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import "./CommentsForm.css";
+import "./ReplyForm.css";
 
-const ReplyForm = ({post, comment}) => {
+const ReplyForm = ({ post, comment }) => {
   const [desc, setDesc] = useState(null);
   const { user } = useSelector((state) => state.auth);
-
 
   const handleReply = async () => {
     const newReply = {
@@ -22,19 +21,20 @@ const ReplyForm = ({post, comment}) => {
     }
   };
   return (
-    <div className='form__main'>
-    <form onSubmit={handleReply}>
-    <input 
-    type="text" 
-    name="text" 
-    id="text"
-    value={desc} 
-    onChange={(e) => setDesc(e.target.value)}
-    />
-    <button>post reply</button>
-    </form>
+    <div className="form__main">
+      <form onSubmit={handleReply}>
+        <input
+          type="text"
+          name="text"
+          id="text"
+          value={desc}
+          onChange={(e) => setDesc(e.target.value)}
+          className='reply__input'
+        />
+        <button>Post Reply</button>
+      </form>
     </div>
-  )
-}
+  );
+};
 
-export default ReplyForm
+export default ReplyForm;
