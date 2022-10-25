@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+//docs
+
+import React, { useState} from "react";
 import "./Suggestions.css";
 import { useSelector } from "react-redux";
 import noAvatar from "../../assets/noAvatar.png";
@@ -18,7 +20,7 @@ const Suggestions = ({ friend }) => {
     }
   };
 
-  const [following, setFollowing] = useState(
+  const [following] = useState(
     friend.followers.includes(user._id)
   );
 

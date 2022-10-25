@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import "./Feed.css";
 
 //to-do// improve how you fetch data for the profile and the timeline, you found a good solution but maybe there's a better one
-
+//to-do// make it responsive putting together the post component and profile/suggestion
 const Feed = ({ username }) => {
   const [profilePost, setPosts] = useState([]);
   const [timelinePost, setSecond] = useState([]);
