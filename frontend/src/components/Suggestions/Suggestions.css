@@ -1,0 +1,41 @@
+.suggestion__img {
+    width: 35px;
+    border-radius: 50%;
+}
+
+
+.move__sug {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.suggestion__all {
+    display: flex;
+    gap: 10px;
+}
+
+.sug__text {
+    margin-left: 11px;
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.btn {
+    width: 70px;
+    height: 20px;
+    background: rgba(0, 0, 255, 0.591);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    cursor: pointer;
+
+}
+
+.sug__name {
+    text-transform: capitalize;
+    font-family: Arial, Helvetica, sans-serif;
+    color: black;
+    
+}

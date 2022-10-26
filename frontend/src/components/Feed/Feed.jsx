@@ -62,31 +62,33 @@ const Feed = ({ username }) => {
         {!username ? (
           timelinePost.length > 0 ? (
             timelinePost.map((post) => (
-              <Post className="feed__post__main" key={post._id} post={post} />
+              <div className="move">
+                <Post className="feed__post__main" key={post._id} post={post} />
+              </div>
             ))
           ) : (
-            <>
+            <div className="no__post">
               <p className="post__feed">
                 No posts, follow someone to see what they are talking about
               </p>
-            </>
+            </div>
           )
         ) : profilePost.length > 0 ? (
           profilePost.map((post) => (
             <Post className="feed__post__main" key={post._id} post={post} />
           ))
         ) : (
-          <>
-            <p className="post__feed">
-              No posts, follow someone to see what they are talking about
+          <div >
+            <p>
+              No posts, Let's Share what's going on in your life
             </p>
-          </>
+          </div>
         )}
       </div>
-
-      <div className="feed__profile__card">
-        <Profile />
-      </div>
+        <div className="feed__profile__card">
+          <Profile />
+        </div>
+        
     </div>
   );
 };

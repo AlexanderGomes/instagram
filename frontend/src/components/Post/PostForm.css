@@ -9,8 +9,10 @@
   border-radius: 12px;
   position: absolute;
   left: 50%;
+  z-index: 50;
   top: 50%;
   transform: translate(-50%, -50%);
+  overflow: hidden;
 }
 
 .post__form {
@@ -42,8 +44,8 @@
   top: 50%;
   transform: translate(-50%, -50%);
   background-color: rgba(0, 0, 0, 0.5);
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
 }
 
 .label {
@@ -113,11 +115,34 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.input__text {
-}
+
 
 .invalid {
   position: absolute;
   margin-top: -13rem;
   color: red;
+}
+
+
+@media screen and (max-width: 900px) {
+
+    
+  .no__post {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -3rem;
+}
+
+.feed__main {
+  display:flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.feed__profile__card {
+  margin-bottom: -4rem;
+}
 }

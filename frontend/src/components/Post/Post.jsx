@@ -48,7 +48,6 @@ const Post = ({ post }) => {
   };
   FetchUser();
 
-
   const likeHandler = async () => {
     try {
       await axios.put("/api/post/like/" + post._id, { userId: user._id });
@@ -59,7 +58,6 @@ const Post = ({ post }) => {
     setIsLiked(!isLiked);
   };
 
-
   const deslikeHandler = () => {
     try {
       axios.put("/api/post/dislike/" + post._id, { userId: user._id });
@@ -69,8 +67,6 @@ const Post = ({ post }) => {
     setDeslike(isDeslike ? deslike - 1 : deslike + 1);
     setIsDeslike(!isDeslike);
   };
-
- 
 
   const GetComments = async () => {
     useEffect(() => {
@@ -90,7 +86,6 @@ const Post = ({ post }) => {
   };
   GetComments();
 
-
   const deletePost = () => {
     try {
       if (
@@ -107,7 +102,6 @@ const Post = ({ post }) => {
   const deleteIcon =
     user._id === post.userId ? <TiDelete size={20} onClick={deletePost} /> : "";
 
-
   const savingPost = async (e) => {
     e.preventDefault();
     try {
@@ -117,7 +111,6 @@ const Post = ({ post }) => {
       console.log(error.message);
     }
   };
-
 
   return (
     <div className="post__main__div">
@@ -134,8 +127,10 @@ const Post = ({ post }) => {
           </div>
           <div className="text__div">
             <p className="user__name">{users.name}</p>
-            <p className="icon">{deleteIcon}</p>
             <p className="user__time">{format(post.createdAt)}</p>
+            <div className="icon">
+            {deleteIcon ? <p>{deleteIcon}</p> : ""}
+            </div>
           </div>
         </div>
         <div className="post__information">
@@ -160,11 +155,10 @@ const Post = ({ post }) => {
           <MdSaveAlt className="icon__saved" size={30} onClick={savingPost} />
         </div>
         <div className="post__bottom">
-
           <p className="comments" onClick={() => setToggle(true)}>
             See all the {comments.length} comments
           </p>
-          
+
           <div className="toggle__comments">
             {toggle && <CommentsForm post={post} />}
             {toggle &&

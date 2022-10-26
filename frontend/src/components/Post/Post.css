@@ -6,7 +6,6 @@
   -moz-box-shadow: -1px 1px 5px 9px rgba(255, 255, 255, 0.75);
   box-shadow: -1px 1px 5px 9px rgba(238, 238, 238, 0.75);
   border-radius: 12px;
-  margin-left: 5rem;
   padding-bottom: 10px;
 }
 
@@ -35,11 +34,13 @@
 }
 
 .icon {
-  position: absolute;
-  z-index: 10;
-  margin-left: 25.5rem;
 
-  cursor: pointer;
+display: flex;
+justify-content: flex-end;
+align-items: flex-end;
+margin-left: 25rem;
+margin-top: -3rem;
+cursor: pointer;
 }
 
 .user__name {
@@ -67,9 +68,10 @@
 }
 
 .icon__saved {
-  position: absolute;
-  margin-left: 28rem;
-  margin-top: -8px;
+display: flex;
+justify-content: flex-end;
+align-items: flex-end;
+margin-left: 14rem;
   cursor: pointer;
 }
 
@@ -98,3 +100,22 @@
 }
 
 
+
+
+@media screen and (max-width: 900px) {
+
+  .post__main__div {
+      width: 400px;
+ 
+    }
+
+    .icon {
+      margin-left: 19rem;    
+    }
+
+    .icon__saved {
+
+      margin-left: 8rem;
+
+      }
+}

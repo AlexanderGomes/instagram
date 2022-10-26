@@ -1,0 +1,91 @@
+.profile__div {
+    display: flex;
+    gap: 10px;
+}
+
+
+.profile__img {
+    width: 35px;
+    border-radius: 50%;
+}
+
+
+.profile__main {
+    margin-top: 2rem;
+}
+
+
+.profile_sug {
+margin-top: 2rem;
+margin-left: -7px;
+}
+
+.profile__info {
+margin-top: 2px;
+margin-left: 10px;
+font-family: Arial, Helvetica, sans-serif;
+text-decoration: none;
+
+}
+
+.btn__profile {
+    margin-top: -5px;
+    width: 70px;
+    height: 20px;
+    background: rgb(240, 91, 91);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    cursor: pointer;
+
+
+margin-top: 10px;
+}
+
+.profile__name {
+    text-transform: capitalize;
+    font-weight: 600;
+    color: black;
+}
+
+.profile__username {
+    color: rgb(95, 95, 95);
+}
+
+.profile__color {
+    background-color: rgb(228, 228, 228);
+    -webkit-box-shadow: -1px 1px 5px 9px rgba(250, 250, 250, 0.75);
+    -moz-box-shadow: -1px 1px 5px 9px rgba(255, 255, 255, 0.75);
+    box-shadow: -1px 1px 5px 9px rgba(238, 238, 238, 0.75);
+    border-radius: 12px;
+    height: 70px;
+    width: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.a {
+    text-decoration: none;
+}
+
+.card {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+}
+
+.btn__seeMore {
+    margin-left: 5px;
+    margin-top: 10px;
+    border-radius: 12px;
+    border: none;
+    height: 25px;
+    width: 180px;
+    text-transform: capitalize;
+    font-weight: 600;
+    cursor: pointer;
+    background-color: rgb(13, 13, 13);
+    color: white;
+}

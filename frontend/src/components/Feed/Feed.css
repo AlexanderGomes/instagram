@@ -1,0 +1,44 @@
+.feed__main {
+  display: flex;
+  /* flex-wrap: wrap; */
+  justify-content: center;
+  gap: 10rem;
+  margin-top: 3rem;
+
+
+}
+
+.no__post {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3rem;
+}
+.feed__profile__card {
+    float: right;
+}
+
+/* 1184 */
+
+@media screen and (max-width: 900px) {
+
+    
+  .no__post {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -3rem;
+}
+
+.feed__main {
+  display:flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.feed__profile__card {
+  margin-bottom: -4rem;
+}
+}

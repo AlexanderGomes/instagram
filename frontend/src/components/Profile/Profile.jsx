@@ -61,29 +61,35 @@ const Profile = () => {
 
   return (
     <div className="profile__main">
-      <div className="profile__div">
-        <a href={"/profile/" + user.username}>
-          <div className="profile__img__div">
-            <img src={defaultImg} alt="" className="profile__img" />
+      <div className="profile__color">
+        <div className="profile__div">
+     <div className="card">
+          <a href={"/profile/" + user.username}>
+            <div className="profile__img__div">
+              <img src={defaultImg} alt="" className="profile__img" />
+            </div>
+          </a>
+          <div className="profile__info">
+          <a href={"/profile/" + user.username} className='a'>
+            <p className="profile__name">{user.name}</p>
+            <p className="profile__username">{user.username.slice(0,22)}</p>
+          </a>
           </div>
-        </a>
-        <div className="profile__info">
-          <p>{user.name}</p>
-          <p>{user.username}</p>
+     </div>
+          <button className="btn__profile" onClick={onLogout}>
+            Log out
+          </button>
         </div>
-        <button className="btn__profile" onClick={onLogout}>
-          Log out
-        </button>
       </div>
 
       <div className="profile_sug">
-        <p>People you may know</p>
+        <p className="sug__text">People you may know</p>
         {friends?.slice(0, visible).map((friend) => {
           if (friend._id !== user._id && !friend.followers.includes(user._id))
             return <Suggestions friend={friend} key={friend._id} />;
         })}
 
-        <button onClick={showMore}>see more</button>
+        <button className="btn__seeMore" onClick={showMore}>see more</button>
       </div>
     </div>
   );

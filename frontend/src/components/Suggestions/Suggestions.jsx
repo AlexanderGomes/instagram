@@ -27,7 +27,7 @@ const Suggestions = ({ friend }) => {
   return (
     <div className="suggestion__main">
       {!following ? (
-        <div>
+        <div className="move__sug">
           <div>
           <a href={'/profile/' + friend.username}>
             <img className="suggestion__img" src={defaultImg} alt="" />
@@ -35,11 +35,13 @@ const Suggestions = ({ friend }) => {
           </div>
           <div className="suggestion__all">
             <div className="suggestion__name">
-              <h4>{friend.name}</h4>
+          <a href={'/profile/' + friend.username} className='a'>
+              <h4 className="sug__name">{friend.name}</h4>
+          </a>
             </div>
             <div>
               <button
-                className={following ? "follow__btn" : "unfollow__btn"}
+                className={'btn'}
                 onClick={Follow}
               >
                 {following ? "Unfollow" : "Follow"}
