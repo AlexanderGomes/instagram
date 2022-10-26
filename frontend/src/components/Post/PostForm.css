@@ -23,7 +23,7 @@
   gap: 2.4em;
 }
 
-.file {
+.file__hidden {
   display: none;
   margin-left: 6.4rem;
 }
@@ -37,7 +37,7 @@
   cursor: pointer;
 }
 
-/* blur the background and position the form at the middle of the screen */
+
 .blur__form {
   position: absolute;
   left: 50%;

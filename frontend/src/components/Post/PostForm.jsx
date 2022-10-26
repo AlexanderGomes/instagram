@@ -105,7 +105,7 @@ const PostForm = ({ setClose }) => {
             )}
           </div>
           <input
-            className="file"
+            className="file__hidden"
             type="file"
             id="file"
             accept=".png,.jpeg,.jpg,Screenshot"

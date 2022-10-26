@@ -86,7 +86,7 @@ const Feed = ({ username }) => {
         )}
       </div>
         <div className="feed__profile__card">
-          <Profile />
+          <Profile username = {username} />
         </div>
         
     </div>

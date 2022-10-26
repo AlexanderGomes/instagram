@@ -12,7 +12,7 @@ import { Suggestions } from "../";
 //to-do// simple component, just the profile card and the suggestion component
 
 //to-do// improve the suggestion component to take it to a new page instead of just staying at the feed's page, so you can see it, show the first 3/4 suggestions and instead of having a see more button, take it to a new page where they can see all their options
-const Profile = () => {
+const Profile = ({ username }) => {
   const [friends, setFriends] = useState([]);
   const [visible, setVisible] = useState(4);
   const [users, setUsers] = useState([]);
@@ -63,33 +63,49 @@ const Profile = () => {
     <div className="profile__main">
       <div className="profile__color">
         <div className="profile__div">
-     <div className="card">
-          <a href={"/profile/" + user.username}>
-            <div className="profile__img__div">
-              <img src={defaultImg} alt="" className="profile__img" />
+          <div className="card">
+            <a href={"/profile/" + user.username}>
+              <div className="profile__img__div">
+                <img src={defaultImg} alt="" className="profile__img" />
+              </div>
+            </a>
+            <div className="profile__info">
+              <a href={"/profile/" + user.username} className="a">
+                <p className="profile__name">{user.name.slice(0, 22)}</p>
+                <p className="profile__username">
+                  {user.username.slice(0, 10)}
+                </p>
+              </a>
             </div>
-          </a>
-          <div className="profile__info">
-          <a href={"/profile/" + user.username} className='a'>
-            <p className="profile__name">{user.name}</p>
-            <p className="profile__username">{user.username.slice(0,22)}</p>
-          </a>
           </div>
-     </div>
+          <div className="move__prof"
+          >
           <button className="btn__profile" onClick={onLogout}>
             Log out
           </button>
+          </div>
         </div>
       </div>
 
       <div className="profile_sug">
-        <p className="sug__text">People you may know</p>
-        {friends?.slice(0, visible).map((friend) => {
-          if (friend._id !== user._id && !friend.followers.includes(user._id))
-            return <Suggestions friend={friend} key={friend._id} />;
-        })}
+        {!username ? (
+          <>
+            <p className="sug__text">People you may know</p>
+            {friends?.slice(0, visible).map((friend) => {
+              if (
+                friend._id !== user._id &&
+                !friend.followers.includes(user._id)
+              )
+                return <Suggestions friend={friend} key={friend._id} />;
+            })}
 
-        <button className="btn__seeMore" onClick={showMore}>see more</button>
+            <button className="btn__seeMore" onClick={showMore}>
+              see more
+            </button>
+          </>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );

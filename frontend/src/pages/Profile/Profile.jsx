@@ -24,8 +24,6 @@ const Profile = () => {
   const [toggle3, setToggle3] = useState(false);
   const [savedPostInfo, setSaved] = useState([]);
 
-
-
   //doing//getting user by username
   useEffect(() => {
     const fetchUser = async () => {
@@ -72,7 +70,7 @@ const Profile = () => {
     }
   };
 
-///doing// updating profile picture //
+  ///doing// updating profile picture //
   const HandleProfilePicture = async (e) => {
     e.preventDefault();
 
@@ -149,7 +147,6 @@ const Profile = () => {
     savedPostInfo();
   }, [setSaved]);
 
-
   return (
     <div className="profile__main">
       <Navbar />
@@ -225,30 +222,26 @@ const Profile = () => {
             </form>
           )}
 
-          {/*//doing// profile picture change input being hidden by this icon */}
-          {user.username === username ? (
-            <div className="move__icon">
-              <div className="icon__profile">
-                <AiFillEdit size={30} onClick={() => setToggle2(true)} />{" "}
-              </div>
-            </div>
-          ) : (
-            ""
-          )}
-
+      
           {/*//doing// profile picture change input */}
-          {toggle2 && (
-            <form>
-              <input
-                className="file"
-                type="file"
-                id="file"
-                accept=".png,.jpeg,.jpg,Screenshot"
-                onChange={(e) => setFile(e.target.files[0])}
-              />
-              <button onClick={HandleProfilePicture}>change profile</button>
-            </form>
-          )}
+
+            <div>
+              <form>
+                <input
+                  className="file__profile"
+                  type="file"
+                  id="file"
+                  accept=".png,.jpeg,.jpg,Screenshot"
+                  onChange={(e) => setFile(e.target.files[0])}
+                />
+                {file && <button onClick={HandleProfilePicture}>Submite</button>}
+              
+              </form>
+              <label className="label" for="file">
+                Choose Picture
+              </label>
+            </div>
+
 
           {/*//doing// cover picture change input being hidden by this icon */}
           {user.username === username ? (
@@ -261,16 +254,18 @@ const Profile = () => {
 
           {/* //doing// cover picture change input */}
           {toggle3 && (
-            <form onSubmit={HandleCover}>
-              <input
-                className="file"
-                type="file"
-                id="file2"
-                accept=".png,.jpeg,.jpg,Screenshot"
-                onChange={(e) => setFile2(e.target.files[0])}
-              />
-              <button>Cover</button>
-            </form>
+            <div>
+              <form onSubmit={HandleCover}>
+                <input
+                  className="file"
+                  type="file"
+                  id="file2"
+                  accept=".png,.jpeg,.jpg,Screenshot"
+                  onChange={(e) => setFile2(e.target.files[0])}
+                />
+                <button>Cover</button>
+              </form>
+            </div>
           )}
         </div>
       </div>
@@ -278,7 +273,6 @@ const Profile = () => {
       <div className="prof__post">
         <Feed username={username} />
       </div>
-      
 
       {/* //doing// showing your saved posts only on your profile */}
       {users._id === user._id &&
