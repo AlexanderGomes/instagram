@@ -12,7 +12,7 @@ import { Suggestions } from "../";
 //to-do// simple component, just the profile card and the suggestion component
 
 //to-do// improve the suggestion component to take it to a new page instead of just staying at the feed's page, so you can see it, show the first 3/4 suggestions and instead of having a see more button, take it to a new page where they can see all their options
-const Profile = ({ username }) => {
+const ProfileCard = ({ username }) => {
   const [friends, setFriends] = useState([]);
   const [visible, setVisible] = useState(4);
   const [users, setUsers] = useState([]);
@@ -71,7 +71,7 @@ const Profile = ({ username }) => {
             </a>
             <div className="profile__info">
               <a href={"/profile/" + user.username} className="a">
-                <p className="profile__name">{user.name.slice(0, 22)}</p>
+                <p className="profile__name">{user.name.slice(0, 10)}</p>
                 <p className="profile__username">
                   {user.username.slice(0, 10)}
                 </p>
@@ -88,6 +88,7 @@ const Profile = ({ username }) => {
       </div>
 
       <div className="profile_sug">
+      {/* doing// showing suggestion only at home page */}
         {!username ? (
           <>
             <p className="sug__text">People you may know</p>
@@ -111,4 +112,4 @@ const Profile = ({ username }) => {
   );
 };
 
-export default Profile;
+export default ProfileCard;

@@ -1,7 +1,7 @@
 // docs
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Post, Profile } from "../";
+import { Post, ProfileCard } from "../";
 import { useSelector } from "react-redux";
 import "./Feed.css";
 
@@ -10,8 +10,20 @@ import "./Feed.css";
 const Feed = ({ username }) => {
   const [profilePost, setPosts] = useState([]);
   const [timelinePost, setSecond] = useState([]);
+  const [users, setUser] = useState({});
+
 
   const { user } = useSelector((state) => state.auth);
+
+   //doing//getting user by username
+   useEffect(() => {
+    const fetchUser = async () => {
+      const res = await axios.get(`/api/user/${user._id}`);
+      setUser(res.data);
+    };
+    fetchUser();
+  }, []);
+
 
   //doing//changing what posts are being desplayed depending on what page you're, two different calls to two different pages
   useEffect(() => {
@@ -78,15 +90,22 @@ const Feed = ({ username }) => {
             <Post className="feed__post__main" key={post._id} post={post} />
           ))
         ) : (
-          <div >
-            <p>
+          <div>
+          {/* //doing// just show this sentence if you're at the profile page */}
+          {username === user.username ? (
+            <p className="bottom">
               No posts, Let's Share what's going on in your life
             </p>
+          ) : (
+''
+          )}
+           
           </div>
         )}
       </div>
+      {/* doing// show profile card at home/profile page */}
         <div className="feed__profile__card">
-          <Profile username = {username} />
+        {username === user.username || !username ?  <ProfileCard username = {username} /> : ''}
         </div>
         
     </div>

@@ -19,6 +19,9 @@
 }
 
 /* 1184 */
+.bottom {
+  margin-top: 3rem;
+}
 
 @media screen and (max-width: 900px) {
 
@@ -41,4 +44,11 @@
 .feed__profile__card {
   margin-bottom: -4rem;
 }
+.bottom {
+  margin-top: -70px;
 }
+}
+
+
+
+
