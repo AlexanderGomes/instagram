@@ -45,20 +45,7 @@ const Navbar = () => {
   Notification();
 
 
- //doing// fetching user's followings
 
-  // const FetchUserLiked = async () => {
-  //     useEffect(() => {
-  //       axios.get(`/api/user/followings/` + user._id)
-  //         .then((res) => {
-  //           setUserLiked(res.data);
-  //         })
-  //         .catch((error) => {
-  //           console.log(error.message);
-  //         });
-  //     }, [setUserLiked]);
-  //   };
-  //   FetchUserLiked();
 
 
 

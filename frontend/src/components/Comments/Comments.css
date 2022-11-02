@@ -11,7 +11,8 @@
 }
 
 .img__comments {
-  width: 35px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
 }
 
@@ -23,8 +24,8 @@
 }
 
 .comments__info {
-  margin-left: 55px;
-  margin-top: -50px;
+  margin-left: 60px;
+  margin-top: -60px;
 }
 
 .comments__desc {

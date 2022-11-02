@@ -1,30 +1,30 @@
 ## Project Plans && Explanations ##
 
-## FIRST STEP ##
-- was done by doing the bare minimum of css just so you could see how things work, mainly focused on implementing the main features of the applications
+## STEPS TO FINISH ##
+- REDISIGN PROFILE PAGE
+- IMPLEMENT FOLLOWERS PAGE
+- IMPLEMENT SNAPCHAT FEATURE FOR FOLLOWERS ACTIVITY
+- IMPROVE HOME PAGE, TAKE FRIEND SUGGESTIONS TO IT'S OWN PAGE
+- CREATE A BETTER COMMENT SECTION FOR THE POST COMPONENT
+- IMPROVE NOTIFICATION SYSTEM
+- IMPLEMENT MESSAGE
+- IMPLEMENT LIVE VIDEOS
+## MAJOR THINGS DONE ##
 
 
-## SECOND STEP ##
-- making the application presentable, styling it propertly and documenting it along the way so you can implement more complex features later
-- focused on css and documentation for the third step
+## AFTER APP BEING DONE AND PRESENTABLE ##
+- CHANGE INFORMATION ON CHANGE, NOT ON RELOAD
+- DECREASE THE TIMES YOU CALL API'S
+- SCALE YOUR NODEJS BACKEND TO SUPPORT MORE CALLS AT THE SAME TIME
+- FIGURE OUT HOW TO MAKE USE OF CACHING
+- FINISH DETAILS IN DESIGN ON ALL PAGES
 
 
-## THIRD STEP ##
-- implement chat messages, do all the "to-do's" documented on the second step of the application to improve every component.
-- implement the main feature of the application, the snapchat streak but for interactions such as liking, desliking, commenting etc.
-- this is the biggest step, It's going to take time to implement all the to-do's, plus the chat and the main feature of the application 
-- Showing information onChange without refreshing the page all the time
-
-
-
-## FOURTH STEP ##
-- Professionaly redisign the entire application, add the details when you like a post for example and the color of the button changes indicating that is already liked
-- Keep improving the application, making less API calls, faster response times, learn more about caching, how can you make your backend better, scale the backend to take more API calls
-- Implement the live function at the very end, is by far the most complex.
+## AFTER EVERYTHING IS DONE ##
+- you can implement new features if you want to, now there's not much to worry about, you can focus more on creating more complex features
 
 
 ## TERMINOLIGY ##
-
 - TO-DO: Things to improve, implement or fix on a given component/page
 - DOING: Explaning what that piece of code is doing
 - DOCS: Every page that was documented has this word init, usefull to keep track of what you have done so far

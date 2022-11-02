@@ -174,7 +174,7 @@ width: 80px;
 .profile__information {
   position: relative;
   left: -60px;
-  top: -190px;
+  top: -300px;
 }
 
 .label3 {
@@ -199,7 +199,7 @@ width: 80px;
 .cover__picture {
     position: absolute;
     right: 0;
-    top: 400px;
+    top: 370px;
 }
 
 .btn__size2 {
@@ -238,5 +238,26 @@ padding-top: 10px;
     font-family: Arial, Helvetica, sans-serif;
     color: rgb(113, 113, 113) ;
     cursor: pointer;
+}
+
+/* .a {
+    display: flex;
+   flex-direction: row;
+} */
+
+.profile__saved__div {
+    display: flex;
+    margin-left: 10px;
+    
+}
+
+.profile__followers {
+  margin-top: 100px;
+}
+
+.profile__saved__div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 

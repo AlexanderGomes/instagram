@@ -1,5 +1,6 @@
 .suggestion__img {
-    width: 35px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
 }
 
@@ -38,4 +39,8 @@
     font-family: Arial, Helvetica, sans-serif;
     color: black;
     
+}
+
+.suggestion__main {
+margin-bottom: 15px;
 }

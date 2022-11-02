@@ -57,6 +57,7 @@ cursor: pointer;
   text-transform: capitalize;
   font-family: Arial, Helvetica, sans-serif;
   color: rgb(80, 81, 81);
+  line-break: anywhere;
 }
 
 .post__icons {

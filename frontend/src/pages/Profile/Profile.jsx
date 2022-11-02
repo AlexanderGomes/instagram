@@ -25,6 +25,7 @@ const Profile = () => {
   const [savedPostInfo, setSaved] = useState([]);
   const [isActive, setIsActive] = useState(true);
   const [isSaved, setIsSaved] = useState(false);
+  const [following, setFollowing] = useState([])
 
   //doing//getting user by username
   useEffect(() => {
@@ -161,6 +162,25 @@ const Profile = () => {
   };
   
 
+   //doing// fetching user's followings
+  //to-do// build followings component, when you click you can see the list of followers
+
+  const FetchFollowings= async () => {
+      useEffect(() => {
+        axios.get(`/api/user/followings/` + user._id)
+          .then((res) => {
+            setFollowing(res.data);
+          })
+          .catch((error) => {
+            console.log(error.message);
+          });
+      }, [setFollowing]);
+    };
+    FetchFollowings();
+
+
+
+
   return (
     <div className="profile__main">
       <Navbar />
@@ -253,6 +273,10 @@ const Profile = () => {
               </div>
             </div>
           )}
+
+          <div className="profile__followers">
+
+          </div>
 
           {/* //doing// profile picture change input */}
           {user.username === username ? (
@@ -357,7 +381,7 @@ const Profile = () => {
         users._id === user._id &&
         (savedPostInfo.length > 0 ? (
           savedPostInfo?.map((sav) => (
-            <div key={sav._id}>
+            <div key={sav._id} className='profile__saved__div'>
               <SavedPost saved={sav} />
             </div>
           ))
