@@ -23,7 +23,6 @@ const Notifications = ({ noti, setOpen }) => {
   const [sender, setSender] = useState([]);
   const [post, setPost] = useState([]);
 
-
   //to-do// Improve this function, I don't think that's the right way to do it
   //doing// getting the user by userId from the noti data
   useEffect(() => {
@@ -39,7 +38,6 @@ const Notifications = ({ noti, setOpen }) => {
     };
     fetchData();
   }, [setSender]);
-
 
   // to-do // Improve this function, I don't think that's the right way to do it
   //doing// getting the post by the postId from the noti data
@@ -59,9 +57,7 @@ const Notifications = ({ noti, setOpen }) => {
   };
   GetPost();
 
-
   const defaultImg = sender.profilePicture ? sender.profilePicture : noAvatar;
-
 
   return (
     <div className="noti__main">
@@ -94,7 +90,7 @@ const Notifications = ({ noti, setOpen }) => {
               </div>
             ) : (
               <div className="noti__info">
-              {/* //doing// deleted post notification */}
+                {/* //doing// deleted post notification */}
                 <img
                   className="noti__img__size"
                   src={noti && defaultImg}

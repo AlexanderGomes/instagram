@@ -1,5 +1,6 @@
 import React from "react";
 import { Profile, Home, Register, Login, Welcome } from "./pages";
+import { Navbar } from "./components";
 import {
   BrowserRouter as Router,
   Routes,
@@ -17,6 +18,7 @@ function App() {
   return (
     <>
       <Router>
+        <div className="home__navbar">{user && <Navbar />}</div>
         <div>
           <Routes>
             <Route exact path="/" element={<Welcome />} />

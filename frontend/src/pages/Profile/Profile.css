@@ -1,263 +1,78 @@
-.background {
-    width:100%;
-    height:550px;
-    object-fit:cover;
-    object-position:50% 50%;
-    height: 300px;
-}
+/* to-do // fix the bug the with cover button not being overlayed by the post form */
 
-.prof__user {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-}
-
-.prof__information {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: -3rem;
-    flex-direction: column;
-}
-
-.prof__info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.prof__post {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: -5rem;
-}
-
-.icons {
-    background-color: rgb(215, 215, 215);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    height: 50px;
-    width: 40px;
-    cursor: pointer;
-}
-
-.icons:hover {
-    background-color: black;
-    color: aqua;
-
-}
-
-
-
-.icon__profile {
-    background-color: rgb(215, 215, 215);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    height: 50px;
-    width: 40px;
-    cursor: pointer;
-}
-
-.icon__profile:hover {
-    color: aqua;
-    background-color: black;
-}
-
-.icon__cover{
-    background-color: rgb(215, 215, 215);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    height: 50px;
-    width: 40px;
-    cursor: pointer;
-}
-
-.icon__cover:hover {
-    color: aqua;
-    background-color: black;
-}
-
-.icon__cover {
-    position: absolute;
-    z-index: 20;
-    margin-left: 85rem;
-    margin-bottom: 18rem;
-}
-
-.move__icon {
-    position: absolute;
-    z-index: 20;
-    margin-top: -10rem;
-    margin-left: 8rem;
-}
-
-
-
-.file__profile {
-    display: none;
-}
-
-.btn__size {
-width: 40px;
-}
-
-.btn__size__submit {
-width: 80px;
-}
-
-
-.btn__cover__submit {
-    text-transform: uppercase;
-    /* color: white; */
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    overflow: hidden;
-    outline: none;
-    position: relative;
-    left: -1.80rem;
-}
-
-.label2 {
-    margin-bottom: 4px;
-    color: white;
-    margin-top: 20px;
-    background: rgb(240, 91, 91);
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: 900;
-
-    transition: 0.5s;
-    height: 30px;
-    width: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.blur__form2 {
-  position: absolute;
-  width: 1000%;
-  height: 1000%;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-
-.form__post2 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgb(255, 255, 255);
-    backdrop-filter: blur(10px);
-    height: 400px;
-    width: 300px;
-    border-radius: 12px;
-    position: absolute;
-    top: 47%;
-    left: 50%;
-    z-index: 50;
-    transform: translate(-50%, -50%);
-    overflow: hidden;
-}
-
-.profile__information {
-  position: relative;
-  left: -60px;
-  top: -300px;
-}
-
-.label3 {
-    margin-bottom: 4px;
-    color: white;
-    margin-top: 20px;
-    background: rgb(240, 91, 91);
-    height: 40px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: 900;
-    transition: 0.5s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.label3:hover {
-    transform: scale(1.1);
-}
-
-.cover__picture {
-    position: absolute;
-    right: 0;
-    top: 370px;
-}
-
-.btn__size2 {
-    width: 40px;
-    height: 40px;
-}
-
-
-.move__feed {
-
-margin-top: -10px;
-}
-
-
-.profile__change {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    border-bottom: rgb(113, 113, 113) 3px solid;
-    border-top: rgb(116, 116, 116) 3px solid;
-
-
-padding-bottom: 10px;
-padding-top: 10px;
-}
-
-
-
-.textActive {
-    border-bottom: rgb(113, 113, 113) 3px solid;
-}
-
-
-.text {
-    font-family: Arial, Helvetica, sans-serif;
-    color: rgb(113, 113, 113) ;
-    cursor: pointer;
-}
-
-/* .a {
-    display: flex;
-   flex-direction: row;
-} */
-
-.profile__saved__div {
-    display: flex;
-    margin-left: 10px;
-    
-}
-
-.profile__followers {
-  margin-top: 100px;
-}
-
-.profile__saved__div {
+.profile__main {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+.prof__backgroundImg {
+  position: relative;
+  z-index: -2;
+  top: 70px;
+  width: 95%;
+  height: 370px;
+  min-height: 100%;
+}
+
+.background {
+  object-fit: cover;
+  height: 300px;
+  width: 100%;
+  border-radius: 12px;
+}
+
+.profile__coverBtn {
+  position: relative;
+  left: 40%;
+  top: -43px;
+  cursor: pointer;
+}
+
+.cover__btn {
+  color: white;
+  background-color: rgb(247, 151, 151);
+  border-radius: 50%;
+  height: 35px;
+  width: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.btn__confirm {
+  background-color: rgb(247, 151, 151);
+  color: white;
+  font-weight: 600;
+  border-radius: 12px;
+  border: rgb(247, 151, 151);
+  position: relative;
+  left: -15%;
+  bottom: -6px;
+  height: 25px;
+  cursor: pointer;
+}
+
+.file__cover {
+  display: none;
+}
+.prof__user {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.prof__info {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 94%;
+}
+
+.prof__information {
+  display: flex;
+  flex-direction: column;
+  margin-left: 5px;
+  gap: 5px;
+}

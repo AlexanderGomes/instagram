@@ -1,13 +1,12 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import './Home.css'
-import axios from 'axios'
-import { Navbar, Feed, PostForm } from '../../components'
-import './Home.css'
-import { useSelector } from 'react-redux'
+import "./Home.css";
+import axios from "axios";
+import { Navbar, Feed, PostForm } from "../../components";
+import "./Home.css";
+import { useSelector } from "react-redux";
 
 const Home = () => {
-
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
@@ -15,19 +14,15 @@ const Home = () => {
     if (!user) {
       navigate("/login");
     }
-    
   }, []);
 
   return (
-    <div className='home__main'>
-    <div className='home__navbar'>
-      <Navbar />
+    <div className="home__main">
+      <div className="home__feed">
+        <Feed />
+      </div>
     </div>
-     <div className='home__feed'>
-      <Feed/>
-     </div>
-    </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

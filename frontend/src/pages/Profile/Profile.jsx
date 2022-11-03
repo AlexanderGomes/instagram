@@ -8,7 +8,7 @@ import { Navbar, Feed } from "../../components";
 import { AiFillEdit } from "react-icons/ai";
 import { SavedPost } from "../../components";
 import { useSelector } from "react-redux";
-import { AiFillCloseCircle, AiOutlineInsertRowBelow } from "react-icons/ai";
+import { AiFillCloseCircle, AiFillCamera } from "react-icons/ai";
 import { MdSaveAlt } from "react-icons/md";
 
 const Profile = () => {
@@ -25,7 +25,7 @@ const Profile = () => {
   const [savedPostInfo, setSaved] = useState([]);
   const [isActive, setIsActive] = useState(true);
   const [isSaved, setIsSaved] = useState(false);
-  const [following, setFollowing] = useState([])
+  const [following, setFollowing] = useState([]);
 
   //doing//getting user by username
   useEffect(() => {
@@ -160,42 +160,83 @@ const Profile = () => {
     setIsSaved((current) => !current);
     setIsActive(false);
   };
-  
 
-   //doing// fetching user's followings
+  //doing// fetching user's followings
   //to-do// build followings component, when you click you can see the list of followers
 
-  const FetchFollowings= async () => {
-      useEffect(() => {
-        axios.get(`/api/user/followings/` + user._id)
-          .then((res) => {
-            setFollowing(res.data);
-          })
-          .catch((error) => {
-            console.log(error.message);
-          });
-      }, [setFollowing]);
-    };
-    FetchFollowings();
-
-
-
+  const FetchFollowings = async () => {
+    useEffect(() => {
+      axios
+        .get(`/api/user/followings/` + user._id)
+        .then((res) => {
+          setFollowing(res.data);
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    }, [setFollowing]);
+  };
+  FetchFollowings();
 
   return (
     <div className="profile__main">
-      <Navbar />
       <div className="prof__backgroundImg">
-        <img className="background" src={backgroundDefault} alt="" />
+        <img
+          className="background"
+          src={backgroundDefault}
+          alt="background profile picture"
+        />
       </div>
-      <div className="prof__information">
+
+      <div className="profile__coverBtn">
+        {user.username === username ? (
+          <div className="cover__picture">
+            <form onSubmit={HandleCover}>
+              <input
+                className="file__cover"
+                type="file"
+                id="file2"
+                accept=".png,.jpeg,.jpg,Screenshot"
+                onChange={(e) => setFile2(e.target.files[0])}
+              />
+
+              <label for="file2" className="move__btns">
+                {file2 ? (
+                  <button type="submit" className="btn__confirm">
+                    Confirm
+                  </button>
+                ) : (
+                  <div className="cover__btn">
+                    <AiFillCamera size={23} />
+                  </div>
+                )}
+              </label>
+            </form>
+          </div>
+        ) : (
+          ""
+        )}
+      </div>
+
+      <div className="prof__info">
+        <img className="prof__user" src={defaultImg} alt="" />
+
+        <div className="prof__information">
+          <p>{users.name}</p>
+          <p>{users.username && users.username}</p>
+        </div>
+      </div>
+
+      {/* <div className="prof__information">
         <img className="prof__user" src={defaultImg} alt="" />
 
         <div className="prof__info">
           <p>{users.name}</p>
-          <p>{users.username && users.username}</p>
+          <p>{users.username && users.username}</p> 
+          */}
 
-          {/* //doing// showing the description to everybody, but the question only to the current user on his profile */}
-          {users.desc ? (
+      {/* //doing// showing the description to everybody, but the question only to the current user on his profile */}
+      {/* {users.desc ? (
             <div>
               <p>{users.desc}</p>
             </div>
@@ -206,10 +247,12 @@ const Profile = () => {
               )}
             </div>
           )}
+          
+           */}
 
-          <div>
-            {/* //doing// name, desc bio change inputs being hidden by this icon */}
-            {user.username === username ? (
+      {/* <div> */}
+      {/* //doing// name, desc bio change inputs being hidden by this icon */}
+      {/* {user.username === username ? (
               <div>
                 <p className="label2" onClick={() => setToggle(true)}>
                   Edit Profile
@@ -218,10 +261,10 @@ const Profile = () => {
             ) : (
               ""
             )}
-          </div>
+          </div> */}
 
-          {/* //doing// name, desc bio change inputs */}
-          {toggle && (
+      {/* //doing// name, desc bio change inputs */}
+      {/* {toggle && (
             <div className="blur__form2">
               <div className="form__post2">
                 <div className="icon__position">
@@ -272,14 +315,12 @@ const Profile = () => {
                 </form>
               </div>
             </div>
-          )}
+          )} */}
 
-          <div className="profile__followers">
+      {/* <div className="profile__followers"></div> */}
 
-          </div>
-
-          {/* //doing// profile picture change input */}
-          {user.username === username ? (
+      {/* //doing// profile picture change input */}
+      {/* {user.username === username ? (
             <div className="profile__information">
               <form onSubmit={HandleProfilePicture}>
                 <input
@@ -307,44 +348,15 @@ const Profile = () => {
             </div>
           ) : (
             ""
-          )}
+          )} */}
 
-          {/* //doing// cover picture change input */}
-          {user.username === username ? (
-            <div className="cover__picture">
-              <form onSubmit={HandleCover}>
-                <input
-                  className="file__profile"
-                  type="file"
-                  id="file2"
-                  accept=".png,.jpeg,.jpg,Screenshot"
-                  onChange={(e) => setFile2(e.target.files[0])}
-                />
-
-                <label for="file2">
-                  {file2 ? (
-                    <button
-                      type="submit"
-                      className="btn__cover__submit label2 btn__size"
-                    >
-                      submit
-                    </button>
-                  ) : (
-                    <div className="label2 btn__size2">
-                      <AiFillEdit size={23} />
-                    </div>
-                  )}
-                </label>
-              </form>
-            </div>
-          ) : (
-            ""
-          )}
+      {/* //doing// cover picture change input */}
+      {/*      
         </div>
-      </div>
+      </div> */}
 
       {/* doing // showing posts/saved only for current user on his profile */}
-      {user.username === username ? (
+      {/* {user.username === username ? (
         <div className="profile__change">
           <AiOutlineInsertRowBelow size={20} />{" "}
           <p
@@ -368,12 +380,11 @@ const Profile = () => {
         </div>
       ) : (
         ""
-      )}
-
+      )} */}
 
       {/* //doing// feed is receiving the username of the current user */}
       {/* doing // showing feed or saved post depending on which one you clicked */}
-      {isActive ? (
+      {/* {isActive ? (
         <div className="feed__main move__feed">
           <Feed username={username} />
         </div>
@@ -381,7 +392,7 @@ const Profile = () => {
         users._id === user._id &&
         (savedPostInfo.length > 0 ? (
           savedPostInfo?.map((sav) => (
-            <div key={sav._id} className='profile__saved__div'>
+            <div key={sav._id} className="profile__saved__div">
               <SavedPost saved={sav} />
             </div>
           ))
@@ -390,7 +401,9 @@ const Profile = () => {
             <p>No posts saved</p>
           </div>
         ))
-      )}
+      )} */}
+
+  
     </div>
   );
 };
