@@ -50,5 +50,7 @@
 }
 
 
-
-
+.bottom {
+  text-transform: capitalize;
+  font-weight: 600;
+}

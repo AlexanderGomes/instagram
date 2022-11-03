@@ -128,9 +128,7 @@ const Post = ({ post }) => {
           <div className="text__div">
             <p className="user__name">{users.name}</p>
             <p className="user__time">{format(post.createdAt)}</p>
-            <div className="icon">
-            {deleteIcon ? <p>{deleteIcon}</p> : ""}
-            </div>
+            <div className="icon">{deleteIcon ? <p>{deleteIcon}</p> : ""}</div>
           </div>
         </div>
         <div className="post__information">

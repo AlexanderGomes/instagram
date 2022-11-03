@@ -68,7 +68,7 @@ const Feed = ({ username }) => {
   if (!profilePost) return <p>loading...</p>;
 
   return (
-    <div className="feed__main">
+    <div>
       <div className="feed__post">
         {/* //doing// if there's no username if means it's being fetched by the id so is not the profile page then you display the timeline posts, otherwise show the profile posts */}
         {!username ? (

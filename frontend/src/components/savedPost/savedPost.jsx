@@ -6,8 +6,6 @@ import "./savedPost.css";
 import { format } from "timeago.js";
 import noAvatar from "../../assets/noAvatar.png";
 
-
-
 //to-do// instead of taking the user to the profile page, try to find a way to display the entire post
 //at the same screen
 const SavedPost = ({ saved }) => {
@@ -26,8 +24,8 @@ const SavedPost = ({ saved }) => {
   return (
     <div className="saved__move">
       <div className="saved__main">
-          <div className="saved__color">
-        <a className="saved__link" href={"/profile/" + users.username}>
+        <div className="saved__color">
+          <a className="saved__link" href={"/profile/" + users.username}>
             <div className="saved__upInfo">
               <img
                 className="saved__user__info"
@@ -47,8 +45,8 @@ const SavedPost = ({ saved }) => {
                 ""
               )}
             </div>
-        </a>
-          </div>
+          </a>
+        </div>
       </div>
     </div>
   );

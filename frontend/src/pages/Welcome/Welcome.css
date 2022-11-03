@@ -3,6 +3,7 @@ body {
     height: 100%;
     margin: 0;
 }
+
 .w__main {
   text-align: center;
   margin: auto;
@@ -131,6 +132,14 @@ margin-right: 5rem;
         top: 59%;
   transform: translate(-50%, -50%);
 
+        }
+        .w__move {
+ position: relative;
+ top: -10rem;
+        }
+
+        .w__user {
+          margin-top: 10rem;
         }
     }
 
@@ -279,3 +288,7 @@ margin-right: 5rem;
         }
         
       */
+
+      .w__move {
+        margin-top: 10rem;
+      }
