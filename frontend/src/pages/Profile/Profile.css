@@ -4,6 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow-x: hidden;
 }
 
 .prof__backgroundImg {
@@ -187,7 +188,6 @@
   margin-top: 40px;
 }
 
-
 .move__feed__saved {
   /* margin-top: 45rem; */
   position: absolute;
@@ -196,8 +196,41 @@
 }
 
 .no__post__profile {
-min-height: 100px;
-margin-top: 30px;
-font-weight: 700;
-text-transform: capitalize;
+  min-height: 100px;
+  margin-top: 30px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.profile__followerCard {
+  position: absolute;
+  top: 33rem;
+  z-index: 10;
+}
+
+.profile__popUp {
+  position: absolute;
+  left: 50%;
+  top: 70%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+}
+
+
+
+.profile__followerCard {
+  background-color: rgb(211, 211, 211);
+  width: 220px;
+  height: 70px;
+  border-radius: 12px;
+}
+
+.followersCard__info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+  "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }

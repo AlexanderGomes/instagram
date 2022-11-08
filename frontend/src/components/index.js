@@ -10,6 +10,9 @@ export {default as ProfileCard} from './Profile/Profile'
 export {default as Suggestions} from './Suggestions/Suggestions'
 export {default as Notifications} from './Notifications/Notifications'
 export {default as SavedPost} from './savedPost/savedPost'
+export {default as FollowerPopUp} from './FollowerPopUp/FollowerPopUp'
+
+
 
 
 

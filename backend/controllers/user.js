@@ -125,7 +125,7 @@ const followUser = asyncHandler(async (req, res) => {
 
 const getUsersFollowers = asyncHandler(async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findOne({ username: req.params.username });
     const friends = await Promise.all(
       user.followers.map((friendId) => {
         return User.findById(friendId);
@@ -146,7 +146,7 @@ const getUsersFollowers = asyncHandler(async (req, res) => {
 
 const getUsersFollowings = asyncHandler(async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findOne({ username: req.params.username });
     const friends = await Promise.all(
       user.followings.map((friendId) => {
         return User.findById(friendId);

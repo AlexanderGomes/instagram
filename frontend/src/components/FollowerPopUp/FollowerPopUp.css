@@ -1,0 +1,34 @@
+.popUp__main {
+width: 100%;
+}
+
+.popUp__color {
+    background-color: antiquewhite;
+   min-height: 100px;
+    border-radius: 12px;
+    width: 440px;
+}
+
+.popUp__top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-bottom: 1px solid black;
+}
+
+.popUp__text {
+  display: flex;
+  gap: 40px;
+  position: relative;
+  left: 100px;
+}
+
+.following__zero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+  "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}

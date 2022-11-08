@@ -4,12 +4,13 @@ import axios from "axios";
 import "./Profile.css";
 import noAvatar from "../../assets/noAvatar.png";
 import background from "../../assets/default.png";
-import { Navbar, Feed } from "../../components";
+import { Feed } from "../../components";
 import { AiFillEdit, AiOutlineInsertRowBelow } from "react-icons/ai";
 import { SavedPost } from "../../components";
 import { useSelector } from "react-redux";
 import { AiFillCloseCircle, AiFillCamera } from "react-icons/ai";
 import { MdSaveAlt } from "react-icons/md";
+import { FollowerPopUp } from "../../components";
 
 const Profile = () => {
   const [users, setUser] = useState({});
@@ -25,7 +26,12 @@ const Profile = () => {
   const [savedPostInfo, setSaved] = useState([]);
   const [isActive, setIsActive] = useState(true);
   const [isSaved, setIsSaved] = useState(false);
-  const [following, setFollowing] = useState([]);
+
+  const [followings, setFollowings] = useState([]);
+  const [followers, setFollowers] = useState([]);
+  const [togglePopUp, setTogglePopUp] = useState(false);
+  const [followersActive, setFlowersActive] = useState(false);
+  const [followingActive, setFlowingActive] = useState(false);
 
   //doing//getting user by username
   useEffect(() => {
@@ -164,20 +170,31 @@ const Profile = () => {
   //doing// fetching user's followings
   //to-do// build followings component, when you click you can see the list of followers
 
-  const FetchFollowings = async () => {
-    useEffect(() => {
-      axios
-        .get(`/api/user/followings/` + user._id)
-        .then((res) => {
-          setFollowing(res.data);
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
-    }, [setFollowing]);
-  };
-  FetchFollowings();
+  useEffect(() => {
+    const GetFollowings = async () => {
+      const res = await axios.get(`/api/user/followings/${username}`);
+      setFollowings(res.data);
+    };
+    GetFollowings();
+  }, [setFollowings]);
 
+  useEffect(() => {
+    const GetFollowers = async () => {
+      const res = await axios.get(`/api/user/followers/${username}`);
+      setFollowers(res.data);
+    };
+    GetFollowers();
+  }, [setFollowers]);
+
+  const handleFollower = () => {
+    setFlowersActive(true);
+    setTogglePopUp(true);
+  };
+
+  const handleFollowing = () => {
+    setFlowingActive(true);
+    setTogglePopUp(true);
+  };
 
   // to-do // fix profile feed and saved post bugs
   return (
@@ -338,7 +355,35 @@ const Profile = () => {
         </div>
       </div>
 
-      followers/following space
+      <div className="profile__popUp">
+        {togglePopUp && (
+          <div className="followersCard__popUp">
+            <FollowerPopUp
+              changeFollowerState={setFlowersActive}
+              changeFollowingState={setFlowingActive}
+              closeToggle={setTogglePopUp}
+              isFollowingActive={followingActive}
+              isFollowersActive={followersActive}
+              followers={followers}
+              following={followings}
+            />
+          </div>
+        )}
+      </div>
+
+      <div className="profile__followerCard">
+        <div className="followersCard__main">
+          <div className="followersCard__color">
+            <div className="followersCard__info">
+              {/* to-do format the number for bigger numbers possibility */}
+              <p>{followers.length}</p>
+              <p onClick={handleFollower}>Followers</p>
+              <p>{followings.length}</p>
+              <p onClick={handleFollowing}>Following</p>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* doing // showing posts/saved only for current user on his profile */}
       {user.username === username ? (
@@ -349,8 +394,7 @@ const Profile = () => {
           >
             Posts
           </p>
-          <AiOutlineInsertRowBelow size={20} />{" "}
-          <MdSaveAlt size={20} />
+          <AiOutlineInsertRowBelow size={20} /> <MdSaveAlt size={20} />
           <p
             className={isSaved ? "saved__active" : "saved__noActive"}
             onClick={handleSaved}
@@ -365,25 +409,25 @@ const Profile = () => {
       {/* //doing// feed is receiving the username of the current user */}
       {/* doing // showing feed or saved post depending on which one you clicked */}
       <div className="move__feed__saved">
-      {isActive ? (
-        <div>
-          <Feed username={username} />
-        </div>
-      ) : (
-        users._id === user._id &&
-        (savedPostInfo.length > 0 ? (
-          savedPostInfo?.map((sav) => (
-            <div key={sav._id} >
-              <SavedPost saved={sav} />
+        {isActive ? (
+          <div>
+            <Feed username={username} />
+          </div>
+        ) : (
+          users._id === user._id &&
+          (savedPostInfo.length > 0 ? (
+            savedPostInfo?.map((sav) => (
+              <div key={sav._id}>
+                <SavedPost saved={sav} />
+              </div>
+            ))
+          ) : (
+            <div className="no__post__profile">
+              <p>No posts saved</p>
             </div>
           ))
-        ) : (
-          <div className="no__post__profile">
-            <p>No posts saved</p>
-          </div>
-        ))
-      )}
-</div>
+        )}
+      </div>
     </div>
   );
 };
