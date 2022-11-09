@@ -172,27 +172,41 @@ const Profile = () => {
 
   useEffect(() => {
     const GetFollowings = async () => {
-      const res = await axios.get(`/api/user/followings/${username}`);
-      setFollowings(res.data);
+      if (username) {
+        const res = await axios.get(`/api/user/followings/${username}`);
+        setFollowings(
+          res.data.sort((p1, p2) => {
+            return new Date(p2.createdAt) - new Date(p1.createdAt);
+          })
+        );
+      }
     };
     GetFollowings();
   }, [setFollowings]);
 
   useEffect(() => {
     const GetFollowers = async () => {
-      const res = await axios.get(`/api/user/followers/${username}`);
-      setFollowers(res.data);
+      if (username) {
+        const res = await axios.get(`/api/user/followers/${username}`);
+        setFollowers(
+          res.data.sort((p1, p2) => {
+            return new Date(p2.createdAt) - new Date(p1.createdAt);
+          })
+        );
+      }
     };
     GetFollowers();
   }, [setFollowers]);
 
   const handleFollower = () => {
     setFlowersActive(true);
+    setFlowingActive(false);
     setTogglePopUp(true);
   };
 
   const handleFollowing = () => {
     setFlowingActive(true);
+    setFlowersActive(false);
     setTogglePopUp(true);
   };
 
@@ -359,13 +373,14 @@ const Profile = () => {
         {togglePopUp && (
           <div className="followersCard__popUp">
             <FollowerPopUp
-              changeFollowerState={setFlowersActive}
-              changeFollowingState={setFlowingActive}
+              setFlowersActive={setFlowersActive}
+              setFlowingActive={setFlowingActive}
               closeToggle={setTogglePopUp}
-              isFollowingActive={followingActive}
               isFollowersActive={followersActive}
+              isFollowingActive={followingActive}
               followers={followers}
               following={followings}
+              username={username}
             />
           </div>
         )}
@@ -377,9 +392,9 @@ const Profile = () => {
             <div className="followersCard__info">
               {/* to-do format the number for bigger numbers possibility */}
               <p>{followers.length}</p>
-              <p onClick={handleFollower}>Followers</p>
+              <p onClick={handleFollower}>followers</p>
               <p>{followings.length}</p>
-              <p onClick={handleFollowing}>Following</p>
+              <p onClick={handleFollowing}>following</p>
             </div>
           </div>
         </div>

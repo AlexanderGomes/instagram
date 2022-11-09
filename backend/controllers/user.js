@@ -136,7 +136,7 @@ const getUsersFollowers = asyncHandler(async (req, res) => {
 
     friends.map((friend) => {
       const { _id, username, name } = friend;
-      friendList.push({ follower: friend });
+      friendList.push(friend);
     });
     res.status(200).json(friendList);
   } catch (error) {

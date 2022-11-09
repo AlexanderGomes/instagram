@@ -1,16 +1,50 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./FollowerPopUp.css";
 import { AiFillCloseCircle, AiFillCheckCircle } from "react-icons/ai";
+import axios from "axios";
+import { FollowingCard, FollowerCard } from "../";
 
 const FollowerPopUp = ({
-  changeFollowingState,
-  changeFollowerState,
   closeToggle,
   isFollowingActive,
+  isFollowersActive,
   followers,
   following,
+  setFlowersActive,
+  setFlowingActive,
+  username,
 }) => {
-  console.log(following.length);
+  const [user, setUser] = useState([]);
+
+  useEffect(() => {
+    const getUserByUsername = async () => {
+      if (username) {
+        const res = await axios.get(`/api/user/username/${username}`);
+        setUser(res.data);
+      }
+    };
+
+    getUserByUsername();
+  }, [setUser]);
+
+  // const [isFollowing] = useState(
+  //   following.followers.includes(user._id)
+  // );
+
+  //to-do// fix bug, being able to set both to false and not having an active one is going to leave an empty space
+  const handleFollower = () => {
+    setFlowersActive(true);
+    setFlowingActive(false);
+  };
+
+  const handleFollowing = () => {
+    setFlowingActive(true);
+    setFlowersActive(false);
+  };
+
+  // const [followings] = useState(
+  //   following.followers.includes(user._id)
+  // );
 
   return (
     <div className="popUp__main">
@@ -21,8 +55,22 @@ const FollowerPopUp = ({
               <AiFillCloseCircle size={20} onClick={() => closeToggle(false)} />
             </div>
             <div className="popUp__text">
-              <p>Followers</p>
-              <p>Following</p>
+              <p
+                className={
+                  isFollowersActive ? "saved__active" : "saved__noActive"
+                }
+                onClick={handleFollower}
+              >
+                Followers
+              </p>
+              <p
+                className={
+                  isFollowingActive ? "saved__active" : "saved__noActive"
+                }
+                onClick={handleFollowing}
+              >
+                Following
+              </p>
             </div>
           </div>
           {/* show the followers */}
@@ -31,17 +79,37 @@ const FollowerPopUp = ({
               //show followings
               <div className="popUp__following">
                 {following.length > 0 ? (
-                  <p>a</p>
+                  <>
+                    {following.map((users) => {
+                      return (
+                        <FollowingCard
+                          user={user}
+                          users={users}
+                          key={users._id}
+                        />
+                      );
+                    })}
+                  </>
                 ) : (
-                  <p className="following__zero">You don't follow anybody!</p>
+                  <p className="following__zero"> Not following anybody!</p>
                 )}
               </div>
             ) : (
               <div className="popUp__following">
                 {followers.length > 0 ? (
-                  <p>b</p>
+                  <>
+                    {followers?.map((users) => {
+                      return (
+                        <FollowerCard
+                          user={user}
+                          users={users}
+                          key={users._key}
+                        />
+                      );
+                    })}
+                  </>
                 ) : (
-                  <p className="following__zero">You have no followers!</p>
+                  <p className="following__zero"> No followers!</p>
                 )}
               </div>
             )}

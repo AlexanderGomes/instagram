@@ -11,6 +11,10 @@ export {default as Suggestions} from './Suggestions/Suggestions'
 export {default as Notifications} from './Notifications/Notifications'
 export {default as SavedPost} from './savedPost/savedPost'
 export {default as FollowerPopUp} from './FollowerPopUp/FollowerPopUp'
+export {default as FollowerCard} from './FollowingCard/FollowerCard'
+export {default as FollowingCard} from './FollowingCard/FollowingCard'
+
+
 
 
 
