@@ -68,7 +68,7 @@ const Feed = ({ username }) => {
   if (!profilePost) return <p>loading...</p>;
 
   return (
-    <div>
+    <div className={username ? 'feed__new feed__main' : 'feed__main'}  >
       <div className="feed__post">
         {/* //doing// if there's no username if means it's being fetched by the id so is not the profile page then you display the timeline posts, otherwise show the profile posts */}
         {!username ? (
@@ -103,6 +103,7 @@ const Feed = ({ username }) => {
           </div>
         )}
       </div>
+
       {/* doing// show profile card at home/profile page */}
         <div className="feed__profile__card">
         {username === user.username || !username ?  <ProfileCard username = {username} /> : ''}

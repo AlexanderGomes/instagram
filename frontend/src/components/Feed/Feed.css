@@ -1,6 +1,6 @@
 .feed__main {
   display: flex;
-  /* flex-wrap: wrap; */
+
   justify-content: center;
   gap: 10rem;
   margin-top: 10rem;
@@ -19,9 +19,6 @@
 }
 
 /* 1184 */
-.bottom {
-  margin-top: 3rem;
-}
 
 @media screen and (max-width: 900px) {
 
@@ -44,13 +41,12 @@
 .feed__profile__card {
   margin-bottom: -4rem;
 }
-.bottom {
-  margin-top: -70px;
-}
+
+.feed__new {
+  gap: 80px;
 }
 
-
-.bottom {
-  text-transform: capitalize;
-  font-weight: 600;
+.move__feed__saved {
+  margin-top: 400px;
+}
 }

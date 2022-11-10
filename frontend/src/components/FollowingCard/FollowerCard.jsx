@@ -5,6 +5,7 @@ import noAvatar from "../../assets/noAvatar.png";
 const FollowerCard = ({ users, user }) => {
   const [isFollowing, setIsFollowing] = useState(false);
 
+
   const Follow = async () => {
     try {
       await axios.put(`/api/user/${users._id}/follow`, { userId: user._id });
@@ -14,6 +15,7 @@ const FollowerCard = ({ users, user }) => {
 
     setIsFollowing(!isFollowing);
   };
+  
 
   useEffect(() => {
     if (user.followings?.includes(users._id)) {

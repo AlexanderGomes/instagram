@@ -386,17 +386,13 @@ const Profile = () => {
         )}
       </div>
 
-      <div className="profile__followerCard">
-        <div className="followersCard__main">
-          <div className="followersCard__color">
-            <div className="followersCard__info">
-              {/* to-do format the number for bigger numbers possibility */}
-              <p>{followers.length}</p>
-              <p onClick={handleFollower}>followers</p>
-              <p>{followings.length}</p>
-              <p onClick={handleFollowing}>following</p>
-            </div>
-          </div>
+      <div className={user.username !== username ? 'profile__followerCard new' : 'profile__followerCard'}>
+        <div className="followersCard__info">
+          {/* to-do format the number for bigger numbers possibility */}
+          <p>{followers.length}</p>
+          <p onClick={handleFollower}>followers</p>
+          <p>{followings.length}</p>
+          <p onClick={handleFollowing}>following</p>
         </div>
       </div>
 
@@ -423,11 +419,11 @@ const Profile = () => {
 
       {/* //doing// feed is receiving the username of the current user */}
       {/* doing // showing feed or saved post depending on which one you clicked */}
-      <div className="move__feed__saved">
+      <div className="move__feed__saved move">
         {isActive ? (
-          <div>
+          <di className="move">
             <Feed username={username} />
-          </div>
+          </di>
         ) : (
           users._id === user._id &&
           (savedPostInfo.length > 0 ? (

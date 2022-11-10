@@ -1,3 +1,7 @@
+.popUp__main {
+
+}
+
 
 .popUp__color {
   background-color: antiquewhite;
@@ -90,4 +94,22 @@
  color: white;
  width: 80px;
  cursor: pointer;
+}
+
+@media screen and (max-width: 975px) {
+  .popUp__color {
+    width: 340px;
+  }
+
+  .popUp__top {
+    display: flex;
+    align-items: center;
+
+    padding: 10px;
+  }
+}
+
+
+.icon__up {
+  cursor: pointer;
 }

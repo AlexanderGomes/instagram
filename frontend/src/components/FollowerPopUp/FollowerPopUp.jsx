@@ -49,71 +49,70 @@ const FollowerPopUp = ({
   return (
     <div className="popUp__main">
       <div className="popUp__color">
-        <div className="popUp__info">
-          <div className="popUp__top">
-            <div className="popUp__icon">
-              <AiFillCloseCircle size={20} onClick={() => closeToggle(false)} />
-            </div>
-            <div className="popUp__text">
-              <p
-                className={
-                  isFollowersActive ? "saved__active" : "saved__noActive"
-                }
-                onClick={handleFollower}
-              >
-                Followers
-              </p>
-              <p
-                className={
-                  isFollowingActive ? "saved__active" : "saved__noActive"
-                }
-                onClick={handleFollowing}
-              >
-                Following
-              </p>
-            </div>
+        <div className="popUp__top">
+          <div className="popUp__icon">
+            <AiFillCloseCircle size={20} onClick={() => closeToggle(false)} className='icon__up' />
           </div>
-          {/* show the followers */}
-          <div className="popUp__users">
-            {isFollowingActive ? (
-              //show followings
-              <div className="popUp__following">
-                {following.length > 0 ? (
-                  <>
-                    {following.map((users) => {
-                      return (
-                        <FollowingCard
-                          user={user}
-                          users={users}
-                          key={users._id}
-                        />
-                      );
-                    })}
-                  </>
-                ) : (
-                  <p className="following__zero"> Not following anybody!</p>
-                )}
-              </div>
-            ) : (
-              <div className="popUp__following">
-                {followers.length > 0 ? (
-                  <>
-                    {followers?.map((users) => {
-                      return (
-                        <FollowerCard
-                          user={user}
-                          users={users}
-                          key={users._key}
-                        />
-                      );
-                    })}
-                  </>
-                ) : (
-                  <p className="following__zero"> No followers!</p>
-                )}
-              </div>
-            )}
+          <div className="popUp__text">
+            <p
+              className={
+                isFollowersActive ? "saved__active" : "saved__noActive"
+              }
+              onClick={handleFollower}
+            >
+              Followers
+            </p>
+            <p
+              className={
+                isFollowingActive ? "saved__active" : "saved__noActive"
+              }
+              onClick={handleFollowing}
+            >
+              Following
+            </p>
           </div>
+        </div>
+
+        {/* show the followers */}
+        <div className="popUp__users">
+          {isFollowingActive ? (
+            //show followings
+            <div className="popUp__following">
+              {following.length > 0 ? (
+                <>
+                  {following.map((users) => {
+                    return (
+                      <FollowingCard
+                        user={user}
+                        users={users}
+                        key={users._id}
+                      />
+                    );
+                  })}
+                </>
+              ) : (
+                <p className="following__zero"> Not following anybody!</p>
+              )}
+            </div>
+          ) : (
+            <div className="popUp__following">
+              {followers.length > 0 ? (
+                <>
+                  {followers?.map((users) => {
+                    return (
+                      <FollowerCard
+                        user={user}
+                        users={users}
+                        key={users._key}
+                      />
+                    );
+                  })}
+                </>
+              ) : (
+                <p className="following__zero"> No followers!</p>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

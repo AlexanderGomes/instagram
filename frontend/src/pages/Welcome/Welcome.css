@@ -125,6 +125,12 @@ margin-right: 5rem;
         top: 24%;
         left: 50%;
     }
+    .move{
+   top: 270px;
+    }
+    .move__gif {
+      top: 80%;
+    }
     .w__gif {
         height: 300px;
         position: absolute;
@@ -133,14 +139,7 @@ margin-right: 5rem;
   transform: translate(-50%, -50%);
 
         }
-        .w__move {
- position: relative;
- top: -10rem;
-        }
-
-        .w__user {
-          margin-top: 10rem;
-        }
+ 
     }
 
 
@@ -288,7 +287,3 @@ margin-right: 5rem;
         }
         
       */
-
-      .w__move {
-        margin-top: 10rem;
-      }

@@ -11,7 +11,6 @@ const FollowingCard = ({ users, user }) => {
     } catch (error) {
       console.log(error.message);
     }
-   setIsFollowing(true ? true : false)
    setIsFollowing(!isFollowing)
   };
   

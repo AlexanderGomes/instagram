@@ -12,7 +12,7 @@ const Welcome = () => {
   return (
     <div className="w__back">
       <div className={user ? 'w__user' : 'w__move'}>
-        <div className="w__main">
+        <div className={user ? 'w__main move' : 'w__main'}>
           <div className="w__text">
             <h1 className="w__h1">
               A2G <span className="h1__span">Social</span>
@@ -30,7 +30,7 @@ const Welcome = () => {
             </a>
           </div>
         </div>
-        <div className="w__gif">
+        <div className={user ? 'w__gif move__gif' : 'w__gif'} >
           <img src={gif} alt="" />
         </div>
       </div>
