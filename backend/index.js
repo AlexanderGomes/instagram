@@ -1,8 +1,11 @@
 // packages
 const express = require('express')
+const path = require('path')
 const dotenv = require('dotenv').config()
 const port = process.env.PORT || 5000
 const dbConnect = require('./utils/dbConnect')
+
+
 
 //folders
 const userRoutes = require('./routes/user')
@@ -31,6 +34,20 @@ app.use('/api/noti', notiRoutes)
 
 
 
+//Server frontend
+if(process.env.NODE__ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../frontend/build')))
+    
+    app.get('*', (req, res) =>
+        res.sendFile(
+          path.resolve(__dirname, '../', 'frontend', 'build', 'index.html')
+        )
+      );
+    } else {
+      app.get('/', (req, res) => res.send('Please set to production'));
+    }
+
+    console.log(process.env.NODE__ENV)
 
 
 app.listen(port, async () => {
